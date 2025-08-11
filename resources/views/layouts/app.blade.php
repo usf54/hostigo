@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
 </head>
 <body>
-
+    
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
         <div class="container">
@@ -50,7 +50,33 @@
                 @if (Route::has('login'))
                     <div class="d-flex gap-2 mt-2 mt-lg-0">
                         @auth
-                            <a href="{{ url('/dashboard') }}" class="btn btn-light btn-sm">Dashboard</a>
+                            <div class="dropdown ms-3">
+                                <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <span>{{ Auth::user()->name }}</span>
+                                    
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                            {{ __('Profile') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                            {{ __('Settings') }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <form method="POST" action="{{ route('logout') }}">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+                                            {{ __('Log Out') }}
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+
                         @else
                             <a href="{{ route('login') }}" class="btn btn-login btn-sm">Log In</a>
                             @if (Route::has('register'))
