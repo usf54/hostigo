@@ -50,6 +50,7 @@
                 @if (Route::has('login'))
                     <div class="d-flex gap-2 mt-2 mt-lg-0">
                         @auth
+                            <button class="btn btn-light"><a href="" class="nav-link">Add Property</a></button>
                             <div class="dropdown ms-3">
                                 <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span>{{ Auth::user()->name }}</span>

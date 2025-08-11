@@ -6,7 +6,9 @@
 
     {{-- Profile Picture --}}
     <div class="col-md-3 text-center">
-      <img src="https://via.placeholder.com/150" alt="Profile Picture" class="rounded-circle img-fluid shadow" />
+      <img src="{{ asset('assets/images/profile.jpeg') }}" alt="Profile Picture" style="    border-radius: 121%;
+    width: 190px;
+    height: 170px;"/>
       <button class="btn btn-outline-primary mt-3 w-100">Change Photo</button>
     </div>
 
@@ -24,14 +26,14 @@
   <div class="row g-4">
 
     @foreach([
-      ['Modern Apartment', 'New York, USA', '$200/night', 'https://via.placeholder.com/400x250?text=Apartment+1'],
-      ['Cozy Cabin', 'Aspen, USA', '$150/night', 'https://via.placeholder.com/400x250?text=Cabin+2'],
-      ['Beach Villa', 'Miami, USA', '$350/night', 'https://via.placeholder.com/400x250?text=Villa+3'],
-      ['Downtown Loft', 'Chicago, USA', '$220/night', 'https://via.placeholder.com/400x250?text=Loft+4'],
+      ['Modern Apartment', 'New York, USA', '$200/night', 'ap1.jpg'],
+      ['Cozy Cabin', 'Aspen, USA', '$150/night', 'ap2.jpg'],
+      ['Beach Villa', 'Miami, USA', '$350/night', 'ap3.jpg'],
+      ['Downtown Loft', 'Chicago, USA', '$220/night', 'ap1.jpg'],
     ] as $property)
       <div class="col-sm-6 col-lg-3">
         <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
-          <img src="{{ $property[3] }}" class="card-img-top" alt="{{ $property[0] }}" style="height: 180px; object-fit: cover;">
+          <img src="{{ asset('assets/apartments/'.$property[3]) }}" class="card-img-top" alt="{{ $property[0] }}" style="height: 180px; object-fit: cover;">
           <div class="card-body">
             <h5 class="card-title">{{ $property[0] }}</h5>
             <p class="card-text text-muted mb-1">{{ $property[1] }}</p>

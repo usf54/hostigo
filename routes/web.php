@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/property-details', function () {
+    return view('property-details');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
