@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+/* NAVBAR */
+.navbar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid #ff385d42;
+    height: 80px;
+    font-family: "Nunito", sans-serif;
+}
+.navbar .nav-link,
+.navbar-brand {
+    color: #FF385C !important;
+    font-weight: 500;
+}
+.navbar .nav-link:hover {
+    color: #FF385C !important;
+}
+.btn-login {
+    background-color: transparent;
+    color: #FF385C;
+    border: 1px solid #FF385C;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+.btn-login:hover {
+    border: 1px solid white;
+    background-color: #FF385C;
+    color: #FFFFFF;
+}
+.btn-signup {
+    background-color: #FF385C;
+    color: #FFFFFF;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
+.btn-signup:hover {
+    background-color: #FFFFFF;
+    color: #FF385C;
+    border: 1px solid #FF385C;
+}
+/* CAROUSEL */
+.property-card {
+    height: 99%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.property-card img {
+    height: 220px; 
+    object-fit: cover; 
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+footer {
+    background-color: #F7F7F7;
+    color: black;
+    font-family: "Nunito", sans-serif;
+}
