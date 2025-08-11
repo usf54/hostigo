@@ -17,7 +17,7 @@
       <h2 class="fw-bold">John Doe</h2>
       <p class="mb-1"><strong>Email:</strong> john.doe@example.com</p>
       <p><strong>Phone:</strong> +1 234 567 890</p>
-      <button class="btn btn-primary">Edit Profile</button>
+      <button class="btn btn-primary"><a href="{{ route('profile.edit') }}" class="nav-link">Edit Profile</a></button>
     </div>
   </div>
 
