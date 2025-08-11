@@ -9,6 +9,15 @@ Route::get('/', function () {
 Route::get('/property-details', function () {
     return view('property-details');
 });
+Route::get('/explore', function () {
+    return view('explore');
+});
+Route::get('/about', function () {
+    return view('about');
+});
+Route::get('/contact', function () {
+    return view('contact');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');

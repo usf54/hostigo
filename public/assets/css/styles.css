@@ -1,4 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+:root{
+    --primary-color: #FF385C;
+}
 /* NAVBAR */
 .navbar {
     background-color: #FFFFFF;
@@ -50,7 +53,114 @@
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
-
+/* EXPLORE */
+.filter-bar {
+    background: #fff;
+    padding: 15px;
+    margin-top: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 50px;
+}
+.filter-bar select, .filter-bar input {
+    border-radius: 50px;
+    border: 1px solid #ccc;
+    box-shadow: none !important;
+}
+.property-card {
+    border: 1px solid #ddd;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+.property-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.property-info {
+    padding: 10px;
+}
+.property-title {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+}
+.property-price {
+    color: #FF385C;
+    font-weight: bold;
+}
+.btn-ff {
+    background-color: #FF385C;
+    color: white;
+    border-radius: 50px;
+    border: none;
+}
+.btn-ff:hover {
+    background-color: #e03453;
+    color: #FFFFFF;
+}
+/* ABOUT */
+.about-header {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+}
+.about-header h1 {
+    font-weight: bold;
+    font-size: 2.5rem;
+}
+.about-section {
+    padding: 60px 0;
+}
+.about-section h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+.about-section p {
+    color: #555;
+    line-height: 1.7;
+}
+.team-section {
+    padding: 60px 0;
+    background-color: #fafafa;
+}
+.team-card img {
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+.team-card h5 {
+    font-weight: 600;
+    color: var(--primary-color);
+}
+/* CONTACT */
+.contact-hero {
+    background-color: #FF385C;
+    color: white;
+    padding: 50px 0;
+    text-align: center;
+}
+.contact-section {
+    padding: 60px 0;
+}
+.form-control:focus {
+    border-color: #FF385C;
+    box-shadow: none;
+}
+.btn-primary {
+    background-color: #FF385C;
+    border: none;
+}
+.btn-primary:hover {
+    background-color: #e23351;
+}
+.contact-info h5 {
+    color: #FF385C;
+    margin-top: 15px;
+}
 footer {
     background-color: #F7F7F7;
     color: black;
