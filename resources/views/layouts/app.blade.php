@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ asset('assets/images/logo.png') }}" type="image/x-icon">
     <title>@yield('title', 'Hostigo | Property Booking')</title>
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/css/styles.css') }}">
@@ -50,7 +52,7 @@
                 @if (Route::has('login'))
                     <div class="d-flex gap-2 mt-2 mt-lg-0">
                         @auth
-                            <button class="btn btn-light"><a href="" class="nav-link">Add Property</a></button>
+                            <button class="add-property-btn"><a href="" class="nav-link">Add Property</a></button>
                             <div class="dropdown ms-3">
                                 <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span>{{ Auth::user()->name }}</span>

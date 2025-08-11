@@ -6,7 +6,7 @@
 
     {{-- Profile Picture --}}
     <div class="col-md-3 text-center">
-      <img src="{{ asset('assets/images/profile.jpeg') }}" alt="Profile Picture" style="    border-radius: 121%;
+      <img src="{{ asset('assets/images/profile.jpeg') }}" alt="Profile Picture" style="border-radius: 121%;
     width: 190px;
     height: 170px;"/>
       <button class="btn btn-outline-primary mt-3 w-100">Change Photo</button>

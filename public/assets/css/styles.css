@@ -17,6 +17,13 @@
 .navbar .nav-link:hover {
     color: #FF385C !important;
 }
+.add-property-btn{
+    background-color: transparent;
+    color: white;
+    border: 1px solid #FF385C;
+    border-radius: 20px;
+    padding: 10px 20px;
+}
 .btn-login {
     background-color: transparent;
     color: #FF385C;
@@ -39,6 +46,9 @@
     background-color: #FFFFFF;
     color: #FF385C;
     border: 1px solid #FF385C;
+}
+.house-icon {
+    width: 100px;
 }
 /* CAROUSEL */
 .property-card {

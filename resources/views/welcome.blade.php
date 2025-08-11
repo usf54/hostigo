@@ -2,23 +2,27 @@
 @section('content')
 <main class="py-5">
 
-  {{-- Hero Section --}}
-  <section class="hero py-5 text-center">
-    <div class="container">
-      <h1 class="display-4 fw-bold">Discover Your Next Getaway</h1>
-      <p class="lead mb-4">Unique stays and unforgettable experiences around the world.</p>
-      <form class="row justify-content-center g-2">
-        <div class="col-md-6">
-          <input type="text" class="form-control form-control-lg" placeholder="Where are you going?">
-        </div>
-        <div class="col-md-2">
-          <button class="btn btn-lg w-100 text-white" style="background-color: #FF385C;">Search</button>
-        </div>
-      </form>
-    </div>
-  </section>
+    {{-- Hero Section --}}
+    <section class="hero py-5 text-center">
+        <div class="container">
+            <img src="{{ asset('assets/images/house.gif') }}" alt="house-icon" class="house-icon">
 
-  {{-- Property Carousel --}}
+            <h1 class="display-4 fw-bold mt-3">Discover Your Next Getaway</h1>
+            <p class="lead mb-4">Unique stays and unforgettable experiences around the world.</p>
+            
+            <form class="row justify-content-center g-2">
+                <div class="col-md-6">
+                    <input type="text" class="form-control form-control-lg" placeholder="Where are you going?">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-lg w-100 text-white" style="background-color: #FF385C;">Search</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+    {{-- Property Carousel --}}
     <section class="properties py-5">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-3">
@@ -153,9 +157,6 @@
             </div>
         </div>
     </section>
-
-  
-
 </main>
 
 @endsection
