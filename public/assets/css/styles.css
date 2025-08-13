@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 :root{
     --primary-color: #FF385C;
@@ -5,17 +6,19 @@
 /* NAVBAR */
 .navbar {
     background-color: #FFFFFF;
-    border-bottom: 1px solid #ff385d42;
     height: 80px;
     font-family: "Nunito", sans-serif;
 }
-.navbar .nav-link,
-.navbar-brand {
-    color: #FF385C !important;
+.navbar .nav-link {
+    color: black;
     font-weight: 500;
 }
-.navbar .nav-link:hover {
-    color: #FF385C !important;
+.navbar-brand {
+    font-family: "nunito", sans-serif !important;
+    color: var(--primary-color);
+}
+.navbar-brand:hover {
+    color: var(--primary-color) !important;
 }
 .add-property-btn{
     background-color: transparent;
@@ -63,6 +66,7 @@
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
 }
+
 /* EXPLORE */
 .filter-bar {
     background: #fff;

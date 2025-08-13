@@ -18,11 +18,8 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url('/') }}">
-                {{-- House SVG in #FF385C --}}
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="#FF385C" viewBox="0 0 24 24" class="me-2">
-                    <path d="M12 3l8 7v11a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1V10l8-7z"/>
-                </svg>
-                Hostigo
+                <img src="{{ asset('assets/images/logo.png') }}" width="50" height="50" alt="">
+                HostiGo
             </a>
 
 
@@ -105,9 +102,13 @@
 
                 <!-- Brand & Description -->
                 <div class="col-md-4">
-                    <h4 class="fw-bold mb-3" style="color: #FF385C;">Hostigo</h4>
+                    <!-- Logo -->
+                    <a class="navbar-brand fw-bold d-flex align-items-center" href="{{ url('/') }}">
+                        <img src="{{ asset('assets/images/logo.png') }}" width="100" height="100" alt="">
+                        <p class='logo-text' style='font-size: 20px;'>HostiGo</p>
+                    </a>
                     <p class="small">
-                        Hostigo helps you find unique stays and unforgettable experiences worldwide.
+                        HostiGo helps you find unique stays and unforgettable experiences worldwide.
                         Whether it’s a cozy cabin, a luxury villa, or a city apartment, we’ve got you covered.
                     </p>
                 </div>
