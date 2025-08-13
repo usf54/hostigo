@@ -22,7 +22,7 @@
   </div>
 
   {{-- User Properties --}}
-  <h4 class="mb-4">Your Properties</h4>
+  <h4 class="mb-4">Your Latest Properties</h4>
   <div class="row g-4">
 
     @foreach([
@@ -32,17 +32,19 @@
       ['Downtown Loft', 'Chicago, USA', '$220/night', 'ap1.jpg'],
     ] as $property)
       <div class="col-sm-6 col-lg-3">
-        <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
-          <img src="{{ asset('assets/apartments/'.$property[3]) }}" class="card-img-top" alt="{{ $property[0] }}" style="height: 180px; object-fit: cover;">
-          <div class="card-body">
-            <h5 class="card-title">{{ $property[0] }}</h5>
-            <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
-            <p class="fw-bold">{{ $property[2] }}</p>
+        <a href="{{ route('property.show') }}" class='nav-link'>
+            <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
+              <img src="{{ asset('assets/apartments/'.$property[3]) }}" class="card-img-top" alt="{{ $property[0] }}" style="height: 180px; object-fit: cover;">
+            <div class="card-body">
+              <h5 class="card-title">{{ $property[0] }}</h5>
+              <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
+              <p class="fw-bold">{{ $property[2] }}</p>
+            </div>
           </div>
-        </div>
+        </a>
       </div>
     @endforeach
-
+    <button class='btn btn-primary'><a href="{{ route('property.index') }}" class='nav-link'>See all</a></button>
   </div>
 </div>
 
