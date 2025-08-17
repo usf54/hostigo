@@ -12,7 +12,7 @@ class PropertyController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.properties.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class PropertyController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.properties.create');
     }
 
     /**
@@ -34,17 +34,17 @@ class PropertyController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        return view('admin.properties.show', compact('id'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        return view('admin.properties.edit', compact('id'));
     }
 
     /**

@@ -12,7 +12,7 @@ class BookingController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.bookings.index');
     }
 
     /**
@@ -20,7 +20,7 @@ class BookingController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.bookings.create');
     }
 
     /**
@@ -34,17 +34,17 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        return view('admin.bookings.show', compact('id'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
-        //
+        return view('admin.bookings.edit', compact('id'));
     }
 
     /**
