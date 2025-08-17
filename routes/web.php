@@ -4,6 +4,14 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HostController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\PropertyController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\SettingController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -20,11 +28,8 @@ Route::get('/contact', function () {
     return view('pages.contact');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'is_host'])->group(function () {
     // HOST ROUTES
     Route::get('/my-properties', [HostController::class, 'index'])->name('property.index');
     Route::get('/property/create', [HostController::class, 'create'])->name('property.create');
@@ -42,3 +47,28 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
+// Admin routes
+Route::middleware(['auth', 'is_admin'])->group(function () {
+
+    // Dashboard
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Users Management
+    Route::resource('users', UserController::class);
+
+    // Properties Management
+    Route::resource('properties', PropertyController::class);
+
+    // Bookings Management
+    Route::resource('bookings', BookingController::class);
+
+    // Payments
+    Route::get('payments', [PaymentController::class, 'index'])->name('payments.index');
+
+    // Reports
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+
+    // Settings
+    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+});
