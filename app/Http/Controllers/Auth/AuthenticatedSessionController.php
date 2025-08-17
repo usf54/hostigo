@@ -33,9 +33,9 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('dashboard');
         } elseif ($user->isHost()) {
             return redirect()->route('profile.index'); 
-        } else {
-            return redirect()->route('/'); 
-        }
+        } elseif ($user->isGuest()) {
+            return redirect()->route('guest.profile.index'); 
+        } 
     }
 
     /**

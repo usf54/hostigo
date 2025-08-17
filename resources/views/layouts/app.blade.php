@@ -104,6 +104,11 @@
                                             </a>
                                         </li>
                                         <li>
+                                            <a class="dropdown-item" href="{{ route('guest.bookings.index') }}">
+                                                {{ __('My Bookings') }}
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a class="dropdown-item" href="{{ route('guest.profile.edit') }}">
                                                 {{ __('Settings') }}
                                             </a>
@@ -198,11 +203,7 @@
             <hr class="my-4" style="color: #FF385C;">
 
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-center">
-                <p class="small mb-0">&copy; {{ date('Y') }} Hostigo. All rights reserved.</p>
-                <div>
-                    <a href="#" class="small text-decoration-none me-3">Privacy Policy</a>
-                    <a href="#" class="small text-decoration-none">Terms of Service</a>
-                </div>
+                <p class="small mb-0">&copy; {{ date('Y') }} Hostigo. All rights reserved.</p> 
             </div>
         </div>
     </footer>
