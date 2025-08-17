@@ -1,25 +1,58 @@
 @extends('admin.layouts.admin')
 
 @section('content')
-<div class="p-6">
-    <h2 class="text-2xl font-bold mb-4">Edit Property</h2>
-    <form class="bg-white shadow p-4 rounded w-1/2">
-        <label class="block mb-2">Title</label>
-        <input type="text" class="w-full border p-2 mb-4" value="Luxury Villa">
+<div class="p-4 d-flex justify-content-center">
 
-        <label class="block mb-2">Location</label>
-        <input type="text" class="w-full border p-2 mb-4" value="Paris">
+    <!-- Edit Property Card -->
+    <div class="card shadow-sm w-100" style="max-width:600px;">
+        <div class="card-body">
 
-        <label class="block mb-2">Price</label>
-        <input type="text" class="w-full border p-2 mb-4" value="$500">
+            <!-- Heading -->
+            <h2 class="card-title mb-4" style="font-size:1.5rem; font-weight:700; color:#1E1E2F;">Edit Property</h2>
 
-        <label class="block mb-2">Status</label>
-        <select class="w-full border p-2 mb-4">
-            <option>Active</option>
-            <option>Inactive</option>
-        </select>
+            <!-- Edit Form -->
+            <form class="row g-3">
 
-        <button class="bg-green-500 text-white px-4 py-2 rounded">Save</button>
-    </form>
+                <!-- Title -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Title</label>
+                    <input type="text" class="form-control" value="Luxury Villa">
+                </div>
+
+                <!-- Location -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Location</label>
+                    <input type="text" class="form-control" value="Paris">
+                </div>
+
+                <!-- Price -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Price</label>
+                    <input type="text" class="form-control" value="$500">
+                </div>
+
+                <!-- Status -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Status</label>
+                    <select class="form-select">
+                        <option>Active</option>
+                        <option>Inactive</option>
+                    </select>
+                </div>
+
+                <!-- Save Button -->
+                <div class="col-12">
+                    <button type="submit" class="btn btn-success w-100">
+                        <i class="fas fa-save me-1"></i> Save
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 </div>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 @endsection
