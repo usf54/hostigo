@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\BookingController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Guest\GuestController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -71,4 +73,19 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 
     // Settings
     Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+});
+
+// GUEST ROUTES
+Route::middleware(['auth', 'is_guest'])->group(function () {
+    // Profile routes
+    Route::get('/guest/profile', [ProfileController::class, 'index'])->name('guest.profile.index');
+    Route::get('/guest/profile/edit', [ProfileController::class, 'edit'])->name('guest.profile.edit');
+    Route::patch('/guest/profile', [ProfileController::class, 'update'])->name('guest.profile.update');
+    Route::delete('/guest/profile', [ProfileController::class, 'destroy'])->name('guest.profile.destroy');
+
+    // Bookings made by guest
+    Route::get('/guest/bookings', [GuestController::class, 'myBookings'])->name('guest.bookings.index');
+    Route::get('/guest/bookings/{booking}', [GuestController::class, 'viewBooking'])->name('guest.bookings.show');
+
+    
 });

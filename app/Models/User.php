@@ -25,6 +25,11 @@ class User extends Authenticatable
     {
         return $this->role === 'admin';
     }
+    
+    public function isGuest()
+    {
+        return $this->role === 'guest';
+    }
     /**
      * The attributes that are mass assignable.
      *

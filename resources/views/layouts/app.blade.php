@@ -74,26 +74,50 @@
                                         </li>
                                     </ul>
                                 @endif
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('profile.index') }}">
-                                            {{ __('Profile') }}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="{{ route('profile.edit') }}">
-                                            {{ __('Settings') }}
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <form method="POST" action="{{ route('logout') }}">
-                                            @csrf
-                                            <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
-                                            {{ __('Log Out') }}
-                                            </button>
-                                        </form>
-                                    </li>
-                                </ul>
+                                @if (Auth::user()->role==="host")
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                                {{ __('Profile') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                                {{ __('Settings') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                @endif
+                                @if (Auth::user()->role==="guest")
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('guest.profile.index') }}">
+                                                {{ __('Profile') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('guest.profile.edit') }}">
+                                                {{ __('Settings') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                @endif
                             </div>
 
                         @else

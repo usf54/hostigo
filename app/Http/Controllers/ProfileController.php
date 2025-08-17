@@ -11,23 +11,32 @@ use Illuminate\View\View;
 
 class ProfileController extends Controller
 {
-    /**
-     * Display the user's profile profile.
-     */
     public function index()
     {
-        return view('profile.index');
+        $user = Auth::user();
+
+        if ($user->role === 'host') {
+            return view('profile.index', compact('user'));
+        } elseif ($user->role === 'guest') {
+            return view('guest.profile', compact('user'));
+        }
+
+        abort(403); // If the role is not recognized
     }
 
-    /**
-     * Display the user's profile form.
-     */
     public function edit(Request $request): View
     {
-        return view('profile.edit', [
-            'user' => $request->user(),
-        ]);
+        $user = $request->user();
+
+        if ($user->role === 'host') {
+            return view('profile.edit', compact('user'));
+        } elseif ($user->role === 'guest') {
+            return view('profile.edit', compact('user'));
+        }
+
+        abort(403);
     }
+
 
     /**
      * Update the user's profile information.
