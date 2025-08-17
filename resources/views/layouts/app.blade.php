@@ -49,13 +49,31 @@
                 @if (Route::has('login'))
                     <div class="d-flex gap-2 mt-2 mt-lg-0">
                         @auth
-                            <button class="add-property-btn"><a href="{{route('booking.index')}}" class="nav-link">Incoming Bookings</a></button>
-                            <button class="add-property-btn"><a href="{{route('property.create')}}" class="nav-link">Add Property</a></button>
+                            @if (Auth::user()->role==="host")
+                                <button class="add-property-btn"><a href="{{route('booking.index')}}" class="nav-link">Incoming Bookings</a></button>
+                                <button class="add-property-btn"><a href="{{route('property.create')}}" class="nav-link">Add Property</a></button>
+                            @endif
                             <div class="dropdown ms-3">
                                 <button class="btn btn-light dropdown-toggle d-inline-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                     <span>{{ Auth::user()->name }}</span>
-                                    
                                 </button>
+                                @if (Auth::user()->role==="admin")
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                                {{ __('Dashboard') }}
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <form method="POST" action="{{ route('logout') }}">
+                                                @csrf
+                                                <button type="submit" class="dropdown-item" onclick="event.preventDefault(); this.closest('form').submit();">
+                                                {{ __('Log Out') }}
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                @endif
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li>
                                         <a class="dropdown-item" href="{{ route('profile.index') }}">
