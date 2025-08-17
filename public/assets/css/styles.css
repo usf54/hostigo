@@ -244,27 +244,11 @@ footer {
     }
 }
 
-/* HEADER */
-.navbar .navbar-brand {
-    color: #fff !important;
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-}
-
-.navbar .btn:hover {
-    opacity: 0.9;
-    transition: 0.2s;
-}
-
-.navbar .nav-link {
-    color: #b0b3c5 !important;
-}
-
-.navbar .nav-link:hover {
-    color: #fff !important;
-}
 
 /* ADMIN DASHBOARD */
+#admin-header {
+    align-content: center;
+}
 .dashboard-card {
     border: none;
     border-radius: 12px;

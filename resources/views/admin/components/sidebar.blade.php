@@ -36,6 +36,6 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 <!-- Sidebar Toggle Button (for mobile) -->
-<button class="btn btn-primary d-lg-none" id="sidebarToggle" style="position:fixed; top:28px; left:10px; z-index:1050;">
+<button class="btn btn-primary d-lg-none" id="sidebarToggle" style="position:fixed; top:22px; left:10px; z-index:1050;">
     <i class="fas fa-bars"></i>
 </button>
