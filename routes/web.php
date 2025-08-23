@@ -12,17 +12,16 @@ use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Guest\GuestController;
+use App\Http\Controllers\PublicController;
 
 
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/property-details', function () {
-    return view('property.property-details');
-});
-Route::get('/explore', function () {
-    return view('pages.explore');
-});
+
+Route::get('/explore', [PublicController::class, 'index']);
+Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
+
 Route::get('/about', function () {
     return view('pages.about');
 });
