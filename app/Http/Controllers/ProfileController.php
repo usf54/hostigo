@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Property;
 
 class ProfileController extends Controller
 {
@@ -15,8 +16,13 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        $properties = Property::with(['images', 'amenities'])
+            ->where('user_id', Auth::id())
+            ->latest()
+            ->get();
+
         if ($user->role === 'host') {
-            return view('profile.index', compact('user'));
+            return view('profile.index', compact('user','properties'));
         } elseif ($user->role === 'guest') {
             return view('guest.profile', compact('user'));
         }

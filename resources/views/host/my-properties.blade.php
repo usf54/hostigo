@@ -14,71 +14,36 @@
     </a>
   </div>
 
-  {{-- Properties List --}}
-  <div class="row g-4">
-    {{-- Property Card --}}
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('property.show') }}" class='nav-link'>
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
-          <div class="position-relative">
-            <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Property Image">
-            <span class="badge position-absolute top-0 start-0 m-2 bg-light text-dark fw-semibold px-3 py-2">
-              $150 / night
-            </span>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title fw-bold mb-1">Cozy Beachside Villa</h5>
-            <p class="text-muted mb-2">Miami, United States</p>
-            <p class="small text-muted">Max Guests: 4</p>
-            <div class="d-flex gap-2 mt-3">
-              <a href="#" class="btn btn-sm btn-outline-primary" style="border-color: #FF385C; color: #FF385C;">
-                Edit
-              </a>
-              <a href="#" class="btn btn-sm btn-outline-danger">
-                Delete
-              </a>
+    <div class="row g-4">
+      @forelse($properties as $property)
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm rounded-4">
+            @if ($property->images->isNotEmpty())
+              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top">
+            @endif
+            <div class="card-body">
+              <h5 class="fw-bold">{{ $property->title }}</h5>
+              <p class="text-muted">{{ $property->city }}, {{ $property->country }}</p>
+              <p>${{ $property->price_per_night }} / night</p>
+              
+              <a href="{{ route('property.show', $property->id) }}" class="btn btn-primary">View</a>
+              <a href="{{ route('property.edit', $property->id) }}" class="btn btn-outline-warning">Edit</a>
+              <form action="{{ route('property.destroy', $property->id) }}" method="POST" class="d-inline">
+                @csrf @method('DELETE')
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+              </form>
             </div>
           </div>
         </div>
-      </a>
-    </div>
-
-    {{-- Another Property --}}
-    <div class="col-md-6 col-lg-4">
-      <a href="{{ route('property.show') }}" class='nav-link'>
-        <div class="card border-0 shadow-sm rounded-4 overflow-hidden h-100">
-          <div class="position-relative">
-            <img src="https://via.placeholder.com/600x400" class="card-img-top" alt="Property Image">
-            <span class="badge position-absolute top-0 start-0 m-2 bg-light text-dark fw-semibold px-3 py-2">
-              $200 / night
-            </span>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title fw-bold mb-1">Luxury City Apartment</h5>
-            <p class="text-muted mb-2">New York, United States</p>
-            <p class="small text-muted">Max Guests: 2</p>
-            <div class="d-flex gap-2 mt-3">
-              <a href="#" class="btn btn-sm btn-outline-primary" style="border-color: #FF385C; color: #FF385C;">
-                Edit
-              </a>
-              <a href="#" class="btn btn-sm btn-outline-danger">
-                Delete
-              </a>
-            </div>
-          </div>
+      @empty
+        <div class="col-12 text-center text-muted">
+          <p>You haven’t listed any properties yet.</p>
+          <a href="{{ route('property.create') }}" class="btn btn-primary">Add Your First Property</a>
         </div>
-      </a>
+      @endforelse
     </div>
 
-    {{-- Example Empty State --}}
-    {{-- <div class="col-12">
-      <div class="text-center text-muted py-5">
-        <p class="mb-3">You haven't listed any properties yet.</p>
-        <a href="{{ route('property.create') }}" class="btn btn-primary" style="background-color: #FF385C; border: none;">
-          Add Your First Property
-        </a>
-      </div>
-    </div> --}}
-  </div>
+
+
 </div>
 @endsection

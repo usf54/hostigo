@@ -18,7 +18,7 @@ class User extends Authenticatable
     
     public function isHost()
     {
-        return $this->role === 'host'; // or whatever logic you use to determine hosts
+        return $this->role === 'host'; 
     }
     
     public function isAdmin()

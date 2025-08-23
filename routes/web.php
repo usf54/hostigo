@@ -35,8 +35,11 @@ Route::middleware(['auth', 'is_host'])->group(function () {
     // HOST ROUTES
     Route::get('/my-properties', [HostController::class, 'index'])->name('property.index');
     Route::get('/property/create', [HostController::class, 'create'])->name('property.create');
-    Route::get('/property/edit', [HostController::class, 'edit'])->name('property.edit');
-    Route::get('/property/show', [HostController::class, 'show'])->name('property.show');
+    Route::post('/property', [HostController::class, 'store'])->name('property.store');
+    Route::get('/property/{id}', [HostController::class, 'show'])->name('property.show');
+    Route::get('/property/{id}/edit', [HostController::class, 'edit'])->name('property.edit');
+    Route::put('/property/{id}', [HostController::class, 'update'])->name('property.update');
+    Route::delete('/property/{id}', [HostController::class, 'destroy'])->name('property.destroy');
     
     // HOST BOOKING ROUTES
     Route::get('/my-bookings', [HostController::class, 'myBookings'])->name('booking.index');

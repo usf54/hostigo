@@ -7,45 +7,48 @@
     {{-- Profile Picture --}}
     <div class="col-md-3 text-center">
       <img src="{{ asset('assets/images/profile.jpeg') }}" alt="Profile Picture" style="border-radius: 121%;
-    width: 190px;
-    height: 170px;"/>
+      width: 190px;
+      height: 170px;"/>
       <button class="btn btn-outline-primary mt-3 w-100">Change Photo</button>
     </div>
 
     {{-- User Info --}}
     <div class="col-md-9">
-      <h2 class="fw-bold">John Doe</h2>
-      <p class="mb-1"><strong>Email:</strong> john.doe@example.com</p>
-      <p><strong>Phone:</strong> +1 234 567 890</p>
+      <h2 class="fw-bold">{{ ucfirst($user->name) }}</h2>
+      <p class="mb-1"><strong>Email:</strong> {{$user->email}}</p>
+      <p><strong>Phone:</strong> {{$user->phone}}</p>
       <button class="btn btn-primary"><a href="{{ route('profile.edit') }}" class="nav-link">Edit Profile</a></button>
     </div>
   </div>
 
-  {{-- User Properties --}}
-  <h4 class="mb-4">Your Latest Properties</h4>
   <div class="row g-4">
-
-    @foreach([
-      ['Modern Apartment', 'New York, USA', '$200/night', 'ap1.jpg'],
-      ['Cozy Cabin', 'Aspen, USA', '$150/night', 'ap2.jpg'],
-      ['Beach Villa', 'Miami, USA', '$350/night', 'ap3.jpg'],
-      ['Downtown Loft', 'Chicago, USA', '$220/night', 'ap1.jpg'],
-    ] as $property)
-      <div class="col-sm-6 col-lg-3">
-        <a href="{{ route('property.show') }}" class='nav-link'>
-            <div class="card h-100 shadow-sm rounded-3 overflow-hidden">
-              <img src="{{ asset('assets/apartments/'.$property[3]) }}" class="card-img-top" alt="{{ $property[0] }}" style="height: 180px; object-fit: cover;">
+      @forelse($properties as $property)
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm rounded-4">
+            @if ($property->images->isNotEmpty())
+              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top">
+            @endif
             <div class="card-body">
-              <h5 class="card-title">{{ $property[0] }}</h5>
-              <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
-              <p class="fw-bold">{{ $property[2] }}</p>
+              <h5 class="fw-bold">{{ $property->title }}</h5>
+              <p class="text-muted">{{ $property->city }}, {{ $property->country }}</p>
+              <p>${{ $property->price_per_night }} / night</p>
+              
+              <a href="{{ route('property.show', $property->id) }}" class="btn btn-primary">View</a>
+              <a href="{{ route('property.edit', $property->id) }}" class="btn btn-outline-warning">Edit</a>
+              <form action="{{ route('property.destroy', $property->id) }}" method="POST" class="d-inline">
+                @csrf @method('DELETE')
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+              </form>
             </div>
           </div>
-        </a>
-      </div>
-    @endforeach
-    <button class='btn btn-primary'><a href="{{ route('property.index') }}" class='nav-link'>See all</a></button>
-  </div>
+        </div>
+      @empty
+        <div class="col-12 text-center text-muted">
+          <p>You haven’t listed any properties yet.</p>
+          <a href="{{ route('property.create') }}" class="btn btn-primary">Add Your First Property</a>
+        </div>
+      @endforelse
+    </div>
 </div>
 
 @endsection
