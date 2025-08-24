@@ -36,127 +36,173 @@
             <div id="propertyCarousel" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-inner">
 
-                    {{-- Slide 1 --}}
+                    <!-- Properties Grid -->
                     <div class="carousel-item active">
                         <div class="row g-3">
-                            @foreach ([
-                                ['Beachside Villa', 'Miami, USA', '$250/night', 'ap1.jpg'],
-                                ['City Apartment', 'Paris, France', '$180/night', 'ap2.jpg'],
-                                ['Mountain Cabin', 'Aspen, USA', '$300/night', 'ap3.jpg']
-                            ] as $property)
-                                <div class="col-md-4">
-                                    <a href="{{ url('/property-details') }}" class="text-decoration-none text-dark d-block h-100">
-                                        <div class="card property-card border-0 shadow-sm">
-                                            <img src="{{ asset('assets/apartments/' . $property[3]) }}" class="card-img-top" alt="{{ $property[0] }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $property[0] }}</h5>
-                                                <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
-                                                <p class="fw-bold">{{ $property[2] }}</p>
-                                                <div class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="text-muted small">(120 reviews)</span></div>
-                                            </div>
-                                        </div>
-                                    </a>
+                            @foreach($properties as $property)
+                            <div class="col-md-4">
+                                <a href="{{ route('public.property.details', $property->id) }}" class="text-decoration-none text-dark d-block h-100">
+                                <div class="card property-card border-0 shadow-sm">
+                                    <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
+                                    <div class="card-body">
+                                    <h5 class="card-title">{{ $property->title }}</h5>
+                                    <p class="card-text text-muted mb-1">{{ $property->city }}, {{ $property->country }}</p>
+                                    <p class="fw-bold">${{ $property->price_per_night }}/night</p>
+                                    <div class="text-warning">
+                                        @for($i=0; $i<5; $i++)
+                                        {!! $i < round($property->rating ?? 4) ? '&#9733;' : '&#9734;' !!}
+                                        @endfor
+                                        <span class="text-muted small">({{ $property->reviews_count ?? 0 }} reviews)</span>
+                                    </div>
+                                    </div>
                                 </div>
+                                </a>
+                            </div>
                             @endforeach
                         </div>
                     </div>
-
-                    {{-- Slide 2 --}}
-                    <div class="carousel-item">
-                        <div class="row g-3">
-                            @foreach ([
-                                ['Lake House', 'Zurich, Switzerland', '$270/night', 'ap1.jpg'],
-                                ['Modern Loft', 'New York, USA', '$200/night', 'ap2.jpg'],
-                                ['Countryside Retreat', 'Tuscany, Italy', '$220/night', 'ap3.jpg']
-                            ] as $property)
-                                <div class="col-md-4">
-                                    <a href="{{ url('/property-details') }}" class="text-decoration-none text-dark d-block h-100">
-                                        <div class="card property-card border-0 shadow-sm">
-                                            <img src="{{ asset('assets/apartments/' . $property[3]) }}" class="card-img-top" alt="{{ $property[0] }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $property[0] }}</h5>
-                                                <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
-                                                <p class="fw-bold">{{ $property[2] }}</p>
-                                                <div class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="text-muted small">(98 reviews)</span></div>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
     </section>
-    <section class="properties py-5">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="fw-bold">Featured Properties</h2>
-                <div>
-                    <button class="btn btn-outline-secondary btn-sm me-1" data-bs-target="#propertyCarousel2" data-bs-slide="prev">&lt;</button>
-                    <button class="btn btn-outline-secondary btn-sm" data-bs-target="#propertyCarousel2" data-bs-slide="next">&gt;</button>
-                </div>
-            </div>
-
-            <div id="propertyCarousel2" class="carousel slide" data-bs-ride="false">
-                <div class="carousel-inner">
-
-                    {{-- Slide 1 --}}
-                    <div class="carousel-item active">
-                        <div class="row g-3">
-                            @foreach ([
-                                ['Beachside Villa', 'Miami, USA', '$250/night', 'ap1.jpg'],
-                                ['City Apartment', 'Paris, France', '$180/night', 'ap2.jpg'],
-                                ['Mountain Cabin', 'Aspen, USA', '$300/night', 'ap3.jpg']
-                            ] as $property)
-                                <div class="col-md-4">
-                                    <a href="{{ url('/property-details') }}" class="text-decoration-none text-dark d-block h-100">
-                                        <div class="card property-card border-0 shadow-sm">
-                                            <img src="{{ asset('assets/apartments/' . $property[3]) }}" class="card-img-top" alt="{{ $property[0] }}">
-                                            <div class="card-body">
-                                                <h5 class="card-title">{{ $property[0] }}</h5>
-                                                <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
-                                                <p class="fw-bold">{{ $property[2] }}</p>
-                                                <div class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="text-muted small">(120 reviews)</span></div>
-                                            </div>
-                                        </div>
-                            </a>
-                                </div>
-                            @endforeach
-                        </div>
+    @if($casablancaProperties->isNotEmpty())
+        <section class="properties py-5">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="fw-bold">Casablanca Properties</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm me-1" data-bs-target="#propertyCarousel2" data-bs-slide="prev">&lt;</button>
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-target="#propertyCarousel2" data-bs-slide="next">&gt;</button>
                     </div>
+                </div>
 
-                    {{-- Slide 2 --}}
-                    <div class="carousel-item">
-                        <div class="row g-3">
-                            @foreach ([
-                                ['Lake House', 'Zurich, Switzerland', '$270/night', 'ap1.jpg'],
-                                ['Modern Loft', 'New York, USA', '$200/night', 'ap2.jpg'],
-                                ['Countryside Retreat', 'Tuscany, Italy', '$220/night', 'ap3.jpg']
-                            ] as $property)
+                <div id="propertyCarousel2" class="carousel slide" data-bs-ride="false">
+                    <div class="carousel-inner">
+
+                        {{-- Slide 1 --}}
+                        <div class="carousel-item active">
+                            <div class="row g-3">
+                                @foreach($casablancaProperties as $property)
                                 <div class="col-md-4">
-                                    <a href="{{ url('/property-details') }}" class="text-decoration-none text-dark d-block h-100">
+                                    <a href="{{ route('public.property.details', $property->id) }}" class="text-decoration-none text-dark d-block h-100">
                                     <div class="card property-card border-0 shadow-sm">
-                                        <img src="{{ asset('assets/apartments/' . $property[3]) }}" class="card-img-top" alt="{{ $property[0] }}">
+                                        <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
                                         <div class="card-body">
-                                            <h5 class="card-title">{{ $property[0] }}</h5>
-                                            <p class="card-text text-muted mb-1">{{ $property[1] }}</p>
-                                            <p class="fw-bold">{{ $property[2] }}</p>
-                                            <div class="text-warning">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="text-muted small">(98 reviews)</span></div>
+                                        <h5 class="card-title">{{ $property->title }}</h5>
+                                        <p class="card-text text-muted mb-1">{{ $property->city }}, {{ $property->country }}</p>
+                                        <p class="fw-bold">${{ $property->price_per_night }}/night</p>
+                                        <div class="text-warning">
+                                            @for($i=0; $i<5; $i++)
+                                            {!! $i < round($property->rating ?? 4) ? '&#9733;' : '&#9734;' !!}
+                                            @endfor
+                                            <span class="text-muted small">({{ $property->reviews_count ?? 0 }} reviews)</span>
+                                        </div>
                                         </div>
                                     </div>
-                            </a>
+                                    </a>
                                 </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
 
+
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    @endif
+    @if($rabatProperties->isNotEmpty())
+        <section class="properties py-5">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="fw-bold">Rabat Properties</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm me-1" data-bs-target="#propertyCarousel2" data-bs-slide="prev">&lt;</button>
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-target="#propertyCarousel2" data-bs-slide="next">&gt;</button>
+                    </div>
+                </div>
+
+                <div id="propertyCarousel2" class="carousel slide" data-bs-ride="false">
+                    <div class="carousel-inner">
+
+                        {{-- Slide 1 --}}
+                        <div class="carousel-item active">
+                            <div class="row g-3">
+                                @foreach($rabatProperties as $property)
+                                <div class="col-md-4">
+                                    <a href="{{ route('public.property.details', $property->id) }}" class="text-decoration-none text-dark d-block h-100">
+                                    <div class="card property-card border-0 shadow-sm">
+                                        <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{ $property->title }}</h5>
+                                        <p class="card-text text-muted mb-1">{{ $property->city }}, {{ $property->country }}</p>
+                                        <p class="fw-bold">${{ $property->price_per_night }}/night</p>
+                                        <div class="text-warning">
+                                            @for($i=0; $i<5; $i++)
+                                            {!! $i < round($property->rating ?? 4) ? '&#9733;' : '&#9734;' !!}
+                                            @endfor
+                                            <span class="text-muted small">({{ $property->reviews_count ?? 0 }} reviews)</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
+    @if($marrakechProperties->isNotEmpty())
+        <section class="properties py-5">
+            <div class="container">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h2 class="fw-bold">Marrakech Properties</h2>
+                    <div>
+                        <button class="btn btn-outline-secondary btn-sm me-1" data-bs-target="#propertyCarousel2" data-bs-slide="prev">&lt;</button>
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-target="#propertyCarousel2" data-bs-slide="next">&gt;</button>
+                    </div>
+                </div>
+
+                <div id="propertyCarousel2" class="carousel slide" data-bs-ride="false">
+                    <div class="carousel-inner">
+
+                        {{-- Slide 1 --}}
+                        <div class="carousel-item active">
+                            <div class="row g-3">
+                                @foreach($marrakechProperties as $property)
+                                <div class="col-md-4">
+                                    <a href="{{ route('public.property.details', $property->id) }}" class="text-decoration-none text-dark d-block h-100">
+                                    <div class="card property-card border-0 shadow-sm">
+                                        <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
+                                        <div class="card-body">
+                                        <h5 class="card-title">{{ $property->title }}</h5>
+                                        <p class="card-text text-muted mb-1">{{ $property->city }}, {{ $property->country }}</p>
+                                        <p class="fw-bold">${{ $property->price_per_night }}/night</p>
+                                        <div class="text-warning">
+                                            @for($i=0; $i<5; $i++)
+                                            {!! $i < round($property->rating ?? 4) ? '&#9733;' : '&#9734;' !!}
+                                            @endfor
+                                            <span class="text-muted small">({{ $property->reviews_count ?? 0 }} reviews)</span>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    @endif
 </main>
 
 @endsection

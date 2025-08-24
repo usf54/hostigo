@@ -15,9 +15,7 @@ use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\PublicController;
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
 
 Route::get('/explore', [PublicController::class, 'index']);
 Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
@@ -46,6 +44,7 @@ Route::middleware(['auth', 'is_host'])->group(function () {
 
     Route::get('/profile/show', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });

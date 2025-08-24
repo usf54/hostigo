@@ -4,12 +4,25 @@
 <div class="container py-5">
   <div class="row mb-5 align-items-center">
 
-    {{-- Profile Picture --}}
     <div class="col-md-3 text-center">
-      <img src="{{ asset('assets/images/profile.jpeg') }}" alt="Profile Picture" style="border-radius: 121%;
-      width: 190px;
-      height: 170px;"/>
-      <button class="btn btn-outline-primary mt-3 w-100">Change Photo</button>
+       <div class="profile-pic-wrapper" style="position: relative; display: inline-block; cursor: pointer;" onclick="fileLoad()">
+        <img src="{{ asset('storage/'.$user->image) }}" 
+            alt="Profile Picture" 
+            style="border-radius: 100%; width: 190px; height: 170px; object-fit: cover;"/>
+
+        {{-- Overlay --}}
+        <div class="overlay" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                    border-radius: 100%; background: rgba(0,0,0,0.5); color: #fff;
+                    display: flex; align-items: center; justify-content: center;
+                    font-weight: bold; font-size: 16px; opacity: 0; transition: opacity 0.3s;">
+          Update Photo
+        </div>
+      </div>
+      <form action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
+          @csrf
+          <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id='pictureInput' onchange="document.getElementById('photoForm').submit();">
+      </form>
     </div>
 
     {{-- User Info --}}
@@ -50,5 +63,18 @@
       @endforelse
     </div>
 </div>
+<script>
+  function fileLoad() {
+    var input = document.getElementById('pictureInput').click();
+  }
 
+  // Show overlay on hover
+  document.addEventListener("DOMContentLoaded", function () {
+    const wrapper = document.querySelector(".profile-pic-wrapper");
+    const overlay = wrapper.querySelector(".overlay");
+
+    wrapper.addEventListener("mouseenter", () => overlay.style.opacity = "1");
+    wrapper.addEventListener("mouseleave", () => overlay.style.opacity = "0");
+  });
+</script>
 @endsection
