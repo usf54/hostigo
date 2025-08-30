@@ -13,11 +13,12 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\PublicController;
-
+use App\Http\Controllers\PropertyController as PublicPropertyController;
 
 Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
 
 Route::get('/explore', [PublicController::class, 'index']);
+Route::get('/properties-filter', [PublicPropertyController::class, 'index'])->name('public.properties');
 Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
 
 Route::get('/about', function () {
@@ -26,6 +27,7 @@ Route::get('/about', function () {
 Route::get('/contact', function () {
     return view('pages.contact');
 });
+
 
 
 Route::middleware(['auth', 'is_host'])->group(function () {

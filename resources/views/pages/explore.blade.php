@@ -5,19 +5,20 @@
 <!-- Filters -->
 <div class="filter-bar">
   <div class="container">
-    <form class="row g-2 align-items-center">
+    <form method="GET" action="{{ route('public.properties') }}" class="row g-2 align-items-center">
       <div class="col-md-3">
         <input type="text" name="location" value="{{ request('location') }}" class="form-control" placeholder="Location">
       </div>
       <div class="col-md-3">
-        <select name="property_type" class="form-select">
-          <option value="">Property Type</option>
-          <option value="Apartment" {{ request('property_type')=='Apartment' ? 'selected' : '' }}>Apartment</option>
-          <option value="House" {{ request('property_type')=='House' ? 'selected' : '' }}>House</option>
-          <option value="Villa" {{ request('property_type')=='Villa' ? 'selected' : '' }}>Villa</option>
-          <option value="Studio" {{ request('property_type')=='Studio' ? 'selected' : '' }}>Studio</option>
+        <select name="max_guests" class="form-select">
+          <option value="">Max Guests</option>
+          <option value="1" {{ request('max_guests')=='1' ? 'selected' : '' }}>1 Guest</option>
+          <option value="2" {{ request('max_guests')=='2' ? 'selected' : '' }}>2 Guests</option>
+          <option value="4" {{ request('max_guests')=='4' ? 'selected' : '' }}>4 Guests</option>
+          <option value="6" {{ request('max_guests')=='6' ? 'selected' : '' }}>6 Guests</option>
         </select>
       </div>
+
       <div class="col-md-3">
         <select name="price_range" class="form-select">
           <option value="">Price Range</option>
