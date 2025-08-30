@@ -60,22 +60,25 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     // Users Management
-    Route::resource('users', UserController::class);
-
+    Route::get('/users', [UserController::class,'index'])->name('users.index');
+    
     // Properties Management
-    Route::resource('properties', PropertyController::class);
-
+    Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');
+    
+    
     // Bookings Management
-    Route::resource('bookings', BookingController::class);
-
+    Route::get('/bookings', [BookingController::class,'index'])->name('bookings.index');
+    
+    
     // Payments
-    Route::get('payments', [PaymentController::class, 'index'])->name('payments.index');
-
+    Route::get('/payments', [PaymentController::class,'index'])->name('payments.index');
+    
     // Reports
-    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
-
+    Route::get('/reports', [ReportController::class,'index'])->name('reports.index');
+    
     // Settings
-    Route::get('settings', [SettingController::class, 'index'])->name('settings.index');
+    Route::get('/settings', [SettingController::class,'index'])->name('settings.index');
+    
 });
 
 // GUEST ROUTES
