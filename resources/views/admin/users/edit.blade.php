@@ -11,26 +11,43 @@
             <h2 class="card-title mb-4" style="font-size:1.5rem; font-weight:700; color:#1E1E2F;">Edit User</h2>
 
             <!-- Edit Form -->
-            <form class="row g-3">
+            <form class="row g-3" action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
+                <!-- Profile Image -->
+                <div class="col-12 text-center mb-3">
+                    @if($user->image)
+                        <img src="{{ asset('storage/' . $user->image) }}" alt="{{ $user->name }}" class="rounded-circle mb-2" style="width:100px; height:100px; object-fit:cover;">
+                    @endif
+                    <input type="file" name="image" class="form-control form-control-sm mt-2">
+                </div>
 
                 <!-- Name -->
                 <div class="col-12">
                     <label class="form-label fw-semibold">Name</label>
-                    <input type="text" class="form-control" value="John Doe">
+                    <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                 </div>
 
                 <!-- Email -->
                 <div class="col-12">
                     <label class="form-label fw-semibold">Email</label>
-                    <input type="email" class="form-control" value="john@example.com">
+                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                </div>
+
+                <!-- Phone -->
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Phone</label>
+                    <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone) }}">
                 </div>
 
                 <!-- Role -->
                 <div class="col-12">
                     <label class="form-label fw-semibold">Role</label>
-                    <select class="form-select">
-                        <option>User</option>
-                        <option>Admin</option>
+                    <select name="role" class="form-select" required>
+                        <option value="guest" {{ $user->role == 'guest' ? 'selected' : '' }}>Guest</option>
+                        <option value="host" {{ $user->role == 'host' ? 'selected' : '' }}>Host</option>
+                        <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>
                     </select>
                 </div>
 

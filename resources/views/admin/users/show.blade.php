@@ -11,9 +11,25 @@
 
             <!-- User Info -->
             <div class="mb-3">
-                <p class="mb-2"><strong>Name:</strong> John Doe</p>
-                <p class="mb-2"><strong>Email:</strong> john@example.com</p>
-                <p class="mb-2"><strong>Role:</strong> <span class="badge bg-primary">User</span></p>
+                @if($user->image)
+                    <div class="text-center mb-3">
+                        <img src="{{ asset('storage/' . $user->image) }}" alt="{{ $user->name }}" class="rounded-circle" style="width:100px; height:100px; object-fit:cover;">
+                    </div>
+                @endif
+                <p class="mb-2"><strong>Name:</strong> {{ $user->name }}</p>
+                <p class="mb-2"><strong>Email:</strong> {{ $user->email }}</p>
+                <p class="mb-2"><strong>Phone:</strong> {{ $user->phone ?? 'N/A' }}</p>
+                <p class="mb-2"><strong>Role:</strong> 
+                    <span class="badge 
+                        @if($user->role == 'admin') bg-danger 
+                        @elseif($user->role == 'host') bg-warning 
+                        @else bg-primary 
+                        @endif">
+                        {{ ucfirst($user->role) }}
+                    </span>
+                </p>
+                <p class="mb-2"><strong>Created At:</strong> {{ $user->created_at->format('d M Y, H:i') }}</p>
+                <p class="mb-2"><strong>Updated At:</strong> {{ $user->updated_at->format('d M Y, H:i') }}</p>
             </div>
 
             <!-- Action Buttons -->
@@ -21,7 +37,7 @@
                 <a href="{{ route('users.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-1"></i> Back
                 </a>
-                <a href="{{ route('users.edit', 1) }}" class="btn btn-success">
+                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success">
                     <i class="fas fa-edit me-1"></i> Edit
                 </a>
             </div>

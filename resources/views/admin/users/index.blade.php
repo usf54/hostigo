@@ -19,32 +19,41 @@
                 </tr>
             </thead>
             <tbody>
-                <tr class="align-middle border-bottom" style="transition:background 0.2s;">
-                    <td class="py-2 px-3 text-center">1</td>
-                    <td class="py-2 px-3">John Doe</td>
-                    <td class="py-2 px-3">john@example.com</td>
-                    <td class="py-2 px-3">User</td>
-                    <td class="py-2 px-3 text-center">
-                        <a href="#" class="btn btn-sm btn-info me-1"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="btn btn-sm btn-success me-1"><i class="fas fa-edit"></i></a>
-                        <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                    </td>
-                </tr>
-                <tr class="align-middle border-bottom" style="transition:background 0.2s;">
-                    <td class="py-2 px-3 text-center">2</td>
-                    <td class="py-2 px-3">Jane Smith</td>
-                    <td class="py-2 px-3">jane@example.com</td>
-                    <td class="py-2 px-3">Admin</td>
-                    <td class="py-2 px-3 text-center">
-                        <a href="#" class="btn btn-sm btn-info me-1"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="btn btn-sm btn-success me-1"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-sm btn-danger" title="Delete" onclick="confirmDelete(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-                <!-- Repeat for more users -->
+                @forelse($users as $user)
+                    <tr class="align-middle border-bottom" style="transition:background 0.2s;">
+                        <td class="py-2 px-3 text-center">{{ $user->id }}</td>
+                        <td class="py-2 px-3">{{ $user->name }}</td>
+                        <td class="py-2 px-3">{{ $user->email }}</td>
+                        <td class="py-2 px-3">{{ ucfirst($user->role) }}</td>
+                        <td class="py-2 px-3 text-center">
+                            <!-- Show User -->
+                            <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-info me-1" title="View">
+                                <i class="fas fa-eye"></i>
+                            </a>
+
+                            <!-- Edit User -->
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-success me-1" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+
+                            <!-- Delete User -->
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this user?')">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="text-center py-3 text-muted">No users found.</td>
+                    </tr>
+                @endforelse
             </tbody>
+
         </table>
     </div>
 
