@@ -68,7 +68,11 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 
     // Properties Management
     Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');
-    
+    Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
+    Route::get('/properties/{id}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
+    Route::put('/properties/{id}', [PropertyController::class, 'update'])->name('properties.update');
+    Route::delete('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
+
     
     // Bookings Management
     Route::get('/bookings', [BookingController::class,'index'])->name('bookings.index');
