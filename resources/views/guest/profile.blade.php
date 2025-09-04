@@ -22,7 +22,7 @@
       </div>
 
       {{-- Photo Upload Form --}}
-      <form action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
+      <form action="{{ route('guest.profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
           @csrf
           <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id="pictureInput" onchange="document.getElementById('photoForm').submit();">
       </form>
@@ -34,7 +34,7 @@
       <p class="mb-1"><strong>Email:</strong> {{ Auth::user()->email }}</p>
       <p><strong>Phone:</strong> {{ Auth::user()->phone ?? '-' }}</p>
       <button class="btn btn-primary">
-        <a href="{{ route('profile.edit') }}" class="nav-link text-white p-0">Edit Profile</a>
+        <a href="{{ route('guest.profile.edit') }}" class="nav-link text-white p-0">Edit Profile</a>
       </button>
       <p class="mt-2 text-muted">Joined {{ Auth::user()->created_at->format('F Y') }}</p>
     </div>

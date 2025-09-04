@@ -5,10 +5,32 @@ namespace App\Http\Controllers\Guest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Booking;
 
 class GuestController extends Controller
 {
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|max:2048',
+        ]);
+
+        $user = Auth::user();
+
+        // Delete old picture if exists
+        if ($user->image && Storage::disk('public')->exists($user->image)) {
+            Storage::disk('public')->delete($user->image);
+        }
+
+        // Save new picture
+        $path = $request->file('image')->store('profile', 'public');
+        $user->image = $path;
+        $user->save();
+
+        return redirect()->route('guest.profile.index')->with('success', 'Profile picture updated successfully.');
+    }
+
     // Guest bookings
    public function myBookings(Request $request)
     {

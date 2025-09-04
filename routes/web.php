@@ -100,7 +100,8 @@ Route::middleware(['auth', 'is_guest'])->group(function () {
     Route::get('/guest/profile/edit', [ProfileController::class, 'edit'])->name('guest.profile.edit');
     Route::patch('/guest/profile', [ProfileController::class, 'update'])->name('guest.profile.update');
     Route::delete('/guest/profile', [ProfileController::class, 'destroy'])->name('guest.profile.destroy');
-
+    Route::post('/profile/photo', [GuestController::class, 'updatePhoto'])->name('guest.profile.updatePhoto');
+    
     // Bookings made by guest
     Route::get('/guest/bookings', [GuestController::class, 'myBookings'])->name('guest.bookings.index');
     Route::get('/guest/bookings/{booking}', [GuestController::class, 'viewBooking'])->name('guest.bookings.show');
