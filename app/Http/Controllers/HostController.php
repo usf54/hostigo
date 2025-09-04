@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 use App\Models\Amenity;
 use App\Models\Property;
 use App\Models\PropertyImage;
@@ -95,6 +96,15 @@ class HostController extends Controller
             ->firstOrFail();
 
         return view('host.show-property', compact('property'));
+    }
+
+    public function showHostProfile($id)
+    {
+        // Fetch the host
+        $host = User::with('properties')->findOrFail($id);
+
+        // Return a view and pass the host
+        return view('host.show-profile', compact('host'));
     }
 
     /**

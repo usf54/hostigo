@@ -20,6 +20,7 @@ Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
 Route::get('/explore', [PublicController::class, 'index']);
 Route::get('/properties-filter', [PublicPropertyController::class, 'index'])->name('public.properties');
 Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
+Route::get('/hosts/{host}', [HostController::class, 'showHostProfile'])->name('host.profile.show');
 
 Route::get('/about', function () {
     return view('pages.about');
