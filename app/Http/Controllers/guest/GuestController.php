@@ -49,7 +49,7 @@ class GuestController extends Controller
 
     public function viewBooking($id)
     {
-        $booking = Booking::with('property.images')->findOrFail($id);
+        $booking = Booking::with(['property.images', 'guest'])->findOrFail($id);
         return view('guest.bookings.show', compact('booking'));
     }
 }

@@ -1,16 +1,72 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="p-6 max-w-lg">
-    <h2 class="text-2xl font-bold mb-4">Booking Details</h2>
-    <div class="bg-white shadow p-4 rounded">
-        <p><strong>Property:</strong> Luxury Villa</p>
-        <p><strong>Date:</strong> 2025-08-17</p>
-        <p><strong>Status:</strong> Confirmed</p>
-        <p><strong>Guest Name:</strong> John Doe</p>
+<div class="container py-5">
+    <!-- Header -->
+    <div class="mb-4">
+        <h2 class="fw-bold">Booking Details</h2>
+        <p class="text-muted">Review all the details of your booking</p>
     </div>
-    <div class="mt-4">
-        <a href="#" class="bg-blue-500 text-white px-4 py-2 rounded">Back</a>
+
+    <div class="card shadow-sm rounded-4">
+        <!-- Property Image -->
+        @if($booking->property && $booking->property->images->isNotEmpty())
+            <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" 
+                 class="card-img-top rounded-top-4" 
+                 alt="{{ $booking->property->title }}" 
+                 style="height: 300px; object-fit: cover;">
+        @endif
+
+        <div class="card-body">
+            <h3 class="card-title fw-bold mb-3">{{ $booking->property->title ?? 'Property Title' }}</h3>
+
+            <div class="row mb-3 text-muted">
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>City</strong></p>
+                    <p>{{ $booking->property->city ?? '-' }}</p>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Guest Name</strong></p>
+                    <p>{{ $booking->guest->name ?? 'N/A' }}</p>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Check-in</strong></p>
+                    <p>{{ \Carbon\Carbon::parse($booking->check_in)->format('M d, Y') }}</p>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Check-out</strong></p>
+                    <p>{{ \Carbon\Carbon::parse($booking->check_out)->format('M d, Y') }}</p>
+                </div>
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Status</strong></p>
+                    @if($booking->status === 'confirmed')
+                        <span class="badge bg-success">Confirmed</span>
+                    @elseif($booking->status === 'pending')
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    @elseif($booking->status === 'cancelled')
+                        <span class="badge bg-danger">Cancelled</span>
+                    @endif
+                </div>
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Total Price</strong></p>
+                    <p class="fw-bold">${{ number_format($booking->total_price, 2) }}</p>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="d-flex flex-column flex-md-row gap-2 mt-4">
+                <a href="{{ route('guest.bookings.index') }}" 
+                   class="btn btn-primary flex-fill">Back to Bookings</a>
+
+                @if($booking->status === 'pending')
+                    <form action="" method="POST" class="flex-fill">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-danger w-100">Cancel Booking</button>
+                    </form>
+                @endif
+            </div>
+        </div>
     </div>
 </div>
 @endsection
