@@ -25,7 +25,12 @@ class ProfileController extends Controller
         if ($user->role === 'host') {
             return view('profile.index', compact('user','properties'));
         } elseif ($user->role === 'guest') {
-            return view('guest.profile', compact('user'));
+            $bookings = \App\Models\Booking::with('property.images')
+                        ->where('user_id', Auth::id())
+                        ->latest()
+                        ->get();
+
+            return view('guest.profile', compact('user', 'bookings'));
         }
 
         abort(403); // If the role is not recognized

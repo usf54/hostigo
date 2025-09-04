@@ -1,144 +1,83 @@
 @extends('layouts.app')
 
 @section('content')
-<style>
-    :root {
-        --primary-color: #FF385C;
-    }
+<div class="container py-5">
+  <div class="row mb-5 align-items-center">
 
-    .profile-container {
-        max-width: 1000px;
-        margin: 2rem auto;
-        padding: 2rem;
-        background: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-    }
+    {{-- Profile Picture --}}
+    <div class="col-md-3 text-center">
+      <div class="profile-pic-wrapper" style="position: relative; display: inline-block; cursor: pointer;" onclick="fileLoad()">
+        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/default-avatar.jpg') }}" 
+            alt="Profile Picture" 
+            style="border-radius: 100%; width: 190px; height: 170px; object-fit: cover;"/>
 
-    .profile-header {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        padding-bottom: 1.5rem;
-        border-bottom: 1px solid #eee;
-    }
-
-    .profile-header img {
-        width: 120px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 50%;
-        border: 3px solid var(--primary-color);
-    }
-
-    .profile-header h2 {
-        font-size: 1.8rem;
-        margin: 0;
-    }
-
-    .profile-header p {
-        color: #666;
-        margin-top: 0.2rem;
-    }
-
-    .profile-section {
-        margin-top: 2rem;
-    }
-
-    .section-title {
-        font-size: 1.4rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 1rem;
-    }
-
-    .reservation-card {
-        border: 1px solid #eee;
-        border-radius: 10px;
-        padding: 1rem;
-        display: flex;
-        gap: 1rem;
-        align-items: center;
-        margin-bottom: 1rem;
-        transition: 0.2s ease;
-    }
-
-    .reservation-card:hover {
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-
-    .reservation-card img {
-        width: 100px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 8px;
-    }
-
-    .reservation-info h4 {
-        margin: 0;
-        font-size: 1.1rem;
-    }
-
-    .reservation-info p {
-        font-size: 0.9rem;
-        color: #666;
-    }
-
-    .btn-primary {
-        background: var(--primary-color);
-        color: #fff;
-        border: none;
-        padding: 0.5rem 1.2rem;
-        border-radius: 8px;
-        font-size: 0.9rem;
-        cursor: pointer;
-        transition: background 0.2s ease;
-    }
-
-    .btn-primary:hover {
-        background: #e03353;
-    }
-</style>
-
-<div class="profile-container">
-    <!-- Profile Header -->
-    <div class="profile-header">
-        <img src="{{ asset('images/default-avatar.jpg') }}" alt="Guest Profile Picture">
-        <div>
-            <h2>{{ Auth::user()->name ?? 'Guest Name' }}</h2>
-            <p>Joined {{ Auth::user()->created_at->format('F Y') ?? 'Date' }}</p>
-            <button class="btn-primary">Edit Profile</button>
+        {{-- Overlay --}}
+        <div class="overlay" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                   border-radius: 100%; background: rgba(0,0,0,0.5); color: #fff;
+                   display: flex; align-items: center; justify-content: center;
+                   font-weight: bold; font-size: 16px; opacity: 0; transition: opacity 0.3s;">
+          Update Photo
         </div>
+      </div>
+
+      {{-- Photo Upload Form --}}
+      <form action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
+          @csrf
+          <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id="pictureInput" onchange="document.getElementById('photoForm').submit();">
+      </form>
     </div>
 
-    <!-- My Reservations -->
-    <div class="profile-section">
-        <h3 class="section-title">My Reservations</h3>
+    {{-- User Info --}}
+    <div class="col-md-9">
+      <h2 class="fw-bold">{{ Auth::user()->name }}</h2>
+      <p class="mb-1"><strong>Email:</strong> {{ Auth::user()->email }}</p>
+      <p><strong>Phone:</strong> {{ Auth::user()->phone ?? '-' }}</p>
+      <button class="btn btn-primary">
+        <a href="{{ route('profile.edit') }}" class="nav-link text-white p-0">Edit Profile</a>
+      </button>
+      <p class="mt-2 text-muted">Joined {{ Auth::user()->created_at->format('F Y') }}</p>
+    </div>
+  </div>
 
-        <!-- Example Reservation -->
-        <div class="reservation-card">
-            <img src="{{ asset('images/property-sample.jpg') }}" alt="Property">
-            <div class="reservation-info">
-                <h4>Cozy Apartment in Paris</h4>
-                <p>Check-in: 12 Jan 2025 | Check-out: 16 Jan 2025</p>
+  {{-- Guest Reservations --}}
+  <div class="row g-4 mt-4">
+    <h1>My Reservations</h1>
+      @forelse($bookings as $booking)
+        <div class="col-md-6 col-lg-4">
+          <div class="card shadow-sm rounded-4">
+            @if($booking->property && $booking->property->images->isNotEmpty())
+              <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top">
+            @endif
+            <div class="card-body">
+              <h5 class="fw-bold">{{ $booking->property->title ?? 'Property Title' }}</h5>
+              <p class="text-muted">{{ $booking->check_in }} - {{ $booking->check_out }}</p>
+              <p>Status: <strong>{{ ucfirst($booking->status) }}</strong></p>
+
+              <a href="{{ route('guest.bookings.show', $booking->id) }}" class="btn btn-primary">View Details</a>
             </div>
-            <button class="btn-primary">View Details</button>
+          </div>
         </div>
-
-        <div class="reservation-card">
-            <img src="{{ asset('images/property-sample2.jpg') }}" alt="Property">
-            <div class="reservation-info">
-                <h4>Beach House in Bali</h4>
-                <p>Check-in: 5 Feb 2025 | Check-out: 12 Feb 2025</p>
-            </div>
-            <button class="btn-primary">View Details</button>
+      @empty
+        <div class="col-12 text-center text-muted">
+          <p>You haven’t made any reservations yet.</p>
         </div>
-    </div>
-
-    <!-- Reviews -->
-    <div class="profile-section">
-        <h3 class="section-title">My Reviews</h3>
-        <p>You haven’t written any reviews yet.</p>
-    </div>
+      @endforelse
+  </div>
 </div>
+
+<script>
+  function fileLoad() {
+    document.getElementById('pictureInput').click();
+  }
+
+  // Show overlay on hover
+  document.addEventListener("DOMContentLoaded", function () {
+    const wrapper = document.querySelector(".profile-pic-wrapper");
+    const overlay = wrapper.querySelector(".overlay");
+
+    wrapper.addEventListener("mouseenter", () => overlay.style.opacity = "1");
+    wrapper.addEventListener("mouseleave", () => overlay.style.opacity = "0");
+  });
+</script>
 @endsection
