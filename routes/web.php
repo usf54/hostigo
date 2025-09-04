@@ -76,7 +76,11 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     
     // Bookings Management
     Route::get('/bookings', [BookingController::class,'index'])->name('bookings.index');
-    
+    Route::get('/bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('bookings.update');
+    Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
+
     
     // Payments
     Route::get('/payments', [PaymentController::class,'index'])->name('payments.index');

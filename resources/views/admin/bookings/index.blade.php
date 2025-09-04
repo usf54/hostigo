@@ -12,60 +12,55 @@
             <thead style="background:#FF385C; color:#fff;">
                 <tr>
                     <th class="py-2 px-3 text-center">ID</th>
-                    <th class="py-2 px-3">User</th>
+                    <th class="py-2 px-3">Guest</th>
                     <th class="py-2 px-3">Property</th>
-                    <th class="py-2 px-3">Date</th>
+                    <th class="py-2 px-3">Check-In / Check-Out</th>
                     <th class="py-2 px-3">Status</th>
                     <th class="py-2 px-3 text-center">Actions</th>
                 </tr>
             </thead>
             <tbody>
+                @forelse($bookings as $booking)
                 <tr class="align-middle border-bottom" style="transition:background 0.2s;">
-                    <td class="py-2 px-3 text-center">1</td>
-                    <td class="py-2 px-3">John Doe</td>
-                    <td class="py-2 px-3">Luxury Villa</td>
-                    <td class="py-2 px-3">2025-08-17</td>
+                    <td class="py-2 px-3 text-center">{{ $booking->id }}</td>
+                    <td class="py-2 px-3">{{ $booking->guest->name ?? 'N/A' }}</td>
+                    <td class="py-2 px-3">{{ $booking->property->title ?? 'N/A' }}</td>
                     <td class="py-2 px-3">
-                        <span class="badge bg-success">Confirmed</span>
+                        {{ $booking->check_in }} → {{ $booking->check_out }}
+                    </td>
+                    <td class="py-2 px-3">
+                        @if($booking->status == 'confirmed')
+                            <span class="badge bg-success">Confirmed</span>
+                        @elseif($booking->status == 'pending')
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        @else
+                            <span class="badge bg-danger">Cancelled</span>
+                        @endif
                     </td>
                     <td class="py-2 px-3 text-center">
-                        <a href="#" class="btn btn-sm btn-info me-1" title="View"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="btn btn-sm btn-success me-1" title="Edit"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-sm btn-danger" title="Delete" onclick="confirmDelete(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
+                        <a href="{{ route('bookings.show', $booking->id) }}" class="btn btn-sm btn-info me-1" title="View">
+                            <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-sm btn-success me-1" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ route('bookings.destroy', $booking->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure you want to delete this booking?')">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
                     </td>
                 </tr>
-                <tr class="align-middle border-bottom" style="transition:background 0.2s;">
-                    <td class="py-2 px-3 text-center">2</td>
-                    <td class="py-2 px-3">Jane Smith</td>
-                    <td class="py-2 px-3">Modern Apartment</td>
-                    <td class="py-2 px-3">2025-08-20</td>
-                    <td class="py-2 px-3">
-                        <span class="badge bg-warning text-dark">Pending</span>
-                    </td>
-                    <td class="py-2 px-3 text-center">
-                        <a href="#" class="btn btn-sm btn-info me-1" title="View"><i class="fas fa-eye"></i></a>
-                        <a href="#" class="btn btn-sm btn-success me-1" title="Edit"><i class="fas fa-edit"></i></a>
-                        <button class="btn btn-sm btn-danger" title="Delete" onclick="confirmDelete(this)">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </td>
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center py-3">No bookings found.</td>
                 </tr>
-                <!-- Repeat for more bookings -->
+                @endforelse
             </tbody>
         </table>
     </div>
 
 </div>
-
-<!-- Delete Confirmation Script -->
-<script>
-function confirmDelete(button){
-    if(confirm("Are you sure you want to delete this booking?")){
-        // Example: submit a form or make an AJAX request here
-        alert("Deleted!"); // Replace with actual delete action
-    }
-}
-</script>
 @endsection

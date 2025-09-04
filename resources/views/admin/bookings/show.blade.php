@@ -12,11 +12,19 @@
 
             <!-- Booking Info -->
             <div class="mb-3">
-                <p class="mb-2"><strong>User:</strong> John Doe</p>
-                <p class="mb-2"><strong>Property:</strong> Luxury Villa</p>
-                <p class="mb-2"><strong>Date:</strong> 2025-08-17</p>
+                <p class="mb-2"><strong>User:</strong> {{ $booking->guest->name ?? 'N/A' }}</p>
+                <p class="mb-2"><strong>Property:</strong> {{ $booking->property->title ?? 'N/A' }}</p>
+                <p class="mb-2"><strong>Check-In:</strong> {{ $booking->check_in }}</p>
+                <p class="mb-2"><strong>Check-Out:</strong> {{ $booking->check_out }}</p>
+                <p class="mb-2"><strong>Total Price:</strong> ${{ number_format($booking->total_price, 2) }}</p>
                 <p class="mb-2"><strong>Status:</strong> 
-                    <span class="badge bg-success">Confirmed</span>
+                    @if($booking->status == 'confirmed')
+                        <span class="badge bg-success">Confirmed</span>
+                    @elseif($booking->status == 'pending')
+                        <span class="badge bg-warning text-dark">Pending</span>
+                    @else
+                        <span class="badge bg-danger">Cancelled</span>
+                    @endif
                 </p>
             </div>
 
@@ -25,7 +33,7 @@
                 <a href="{{ route('bookings.index') }}" class="btn btn-secondary">
                     <i class="fas fa-arrow-left me-1"></i> Back
                 </a>
-                <a href="{{ route('bookings.edit', 1) }}" class="btn btn-success">
+                <a href="{{ route('bookings.edit', $booking->id) }}" class="btn btn-success">
                     <i class="fas fa-edit me-1"></i> Edit
                 </a>
             </div>
