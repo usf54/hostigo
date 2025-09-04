@@ -4,113 +4,70 @@
 <div class="container py-5">
     <h2 class="mb-4">My Bookings</h2>
 
-    <!-- Filter Bar -->
-    <div class="mb-4 row g-3">
-        <div class="col-md-3">
-            <label class="form-label fw-bold">Status</label>
-            <select id="statusFilter" class="form-select">
-                <option value="all">All</option>
-                <option value="Confirmed">Confirmed</option>
-                <option value="Pending">Pending</option>
-                <option value="Cancelled">Cancelled</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label class="form-label fw-bold">City</label>
-            <select id="cityFilter" class="form-select">
-                <option value="all">All</option>
-                <option value="Paris">Paris</option>
-                <option value="Beach City">Beach City</option>
-                <option value="Mountain Town">Mountain Town</option>
-            </select>
-        </div>
-        <div class="col-md-3">
-            <label class="form-label fw-bold">Date</label>
-            <input type="date" id="dateFilter" class="form-control">
-        </div>
-        <div class="col-md-3 d-flex align-items-end">
-            <button id="resetFilters" class="btn btn-primary w-100">Reset Filters</button>
-        </div>
+    <!-- Filters -->
+    <div class="filter-bar mb-4">
+        <form method="GET" action="{{ route('guest.bookings.index') }}" class="row g-2 align-items-center">
+            <div class="col-md-3">
+                <select name="status" class="form-select">
+                    <option value="">Status</option>
+                    <option value="confirmed" {{ request('status')=='confirmed' ? 'selected' : '' }}>Confirmed</option>
+                    <option value="pending" {{ request('status')=='pending' ? 'selected' : '' }}>Pending</option>
+                    <option value="cancelled" {{ request('status')=='cancelled' ? 'selected' : '' }}>Cancelled</option>
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <select name="city" class="form-select">
+                    <option value="">City</option>
+                    @foreach($cities as $city)
+                        <option value="{{ $city }}" {{ request('city')==$city ? 'selected' : '' }}>{{ $city }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="col-md-3">
+                <input type="date" name="date" value="{{ request('date') }}" class="form-control">
+            </div>
+
+            <div class="col-md-3 text-end">
+                <button type="submit" class="btn btn-primary w-100">Filter</button>
+            </div>
+        </form>
     </div>
 
-    <div class="row g-4" id="bookingCards">
-        <!-- Booking Card 1 -->
-        <div class="col-md-6 col-lg-4 booking-card" data-status="Confirmed" data-city="Paris" data-date="2025-08-17">
-            <div class="card shadow-sm">
-                <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Luxury Villa">
-                <div class="card-body">
-                    <h5 class="card-title">Luxury Villa</h5>
-                    <p class="card-text mb-1"><strong>Date:</strong> 2025-08-17</p>
-                    <p class="card-text mb-1"><strong>City:</strong> Paris</p>
-                    <p class="card-text mb-2"><strong>Booking ID:</strong> 1</p>
-                    <span class="badge bg-success mb-3">Confirmed</span>
-                    <a href="#" class="btn btn-primary float-end">View</a>
-                </div>
-            </div>
-        </div>
+    <!-- Bookings Grid -->
+    <div class="row g-4">
+        @forelse($bookings as $booking)
+            <div class="col-md-6 col-lg-4">
+                <div class="card shadow-sm">
+                    @if($booking->property && $booking->property->images->isNotEmpty())
+                        <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top" alt="{{ $booking->property->title }}">
+                    @else
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="No Image">
+                    @endif
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $booking->property->title ?? 'Property Title' }}</h5>
+                        <p class="mb-1"><strong>City:</strong> {{ $booking->property->city ?? '-' }}</p>
+                        <p class="mb-1"><strong>Check-in:</strong> {{ \Carbon\Carbon::parse($booking->check_in)->format('Y-m-d') }}</p>
+                        <p class="mb-2"><strong>Booking ID:</strong> {{ $booking->id }}</p>
 
-        <!-- Booking Card 2 -->
-        <div class="col-md-6 col-lg-4 booking-card" data-status="Pending" data-city="Beach City" data-date="2025-08-16">
-            <div class="card shadow-sm">
-                <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Beach House">
-                <div class="card-body">
-                    <h5 class="card-title">Beach House</h5>
-                    <p class="card-text mb-1"><strong>Date:</strong> 2025-08-16</p>
-                    <p class="card-text mb-1"><strong>City:</strong> Beach City</p>
-                    <p class="card-text mb-2"><strong>Booking ID:</strong> 2</p>
-                    <span class="badge bg-warning text-dark mb-3">Pending</span>
-                    <a href="#" class="btn btn-primary float-end">View</a>
-                </div>
-            </div>
-        </div>
+                        @if($booking->status === 'confirmed')
+                            <span class="badge bg-success mb-3">Confirmed</span>
+                        @elseif($booking->status === 'pending')
+                            <span class="badge bg-warning text-dark mb-3">Pending</span>
+                        @elseif($booking->status === 'cancelled')
+                            <span class="badge bg-danger mb-3">Cancelled</span>
+                        @endif
 
-        <!-- Booking Card 3 -->
-        <div class="col-md-6 col-lg-4 booking-card" data-status="Cancelled" data-city="Mountain Town" data-date="2025-08-20">
-            <div class="card shadow-sm">
-                <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="Mountain Cabin">
-                <div class="card-body">
-                    <h5 class="card-title">Mountain Cabin</h5>
-                    <p class="card-text mb-1"><strong>Date:</strong> 2025-08-20</p>
-                    <p class="card-text mb-1"><strong>City:</strong> Mountain Town</p>
-                    <p class="card-text mb-2"><strong>Booking ID:</strong> 3</p>
-                    <span class="badge bg-danger mb-3">Cancelled</span>
-                    <a href="#" class="btn btn-primary float-end">View</a>
+                        <a href="{{ route('guest.bookings.show', $booking->id) }}" class="btn btn-primary float-end">View</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        @empty
+            <div class="col-12 text-center py-5 text-muted">
+                No bookings found.
+            </div>
+        @endforelse
     </div>
 </div>
-
-<script>
-    const statusFilter = document.getElementById('statusFilter');
-    const cityFilter = document.getElementById('cityFilter');
-    const dateFilter = document.getElementById('dateFilter');
-    const resetBtn = document.getElementById('resetFilters');
-    const cards = document.querySelectorAll('.booking-card');
-
-    function filterCards() {
-        const status = statusFilter.value;
-        const city = cityFilter.value;
-        const date = dateFilter.value;
-
-        cards.forEach(card => {
-            const matchStatus = (status === 'all' || card.dataset.status === status);
-            const matchCity = (city === 'all' || card.dataset.city === city);
-            const matchDate = (!date || card.dataset.date === date);
-
-            card.style.display = (matchStatus && matchCity && matchDate) ? 'block' : 'none';
-        });
-    }
-
-    statusFilter.addEventListener('change', filterCards);
-    cityFilter.addEventListener('change', filterCards);
-    dateFilter.addEventListener('change', filterCards);
-
-    resetBtn.addEventListener('click', () => {
-        statusFilter.value = 'all';
-        cityFilter.value = 'all';
-        dateFilter.value = '';
-        filterCards();
-    });
-</script>
 @endsection

@@ -10,16 +10,42 @@ use App\Models\Booking;
 class GuestController extends Controller
 {
     // Guest bookings
-    public function myBookings()
+   public function myBookings(Request $request)
     {
-        // Fetch bookings of the logged-in guest
-        $bookings = Booking::with('property.images') // eager load property and images
-                    ->where('user_id', Auth::id())
-                    ->orderBy('check_in', 'desc')
-                    ->get();
+        $query = Booking::with('property.images')
+                        ->where('user_id', Auth::id())
+                        ->orderBy('check_in', 'desc');
 
-        return view('guest.profile', compact('bookings'));
+        // Status filter
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // City filter
+        if ($request->filled('city')) {
+            $query->whereHas('property', function($q) use ($request) {
+                $q->where('city', $request->city);
+            });
+        }
+
+        // Date filter
+        if ($request->filled('date')) {
+            $query->whereDate('check_in', $request->date);
+        }
+
+        $bookings = $query->get();
+
+        // Unique cities for the city filter dropdown
+        $cities = Booking::where('user_id', Auth::id())
+                    ->with('property')
+                    ->get()
+                    ->pluck('property.city')
+                    ->filter()
+                    ->unique();
+
+        return view('guest.bookings.index', compact('bookings', 'cities'));
     }
+
 
     public function viewBooking($id)
     {
