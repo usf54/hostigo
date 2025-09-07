@@ -15,7 +15,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    
+
     <h2 class="mb-4">My Bookings</h2>
 
     <!-- Filters -->
@@ -61,9 +61,11 @@
                     @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ $booking->property->title ?? 'Property Title' }}</h5>
+                        <p class="mb-2"><strong>Booking ID:</strong> {{ $booking->id }}</p>
                         <p class="mb-1"><strong>City:</strong> {{ $booking->property->city ?? '-' }}</p>
                         <p class="mb-1"><strong>Check-in:</strong> {{ \Carbon\Carbon::parse($booking->check_in)->format('Y-m-d') }}</p>
-                        <p class="mb-2"><strong>Booking ID:</strong> {{ $booking->id }}</p>
+                        <p class="mb-1"><strong>Check-in:</strong> {{ \Carbon\Carbon::parse($booking->check_out)->format('Y-m-d') }}</p>
+                        <p class="mb-1"><strong>Total Price:</strong> {{$booking->total_price}} $</p>
 
                         @if($booking->status === 'confirmed')
                             <span class="badge bg-success mb-3">Confirmed</span>

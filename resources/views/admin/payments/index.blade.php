@@ -2,7 +2,19 @@
 
 @section('content')
 <div class="p-4">
+ @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <!-- Page Heading -->
     <h2 class="mb-4" style="font-size:1.8rem; font-weight:700; color:#1E1E2F;">Payments</h2>
 
