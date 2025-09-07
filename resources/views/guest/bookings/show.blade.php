@@ -56,15 +56,16 @@
             <!-- Action Buttons -->
             <div class="d-flex flex-column flex-md-row gap-2 mt-4">
                 <a href="{{ route('guest.bookings.index') }}" 
-                   class="btn btn-primary flex-fill">Back to Bookings</a>
+                class="btn btn-primary flex-fill">Back to Bookings</a>
 
                 @if($booking->status === 'pending')
-                    <form action="" method="POST" class="flex-fill">
-                        @csrf
-                        @method('PATCH')
-                        <button type="submit" class="btn btn-danger w-100">Cancel Booking</button>
-                    </form>
-                @endif
+                        <form action="{{ route('guest.bookings.cancel', $booking) }}" method="POST" class="flex-fill">
+                            @csrf
+                            @method('PATCH')
+                            <button type="submit" class="btn btn-danger w-100">Cancel Booking</button>
+                        </form>
+                    @endif
+
             </div>
         </div>
     </div>

@@ -25,7 +25,10 @@ class PublicController extends Controller
     
     public function show($id)  {
         $property = Property::with(['images', 'amenities','host'])->findOrFail($id);
-
-        return view('property.property-details', compact('property'));
+        // Get booked date ranges (only confirmed/pending bookings)
+        $bookedDates = $property->bookings()
+                ->where('status', '!=', 'cancelled')
+                ->get(['check_in', 'check_out']);
+        return view('property.property-details', compact('property','bookedDates'));
     }
 }

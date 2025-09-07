@@ -2,7 +2,30 @@
 
 @section('content')
 <div class="container py-5">
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
+    @if(session('error'))
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
     <!-- Property Title & Host -->
     <div class="mb-4">
         <h1 class="fw-bold">{{ $property->title }}</h1>
@@ -62,26 +85,56 @@
 
         <div class="col-lg-4">
             <div class="card shadow-sm p-3">
-                <h4 class="fw-bold mb-2">${{ $property->price_per_night }} / night</h4>
-                <div class="mb-3">
-                    <label class="form-label">Check-in</label>
-                    <input type="date" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Check-out</label>
-                    <input type="date" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">Guests</label>
-                    <input type="number" class="form-control" min="1" value="1">
-                </div>
-                <button class="btn w-100" style="background-color: #FF385C; color: white;">
-                    Reserve
-                </button>
+                <form action="{{ route('bookings.store', $property) }}" method="POST">
+                    @csrf
+                    <div class="mb-3">
+                        <label class="form-label">Check-in</label>
+                        <input type="text" name="check_in" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Check-out</label>
+                        <input type="text" name="check_out" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Guests</label>
+                        <input type="number" name="guests" class="form-control" min="1" value="1" required>
+                    </div>
+                    <button type="submit" class="btn w-100" style="background-color: #FF385C; color: white;">
+                        Reserve
+                    </button>
+                </form>
             </div>
         </div>
+
     </div>
-
-
 </div>
+
+<script>
+    const bookedRanges = @json($bookedDates->map(fn($b) => [
+        'from' => $b->check_in,
+        'to' => $b->check_out,
+    ]));
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        flatpickr("input[name='check_in']", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            disable: bookedRanges,
+            onChange: function(selectedDates, dateStr, instance) {
+                if (dateStr) {
+                    checkOutCalendar.set("minDate", dateStr); // set check-out min date
+                }
+            }
+        });
+
+        const checkOutCalendar = flatpickr("input[name='check_out']", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            disable: bookedRanges
+        });
+    });
+</script>
+
 @endsection
