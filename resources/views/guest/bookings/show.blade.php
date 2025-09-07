@@ -31,8 +31,19 @@
         @endif
 
         <div class="card-body">
-            <h3 class="card-title fw-bold mb-3">{{ $booking->property->title ?? 'Property Title' }}</h3>
-
+            <div class="mb-4">
+                <h1 class="fw-bold">{{ $booking->property->title }}</h1>
+                <p class="text-muted">
+                    Hosted by 
+                    @if($booking->property->host)
+                        <a href="{{ route('host.profile.show', $booking->property->host->id) }}" class="text-decoration-none">
+                            <strong>{{ $booking->property->host->name }}</strong>
+                        </a>
+                    @else
+                        <strong>Unknown</strong>
+                    @endif
+                </p>
+            </div>
             <div class="row mb-3 text-muted">
                 <div class="col-md-6 mb-2">
                     <p class="mb-1"><strong>City</strong></p>

@@ -41,13 +41,14 @@ Route::middleware(['auth', 'is_host'])->group(function () {
     Route::put('/property/{id}', [HostController::class, 'update'])->name('property.update');
     Route::delete('/property/{id}', [HostController::class, 'destroy'])->name('property.destroy');
     
-    // HOST BOOKING ROUTES
-    Route::get('/my-bookings', [HostController::class, 'myBookings'])->name('booking.index');
-    Route::get('/view-booking', [HostController::class, 'viewBooking'])->name('booking.show');
-
+    // Host booking management
+    Route::get('/host/bookings', [HostController::class, 'incomingBookings'])->name('host.bookings.index');
+    Route::patch('/host/bookings/{booking}/approve', [HostController::class, 'approve'])->name('host.bookings.approve');
+    Route::patch('/host/bookings/{booking}/decline', [HostController::class, 'decline'])->name('host.bookings.decline');
+    
     Route::get('/profile/show', [ProfileController::class, 'index'])->name('profile.index');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
+    Route::post('/host/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
@@ -101,7 +102,7 @@ Route::middleware(['auth', 'is_guest'])->group(function () {
     Route::get('/guest/profile/edit', [ProfileController::class, 'edit'])->name('guest.profile.edit');
     Route::patch('/guest/profile', [ProfileController::class, 'update'])->name('guest.profile.update');
     Route::delete('/guest/profile', [ProfileController::class, 'destroy'])->name('guest.profile.destroy');
-    Route::post('/profile/photo', [GuestController::class, 'updatePhoto'])->name('guest.profile.updatePhoto');
+    Route::post('/guest/profile/photo', [GuestController::class, 'updatePhoto'])->name('guest.profile.updatePhoto');
     
     // Bookings made by guest
     Route::post('/properties/{property}', [GuestController::class, 'store'])->name('bookings.store');

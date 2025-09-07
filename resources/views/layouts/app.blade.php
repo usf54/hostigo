@@ -53,7 +53,7 @@
                     <div class="d-flex gap-2 mt-2 mt-lg-0">
                         @auth
                             @if (Auth::user()->role==="host")
-                                <button class="add-property-btn"><a href="{{route('booking.index')}}" class="nav-link">Incoming Bookings</a></button>
+                                <button class="add-property-btn"><a href="{{route('host.bookings.index')}}" class="nav-link">Incoming Bookings</a></button>
                                 <button class="add-property-btn"><a href="{{route('property.create')}}" class="nav-link">Add Property</a></button>
                             @endif
                             <div class="dropdown ms-3">

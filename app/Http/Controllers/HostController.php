@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Amenity;
 use App\Models\Property;
+use App\Models\Booking;
 use App\Models\PropertyImage;
 
 class HostController extends Controller
@@ -195,4 +196,48 @@ class HostController extends Controller
 
         return redirect()->route('property.index')->with('success', 'Property deleted successfully!');
     }
+
+
+    // Show bookings for all properties owned by this host
+    public function incomingBookings(Request $request)
+    {
+        $status = $request->input('status');
+        $fromDate = $request->input('fromDate');
+        $toDate = $request->input('toDate');
+
+        $bookings = Booking::whereHas('property', function ($query) {
+                $query->where('user_id', Auth::id()); // properties owned by host
+            })
+            ->when($status && $status !== 'All', fn($q) => $q->where('status', strtolower($status)))
+            ->when($fromDate, fn($q) => $q->whereDate('check_in', '>=', $fromDate))
+            ->when($toDate, fn($q) => $q->whereDate('check_out', '<=', $toDate))
+            ->with(['guest', 'property'])
+            ->orderBy('check_in', 'asc')
+            ->get();
+
+        return view('host.bookings.incoming-bookings', compact('bookings'));
+    }
+
+    // Approve a booking
+    public function approve(Booking $booking)
+    {
+        if ($booking->property->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $booking->update(['status' => 'confirmed']);
+        return back()->with('success', 'Booking approved successfully.');
+    }
+
+    // Decline a booking
+    public function decline(Booking $booking)
+    {
+        if ($booking->property->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $booking->update(['status' => 'cancelled']);
+        return back()->with('success', 'Booking declined.');
+    }
+
 }
