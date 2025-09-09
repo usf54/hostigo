@@ -43,6 +43,7 @@ Route::middleware(['auth', 'is_host'])->group(function () {
     
     // Host booking management
     Route::get('/host/bookings', [HostController::class, 'incomingBookings'])->name('host.bookings.index');
+    Route::get('/host/booking/{id}', [HostController::class, 'viewBooking'])->name('host.bookings.show');
     Route::patch('/host/bookings/{booking}/approve', [HostController::class, 'approve'])->name('host.bookings.approve');
     Route::patch('/host/bookings/{booking}/decline', [HostController::class, 'decline'])->name('host.bookings.decline');
     

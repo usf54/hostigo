@@ -88,6 +88,9 @@
                 @endif
               </td>
               <td class="text-end">
+                <button class="btn btn-sm btn-outline-info">
+                  <a href="{{ route('host.bookings.show',$booking->id) }}" class='link'>View</a>
+                </button>
                 @if($booking->status === 'pending')
                   <form action="{{ route('host.bookings.approve', $booking) }}" method="POST" class="d-inline">
                     @csrf
