@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingApprovedMail;
+use App\Mail\BookingDeclinedMail;
+use App\Mail\HostBookingActionMail;
 use App\Models\User;
 use App\Models\Amenity;
 use App\Models\Property;
@@ -41,6 +45,15 @@ class HostController extends Controller
         }
 
         $booking->update(['status' => 'confirmed']);
+        // Eager load relationships for the email
+        $booking->load('guest', 'property.host');
+
+        // Notify guest
+        Mail::to($booking->guest->email)->send(new BookingApprovedMail($booking));
+
+        // Notify host
+        Mail::to($booking->property->host->email)->send(new HostBookingActionMail($booking, 'approved'));
+
         return back()->with('success', 'Booking approved successfully.');
     }
 
@@ -52,23 +65,32 @@ class HostController extends Controller
         }
 
         $booking->update(['status' => 'cancelled']);
+        // Eager load relationships for email
+        $booking->load('guest', 'property.host');
+
+        // Notify guest
+        Mail::to($booking->guest->email)->send(new BookingDeclinedMail($booking));
+
+        // Notify host
+        Mail::to($booking->property->host->email)->send(new HostBookingActionMail($booking, 'declined'));
+        
         return back()->with('success', 'Booking declined.');
     }
 
-   public function viewBooking($id)
-{
-    $userId = Auth::id();
+    public function viewBooking($id)
+    {
+        $userId = Auth::id();
 
-    // Fetch the booking, ensure it's owned by this host
-    $booking = Booking::with('property')
-        ->where('id', $id)
-        ->whereHas('property', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
-        })
-        ->firstOrFail();
+        // Fetch the booking, ensure it's owned by this host
+        $booking = Booking::with('property')
+            ->where('id', $id)
+            ->whereHas('property', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->firstOrFail();
 
-    return view('host.bookings.view-booking', compact('booking'));
-}
+        return view('host.bookings.view-booking', compact('booking'));
+    }
 
 
     /**

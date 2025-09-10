@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class BookingConfirmationMail extends Mailable
+class BookingDeclinedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class BookingConfirmationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Booking is Received - Hostigo',
+            subject: 'Your Booking is Declined - Hostigo',
         );
     }
 
@@ -39,13 +39,18 @@ class BookingConfirmationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'mail.bookingConfirmation',
+            view: 'mail.bookingDeclined',
             with: [
                 'booking' => $this->booking,
             ]
         );
     }
 
+    /**
+     * Get the attachments for the message.
+     *
+     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     */
     public function attachments(): array
     {
         return [];
