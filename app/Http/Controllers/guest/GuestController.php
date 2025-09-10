@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Booking;
 use App\Models\Property;
+use App\Mail\BookingConfirmationMail;
+use App\Mail\NewBookingNotificationMail;
+use Illuminate\Support\Facades\Mail;
 
 class GuestController extends Controller
 {
@@ -56,7 +59,7 @@ class GuestController extends Controller
 
         // Create booking safely
         try {
-            Booking::create([
+            $booking = Booking::create([
                 'user_id' => Auth::id(),
                 'property_id' => $property->id,
                 'check_in' => $validated['check_in'],
@@ -69,6 +72,9 @@ class GuestController extends Controller
 
             return back()->with('error', 'An error occurred while processing your booking. Please try again.');
         }
+        
+        Mail::to($booking->guest->email)->send(new BookingConfirmationMail($booking));
+        Mail::to($booking->property->host->email)->send(new NewBookingNotificationMail($booking));
 
         return redirect()->route('guest.bookings.index')->with('success', 'Booking created successfully!');
     }
