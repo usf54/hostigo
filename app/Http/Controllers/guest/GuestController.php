@@ -10,6 +10,7 @@ use App\Models\Booking;
 use App\Models\Property;
 use App\Mail\BookingConfirmationMail;
 use App\Mail\NewBookingNotificationMail;
+use App\Mail\GuestCancelledBookingMail;
 use Illuminate\Support\Facades\Mail;
 
 class GuestController extends Controller
@@ -115,11 +116,14 @@ class GuestController extends Controller
 
         try {
             $booking->update(['status' => 'cancelled']);
+            $booking->load('guest', 'property.host');
+            // Notify host
+            Mail::to($booking->property->host->email)->send(new GuestCancelledBookingMail($booking));
         } catch (\Exception $e) {
             \Log::error('Booking cancellation failed: ' . $e->getMessage());
             return back()->with('error', 'Could not cancel booking. Please try again.');
         }
-
+        
         return redirect()->route('guest.bookings.index')
             ->with('success', 'Booking cancelled successfully.');
     }
