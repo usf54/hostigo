@@ -3,7 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HostController;
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\PropertyController;
@@ -15,23 +16,43 @@ use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PropertyController as PublicPropertyController;
 
+
+// Email verification notice
+Route::get('/email/verify', function () {
+    return view('auth.verify-email');
+})->middleware('auth')->name('verification.notice');
+
+// Verification link callback
+Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+    $request->fulfill();
+
+    return redirect('/'); 
+})->middleware(['auth', 'signed'])->name('verification.verify');
+
+// Resend verification email
+Route::post('/email/verification-notification', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+
 Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
-
-Route::get('/explore', [PublicController::class, 'index']);
-Route::get('/properties-filter', [PublicPropertyController::class, 'index'])->name('public.properties');
-Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
-Route::get('/hosts/{host}', [HostController::class, 'showHostProfile'])->name('host.profile.show');
-
 Route::get('/about', function () {
     return view('pages.about');
 });
 Route::get('/contact', function () {
     return view('pages.contact');
 });
+Route::middleware(['auth', 'verified'])->group(function()  {
+    Route::get('/explore', [PublicController::class, 'index']);
+    Route::get('/properties-filter', [PublicPropertyController::class, 'index'])->name('public.properties');
+    Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
+    Route::get('/hosts/{host}', [HostController::class, 'showHostProfile'])->name('host.profile.show');
+});
 
 
-
-Route::middleware(['auth', 'is_host'])->group(function () {
+Route::middleware(['auth', 'is_host', 'verified'])->group(function () {
     // HOST ROUTES
     Route::get('/my-properties', [HostController::class, 'index'])->name('property.index');
     Route::get('/property/create', [HostController::class, 'create'])->name('property.create');
@@ -57,7 +78,7 @@ Route::middleware(['auth', 'is_host'])->group(function () {
 require __DIR__.'/auth.php';
 
 // Admin routes
-Route::middleware(['auth', 'is_admin'])->group(function () {
+Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
 
     // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -97,7 +118,7 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
 });
 
 // GUEST ROUTES
-Route::middleware(['auth', 'is_guest'])->group(function () {
+Route::middleware(['auth', 'is_guest', 'verified'])->group(function () {
     // Profile routes
     Route::get('/guest/profile', [ProfileController::class, 'index'])->name('guest.profile.index');
     Route::get('/guest/profile/edit', [ProfileController::class, 'edit'])->name('guest.profile.edit');
