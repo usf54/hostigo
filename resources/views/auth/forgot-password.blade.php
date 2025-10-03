@@ -15,14 +15,13 @@
         <!-- Email Address -->
         <div class="mb-4">
             <x-input-label for="email" :value="__('Email')" />
-            <x-text-input 
-                id="email" 
-                class="block mt-1 w-full border-gray-300 focus:border-[#E8524A] focus:ring focus:ring-[#E8524A]/50 rounded-md shadow-sm" 
-                type="email" 
-                name="email" 
-                :value="old('email')" 
-                required 
-                autofocus 
+            <x-text-input
+                id="email"
+                class="block mt-1 w-full border-gray-300 focus:border-[#E8524A] focus:ring focus:ring-[#E8524A]/50 rounded-md shadow-sm"                type="email"
+                name="email"
+                :value="old('email')"
+                required
+                autofocus
             />
             <x-input-error :messages="$errors->get('email')" class="mt-2 text-red-600" />
         </div>

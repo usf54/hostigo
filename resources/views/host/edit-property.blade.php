@@ -102,10 +102,10 @@
                 @foreach($amenities as $amenity)
                   <div class="col-md-4">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox"
+                      <input id="amenity" class="form-check-input" type="checkbox"
                             name="amenities[]" value="{{ $amenity->id }}"
                             {{ in_array($amenity->id, old('amenities', $property->amenities->pluck('id')->toArray())) ? 'checked' : '' }}>
-                      <label class="form-check-label">{{ $amenity->name }}</label>
+                      <label for="amenity" class="form-check-label">{{ $amenity->name }}</label>
                     </div>
                   </div>
                 @endforeach
@@ -114,17 +114,17 @@
 
           {{-- Existing Images --}}
           <div class="mb-4">
-            <label class="form-label">Current Images</label>
+            <label class="form-label" for="property">Current Images</label>
             <div class="d-flex flex-wrap gap-2 mb-2" id="existing-images">
               @foreach($property->images as $image)
                 <div class="position-relative" style="width:120px; height:80px;">
                   <img src="{{ asset('storage/'.$image->image_url) }}" 
-                      class="img-thumbnail w-100 h-100" style="object-fit:cover;">
+                      class="img-thumbnail w-100 h-100" style="object-fit:cover;" alt="property">
                   <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 remove-image-btn" 
                           data-id="{{ $image->id }}">
                     &times;
                   </button>
-                  <input type="hidden" name="existing_images[]" value="{{ $image->id }}">
+                  <input id="property" type="hidden" name="existing_images[]" value="{{ $image->id }}">
                 </div>
               @endforeach
             </div>

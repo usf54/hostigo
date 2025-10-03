@@ -30,7 +30,7 @@
     <div class="mb-4">
         <h1 class="fw-bold">{{ $property->title }}</h1>
         <p class="text-muted">
-            Hosted by 
+            Hosted by
             @if($property->host)
                 <a href="{{ route('host.profile.show', $property->host->id) }}" class="text-decoration-none">
                     <strong>{{ $property->host->name }}</strong>
@@ -78,7 +78,10 @@
                 <h4>Location</h4>
                 <div class="ratio ratio-16x9">
                     <iframe src="https://www.google.com/maps?q={{ $property->latitude }},{{ $property->longitude }}&hl=es;z=14&output=embed"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        width="600" height="450" style="border:0;"
+                        allowfullscreen=""
+                        loading="lazy"
+                        title="Map showing the location of {{ $property->title }}">></iframe>
                 </div>
             </div>
         </div>
@@ -88,16 +91,16 @@
                 <form action="{{ route('bookings.store', $property) }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label class="form-label">Check-in</label>
-                        <input type="text" name="check_in" class="form-control" required>
+                        <label class="form-label" for="check_in">Check-in</label>
+                        <input id="check_in" type="text" name="check_in" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Check-out</label>
-                        <input type="text" name="check_out" class="form-control" required>
+                        <label class="form-label" for="check_out">Check-out</label>
+                        <input id="check_out" type="text" name="check_out" class="form-control" required>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Guests</label>
-                        <input type="number" name="guests" class="form-control" min="1" value="1" required>
+                        <label class="form-label" for="guests">Guests</label>
+                        <input id="guests" type="number" name="guests" class="form-control" min="1" value="1" required>
                     </div>
                     <button type="submit" class="btn w-100" style="background-color: #FF385C; color: white;">
                         Reserve

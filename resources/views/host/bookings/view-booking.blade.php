@@ -35,7 +35,7 @@
         <h5 class="fw-bold mb-1">
           <i class="bi bi-receipt"></i> Booking #{{ $booking->id }}
         </h5>
-        <span class="badge 
+        <span class="badge
           @if($booking->status == 'confirmed') bg-success
           @elseif($booking->status == 'cancelled') bg-danger
           @else bg-warning text-dark @endif">
@@ -58,17 +58,17 @@
         <h6 class="fw-bold mb-3" style="color: var(--primary-color);">
           <i class="bi bi-calendar-check"></i> Booking Info
         </h6>
-        <p class="mb-2"><i class="bi bi-box-arrow-in-right"></i> 
+        <p class="mb-2"><i class="bi bi-box-arrow-in-right"></i>
           <strong>Check-In:</strong> {{ \Carbon\Carbon::parse($booking->check_in)->format('M d, Y') }}
         </p>
-        <p class="mb-2"><i class="bi bi-box-arrow-in-left"></i> 
+        <p class="mb-2"><i class="bi bi-box-arrow-in-left"></i>
           <strong>Check-Out:</strong> {{ \Carbon\Carbon::parse($booking->check_out)->format('M d, Y') }}
         </p>
-        <p class="mb-2"><i class="bi bi-moon-stars"></i> 
-          <strong>Total Nights:</strong> 
+        <p class="mb-2"><i class="bi bi-moon-stars"></i>
+          <strong>Total Nights:</strong>
           {{ \Carbon\Carbon::parse($booking->check_in)->diffInDays(\Carbon\Carbon::parse($booking->check_out)) }}
         </p>
-        <p class="mb-2"><i class="bi bi-people-fill"></i> 
+        <p class="mb-2"><i class="bi bi-people-fill"></i>
           <strong>Guests:</strong> {{ $booking->property->max_guests ?? 'N/A' }}
         </p>
       </div>
@@ -78,13 +78,13 @@
         <h6 class="fw-bold mb-3" style="color: var(--primary-color);">
           <i class="bi bi-person-badge"></i> Guest Details
         </h6>
-        <p class="mb-2"><i class="bi bi-person-fill"></i> 
+        <p class="mb-2"><i class="bi bi-person-fill"></i>
           <strong>Name:</strong> {{ $booking->guest->name }}
         </p>
-        <p class="mb-2"><i class="bi bi-envelope-fill"></i> 
+        <p class="mb-2"><i class="bi bi-envelope-fill"></i>
           <strong>Email:</strong> {{ $booking->guest->email }}
         </p>
-        <p class="mb-2"><i class="bi bi-telephone-fill"></i> 
+        <p class="mb-2"><i class="bi bi-telephone-fill"></i>
           <strong>Phone:</strong> {{ $booking->guest->phone ?? 'Not provided' }}
         </p>
       </div>
@@ -95,10 +95,10 @@
           <i class="bi bi-house-fill"></i> Property Info
         </h6>
         <div class="d-flex flex-wrap align-items-center gap-3">
-          <img 
+          <img
             src="{{ $booking->property->images->first()->url ?? 'https://via.placeholder.com/350x200' }}" 
-            alt="{{ $booking->property->title }}" 
-            class="img-fluid rounded-3" 
+            alt="{{ $booking->property->title }}"
+            class="img-fluid rounded-3"
             style="max-width: 350px;">
           <div>
             <p class="fw-bold mb-1">{{ $booking->property->title }}</p>
@@ -106,8 +106,8 @@
               <i class="bi bi-geo-alt-fill"></i> 
               {{ $booking->property->address }}, {{ $booking->property->city }}, {{ $booking->property->country }}
             </p>
-            <a href="{{ route('property.show', $booking->property->id) }}" 
-               class="btn btn-sm btn-outline-primary" 
+            <a href="{{ route('property.show', $booking->property->id) }}"
+               class="btn btn-sm btn-outline-primary"
                style="color: var(--primary-color); border-color: var(--primary-color);">
               View Property
             </a>
@@ -136,7 +136,6 @@
         </form>
       @endif
     </div>
-
   </div>
 </div>
 @endsection

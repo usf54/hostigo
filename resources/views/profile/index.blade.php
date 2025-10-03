@@ -18,25 +18,36 @@
   <div class="row mb-5 align-items-center">
 
     <div class="col-md-3 text-center">
-       <div class="profile-pic-wrapper" style="position: relative; display: inline-block; cursor: pointer;" onclick="fileLoad()">
-        <img src="{{ asset('storage/'.$user->image) }}" 
-            alt="Profile Picture" 
-            style="border-radius: 100%; width: 190px; height: 170px; object-fit: cover;"/>
+        <div
+            class="profile-pic-wrapper"
+            style="position: relative; display: inline-block; cursor: pointer;"
+            role="button"
+            tabindex="0"
+            onclick="fileLoad()"
+            onkeydown="if(event.key==='Enter'||event.key===' '){ fileLoad(); event.preventDefault(); }"
+            aria-label="Update Profile"
+        >
+            <img src="{{ asset('storage/'.$user->image) }}"
+                alt="Profile"
+                style="border-radius: 100%; width: 190px; height: 170px; object-fit: cover;"/>
 
-        {{-- Overlay --}}
-        <div class="overlay" 
-            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                    border-radius: 100%; background: rgba(0,0,0,0.5); color: #fff;
-                    display: flex; align-items: center; justify-content: center;
-                    font-weight: bold; font-size: 16px; opacity: 0; transition: opacity 0.3s;">
-          Update Photo
+            {{-- Overlay --}}
+            <div class="overlay"
+                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+                      border-radius: 100%; background: rgba(0,0,0,0.5); color: #fff;
+                      display: flex; align-items: center; justify-content: center;
+                      font-weight: bold; font-size: 16px; opacity: 0; transition: opacity 0.3s;">
+              Update Photo
+            </div>
         </div>
-      </div>
-      <form action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
-          @csrf
-          <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id='pictureInput' onchange="document.getElementById('photoForm').submit();">
-      </form>
+
+        <form action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
+            @csrf
+            <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id='pictureInput' onchange="document.getElementById('photoForm').submit();">
+        </form>
     </div>
+
+
 
     {{-- User Info --}}
     <div class="col-md-9">
@@ -52,7 +63,7 @@
         <div class="col-md-6 col-lg-4">
           <div class="card shadow-sm rounded-4">
             @if ($property->images->isNotEmpty())
-              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top">
+              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top" alt="property">
             @endif
             <div class="card-body">
               <h5 class="fw-bold">{{ $property->title }}</h5>
@@ -78,7 +89,7 @@
 </div>
 <script>
   function fileLoad() {
-    var input = document.getElementById('pictureInput').click();
+    document.getElementById('pictureInput').click();
   }
 
   // Show overlay on hover
@@ -90,4 +101,5 @@
     wrapper.addEventListener("mouseleave", () => overlay.style.opacity = "0");
   });
 </script>
+
 @endsection

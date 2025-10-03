@@ -31,11 +31,11 @@
                 <p class="mb-2"><strong>Name:</strong> {{ $user->name }}</p>
                 <p class="mb-2"><strong>Email:</strong> {{ $user->email }}</p>
                 <p class="mb-2"><strong>Phone:</strong> {{ $user->phone ?? 'N/A' }}</p>
-                <p class="mb-2"><strong>Role:</strong> 
-                    <span class="badge 
-                        @if($user->role == 'admin') bg-danger 
-                        @elseif($user->role == 'host') bg-warning 
-                        @else bg-primary 
+                <p class="mb-2"><strong>Role:</strong>
+                    <span class="badge
+                        @if($user->role == 'admin') bg-danger
+                        @elseif($user->role == 'host') bg-warning
+                        @else bg-primary
                         @endif">
                         {{ ucfirst($user->role) }}
                     </span>

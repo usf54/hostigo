@@ -26,14 +26,6 @@ class BookingController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show($id)
@@ -77,8 +69,8 @@ class BookingController extends Controller
      */
     public function destroy(string $id)
     {
-        $booking = Booking::findOrFail($id); 
-        $booking->delete(); 
+        $booking = Booking::findOrFail($id);
+        $booking->delete();
 
         return redirect()
             ->route('bookings.index')

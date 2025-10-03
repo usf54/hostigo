@@ -101,10 +101,10 @@
                 @foreach($amenities as $amenity)
                   <div class="col-md-4">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox"
+                      <input id="amenity" class="form-check-input" type="checkbox"
                         name="amenities[]" value="{{ $amenity->id }}"
                         {{ in_array($amenity->id, old('amenities', [])) ? 'checked' : '' }}>
-                      <label class="form-check-label">{{ $amenity->name }}</label>
+                      <label for="amenity" class="form-check-label">{{ $amenity->name }}</label>
                     </div>
                   </div>
                 @endforeach
@@ -113,8 +113,8 @@
 
             {{-- Images --}}
             <div class="mb-4">
-              <label class="form-label">Property Images</label>
-              <input type="file" name="images[]" class="form-control" multiple>
+              <label class="form-label" for="property">Property Images</label>
+              <input id="property" type="file" name="images[]" class="form-control" multiple>
             </div>
 
             <div class="d-grid mt-4">

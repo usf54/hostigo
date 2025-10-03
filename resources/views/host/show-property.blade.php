@@ -77,11 +77,9 @@
           <strong>Coordinates:</strong>
           <span class="ms-2">Lat: {{ $property->latitude }}, Lng: {{ $property->longitude }}</span>
         </div>
-
         <hr>
-
         <div class="d-flex gap-3 mt-4">
-          <a href="{{ route('property.edit', $property->id) }}" 
+          <a href="{{ route('property.edit', $property->id) }}"
              class="btn btn-outline-warning px-4" >
             Edit Property
           </a>

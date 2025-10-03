@@ -13,10 +13,10 @@
             <form class="row justify-content-center g-2" method="GET" action="{{ route('public.properties') }}">
                <div class="col-md-6">
                     <input 
-                        type="text" 
-                        name="location" 
-                        value="{{ request('location') }}" 
-                        class="form-control form-control-lg" 
+                        type="text"
+                        name="location"
+                        value="{{ request('location') }}"
+                        class="form-control form-control-lg"
                         placeholder="Where are you going?">
                 </div>
                 <div class="col-md-2">
@@ -25,8 +25,6 @@
             </form>
         </div>
     </section>
-
-
     {{-- Property Carousel --}}
     <section class="properties py-5">
         <div class="container">

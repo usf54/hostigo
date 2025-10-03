@@ -19,13 +19,15 @@
 
     {{-- Profile Picture --}}
     <div class="col-md-3 text-center">
-      <div class="profile-pic-wrapper" style="position: relative; display: inline-block; cursor: pointer;" onclick="fileLoad()">
-        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/default-avatar.jpg') }}" 
-            alt="Profile Picture" 
+      <div for="fileInput" class="profile-pic-wrapper" style="position: relative; display: inline-block; cursor: pointer;"
+        onclick="fileLoad()"
+        onkeypress="if(event.key === 'Enter' || event.key === ' ') fileLoad()">
+        <img src="{{ Auth::user()->image ? asset('storage/' . Auth::user()->image) : asset('images/default-avatar.jpg') }}"
+            alt="Profile"
             style="border-radius: 100%; width: 190px; height: 170px; object-fit: cover;"/>
 
         {{-- Overlay --}}
-        <div class="overlay" 
+        <div class="overlay"
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;
                    border-radius: 100%; background: rgba(0,0,0,0.5); color: #fff;
                    display: flex; align-items: center; justify-content: center;
@@ -37,7 +39,7 @@
       {{-- Photo Upload Form --}}
       <form action="{{ route('guest.profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
           @csrf
-          <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id="pictureInput" onchange="document.getElementById('photoForm').submit();">
+          <input id="fileInput" type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id="pictureInput" onchange="document.getElementById('photoForm').submit();">
       </form>
     </div>
 
@@ -60,7 +62,7 @@
         <div class="col-md-6 col-lg-4">
           <div class="card shadow-sm rounded-4">
             @if($booking->property && $booking->property->images->isNotEmpty())
-              <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top">
+              <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top" alt="property">
             @endif
             <div class="card-body">
               <h5 class="fw-bold">{{ $booking->property->title ?? 'Property Title' }}</h5>
@@ -81,7 +83,7 @@
 
 <script>
   function fileLoad() {
-    document.getElementById('pictureInput').click();
+    document.getElementById('fileInput').click();
   }
 
   // Show overlay on hover

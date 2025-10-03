@@ -37,26 +37,26 @@
 
                 <!-- Name -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Name</label>
-                    <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+                    <label class="form-label fw-semibold" for="name">Name</label>
+                    <input id="name" type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                 </div>
 
                 <!-- Email -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Email</label>
-                    <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                    <label class="form-label fw-semibold" for="email">Email</label>
+                    <input id="email" type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
                 </div>
 
                 <!-- Phone -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Phone</label>
-                    <input type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone) }}">
+                    <label class="form-label fw-semibold" for="phone">Phone</label>
+                    <input id="phone" type="text" name="phone" class="form-control" value="{{ old('phone', $user->phone) }}">
                 </div>
 
                 <!-- Role -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Role</label>
-                    <select name="role" class="form-select" required>
+                    <label class="form-label fw-semibold" for="role">Role</label>
+                    <select id="role"  name="role" class="form-select" required>
                         <option value="guest" {{ $user->role == 'guest' ? 'selected' : '' }}>Guest</option>
                         <option value="host" {{ $user->role == 'host' ? 'selected' : '' }}>Host</option>
                         <option value="admin" {{ $user->role == 'admin' ? 'selected' : '' }}>Admin</option>

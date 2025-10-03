@@ -13,20 +13,20 @@
 
                 <!-- Site Name -->
                 <div>
-                    <label class="form-label fw-semibold">Site Name</label>
-                    <input type="text" class="form-control" value="Property Booking Platform">
+                    <label class="form-label fw-semibold" for="site">Site Name</label>
+                    <input id="site" type="text" class="form-control" value="Property Booking Platform">
                 </div>
 
                 <!-- Site Email -->
                 <div>
-                    <label class="form-label fw-semibold">Site Email</label>
-                    <input type="email" class="form-control" value="admin@example.com">
+                    <label class="form-label fw-semibold" for="email">Site Email</label>
+                    <input id="email" type="email" class="form-control" value="admin@example.com">
                 </div>
 
                 <!-- Timezone -->
                 <div>
-                    <label class="form-label fw-semibold">Timezone</label>
-                    <select class="form-select">
+                    <label class="form-label fw-semibold" for="timezone">Timezone</label>
+                    <select id="timezone" class="form-select">
                         <option>UTC</option>
                         <option>GMT</option>
                         <option>EST</option>
@@ -37,8 +37,8 @@
 
                 <!-- Site Logo -->
                 <div>
-                    <label class="form-label fw-semibold">Site Logo</label>
-                    <input type="file" class="form-control">
+                    <label class="form-label fw-semibold" for="logo">Site Logo</label>
+                    <input id="logo" type="file" class="form-control">
                 </div>
 
                 <!-- Save Button -->

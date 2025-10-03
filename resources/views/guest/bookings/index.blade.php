@@ -57,7 +57,7 @@
                     @if($booking->property && $booking->property->images->isNotEmpty())
                         <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top" alt="{{ $booking->property->title }}">
                     @else
-                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="No Image">
+                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="nothing">
                     @endif
                     <div class="card-body">
                         <h5 class="card-title">{{ $booking->property->title ?? 'Property Title' }}</h5>

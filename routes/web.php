@@ -25,8 +25,7 @@ Route::get('/email/verify', function () {
 // Verification link callback
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
     $request->fulfill();
-
-    return redirect('/'); 
+    return redirect('/');
 })->middleware(['auth', 'signed'])->name('verification.verify');
 
 // Resend verification email

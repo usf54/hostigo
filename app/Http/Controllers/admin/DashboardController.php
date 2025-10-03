@@ -16,7 +16,7 @@ class DashboardController extends Controller
         $usersCount = User::count();
         $propertiesCount = Property::count();
         $bookingsCount = Booking::count();
-        $totalRevenue = Payment::sum('amount'); 
+        $totalRevenue = Payment::sum('amount');
 
         return view('admin.dashboard.index', compact('usersCount', 'propertiesCount', 'bookingsCount', 'totalRevenue'));
     }

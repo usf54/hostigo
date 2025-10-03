@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('image',255);
             $table->string('name', 100);
             $table->string('email', 150)->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('phone', 20)->nullable();
             $table->enum('role', ['host', 'guest', 'admin'])->default('guest');

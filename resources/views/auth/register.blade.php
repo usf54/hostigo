@@ -26,7 +26,7 @@
         <!-- Phone number -->
         <div class="mt-4">
             <x-input-label for="phone" :value="__('Phone')" />
-            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="phone" style="border-color: #FF385C;"/>
+            <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required autocomplete="tel" style="border-color: #FF385C;"/>
             <x-input-error :messages="$errors->get('phone')" class="mt-2" />
         </div>
 
@@ -37,7 +37,7 @@
             <x-text-input id="password" class="block mt-1 w-full"
                             type="password"
                             name="password"
-                            required autocomplete="new-password" 
+                            required autocomplete="new-password"
                             style="border-color: #FF385C;"/>
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />

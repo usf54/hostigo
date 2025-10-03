@@ -27,7 +27,7 @@
                 <p class="mb-2"><strong>Title:</strong> {{ $property->title }}</p>
                 <p class="mb-2"><strong>Location:</strong> {{ $property->city }}, {{ $property->country }}</p>
                 <p class="mb-2"><strong>Price:</strong> ${{ number_format($property->price_per_night, 2) }}</p>
-                <p class="mb-2"><strong>Status:</strong> 
+                <p class="mb-2"><strong>Status:</strong>
                     @if($property->is_active)
                         <span class="badge bg-success">Active</span>
                     @else
@@ -51,7 +51,7 @@
                 <h5 class="fw-semibold">Images</h5>
                 <div class="d-flex flex-wrap gap-2">
                     @foreach($property->images as $image)
-                        <img src="{{ asset('storage/' . $image->image_url) }}" alt="Property Image" class="rounded shadow-sm" style="width:120px; height:90px; object-fit:cover;">
+                        <img src="{{ asset('storage/' . $image->image_url) }}" alt="Image of {{ $property->title }}" class="rounded shadow-sm" style="width:120px; height:90px; object-fit:cover;">
                     @endforeach
                 </div>
             </div>

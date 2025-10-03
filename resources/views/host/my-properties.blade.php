@@ -19,7 +19,7 @@
         <div class="col-md-6 col-lg-4">
           <div class="card shadow-sm rounded-4">
             @if ($property->images->isNotEmpty())
-              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top">
+              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top" alt="property">
             @endif
             <div class="card-body">
               <h5 class="fw-bold">{{ $property->title }}</h5>
@@ -42,8 +42,5 @@
         </div>
       @endforelse
     </div>
-
-
-
 </div>
 @endsection

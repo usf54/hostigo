@@ -8,7 +8,6 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
     @if(session('error'))
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             {{ session('error') }}
@@ -29,7 +28,7 @@
                 <p class="mb-2"><strong>Check-In:</strong> {{ $booking->check_in }}</p>
                 <p class="mb-2"><strong>Check-Out:</strong> {{ $booking->check_out }}</p>
                 <p class="mb-2"><strong>Total Price:</strong> ${{ number_format($booking->total_price, 2) }}</p>
-                <p class="mb-2"><strong>Status:</strong> 
+                <p class="mb-2"><strong>Status:</strong>
                     @if($booking->status == 'confirmed')
                         <span class="badge bg-success">Confirmed</span>
                     @elseif($booking->status == 'pending')

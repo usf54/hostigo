@@ -36,52 +36,56 @@
 
                 <!-- Title -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Title</label>
-                    <input type="text" name="title" class="form-control" value="{{ old('title', $property->title) }}" required>
+                    <label class="form-label fw-semibold" for="title">Title</label>
+                    <input id="title" type="text" name="title" class="form-control" value="{{ old('title', $property->title) }}" required>
                 </div>
 
                 <div class="row g-3 mb-3">
                     <div class="col-md-6">
-                        <label class="form-label fw-semibold">City</label>
-                        <input type="text" name="city" class="form-control" value="{{ old('city', $property->city) }}" required>
+                        <label class="form-label fw-semibold" for="city">City</label>
+                        <input id="city" type="text" name="city" class="form-control" value="{{ old('city', $property->city) }}" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="form-label fw-semibold">Country</label>
-                        <input type="text" name="country" class="form-control" value="{{ old('country', $property->country) }}">
+                        <label class="form-label fw-semibold" for="country">Country</label>
+                        <input id="country" type="text" name="country" class="form-control" value="{{ old('country', $property->country) }}">
                     </div>
                 </div>
 
 
                 <!-- Price -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Price per Night ($)</label>
-                    <input type="number" name="price_per_night" class="form-control" value="{{ old('price_per_night', $property->price_per_night) }}" required>
+                    <label class="form-label fw-semibold" for="price">Price per Night ($)</label>
+                    <input id="price" type="number" name="price_per_night" class="form-control" value="{{ old('price_per_night', $property->price_per_night) }}" min="0" required>
                 </div>
 
                 <!-- Existing Images -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Images</label>
+                    <label class="form-label fw-semibold" for="property_img">Images</label>
                     <div class="d-flex flex-wrap gap-2 mb-2">
                         @foreach($property->images as $image)
                             <div class="position-relative" style="width:100px; height:80px;">
-                                <img src="{{ asset('storage/' . ($image->image_url ?? $image->path)) }}" alt="Property Image" class="img-fluid rounded">
-                                <input type="checkbox" name="remove_images[]" value="{{ $image->id }}" class="position-absolute top-0 end-0 m-1">
+                                <img src="{{ asset('storage/' . ($image->image_url ?? $image->path)) }}" 
+                                    alt="Image of {{ $property->title }}" 
+                                    class="img-fluid rounded">
+                                <label class="position-absolute top-0 end-0 m-1">
+                                    <input type="checkbox" name="remove_images[]" value="{{ $image->id }}">
+                                </label>
                             </div>
                         @endforeach
                     </div>
-                    <input type="file" name="images[]" multiple class="form-control">
+                    <input id="property_img" type="file" name="images[]" multiple class="form-control">
                     <small class="text-muted">Check images to remove or upload new ones.</small>
                 </div>
 
                 <!-- Amenities -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Amenities</label>
+                    <label class="form-label fw-semibold" for="amenities">Amenities</label>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach($amenities as $amenity)
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox"
-                                       name="amenities[]" 
-                                       value="{{ $amenity->id }}" 
+                                       name="amenities[]"
+                                       value="{{ $amenity->id }}"
                                        id="amenity-{{ $amenity->id }}"
                                        {{ $property->amenities->contains($amenity->id) ? 'checked' : '' }}>
                                 <label class="form-check-label" for="amenity-{{ $amenity->id }}">{{ $amenity->name }}</label>

@@ -29,32 +29,32 @@
 
                 <!-- User (Read-only) -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">User</label>
-                    <input type="text" class="form-control" value="{{ $booking->guest->name ?? 'N/A' }}" disabled>
+                    <label class="form-label fw-semibold" for="user">User</label>
+                    <input id="user" type="text" class="form-control" value="{{ $booking->guest->name ?? 'N/A' }}" disabled>
                 </div>
 
                 <!-- Property (Read-only) -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Property</label>
-                    <input type="text" class="form-control" value="{{ $booking->property->title ?? 'N/A' }}" disabled>
+                    <label class="form-label fw-semibold" for="property">Property</label>
+                    <input id="property" type="text" class="form-control" value="{{ $booking->property->title ?? 'N/A' }}" disabled>
                 </div>
 
                 <!-- Check-in Date -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Check-In</label>
-                    <input type="date" name="check_in" class="form-control" value="{{ $booking->check_in }}">
+                    <label class="form-label fw-semibold" for="check-in">Check-In</label>
+                    <input id="check-in" type="date" name="check_in" class="form-control" value="{{ $booking->check_in }}">
                 </div>
 
                 <!-- Check-out Date -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Check-Out</label>
-                    <input type="date" name="check_out" class="form-control" value="{{ $booking->check_out }}">
+                    <label class="form-label fw-semibold" for="check-out">Check-Out</label>
+                    <input id="check-out" type="date" name="check_out" class="form-control" value="{{ $booking->check_out }}">
                 </div>
 
                 <!-- Status -->
                 <div class="col-12">
-                    <label class="form-label fw-semibold">Status</label>
-                    <select name="status" class="form-select">
+                    <label class="form-label fw-semibold" for="status">Status</label>
+                    <select name="status" class="form-select" id="status">
                         <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
                         <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
                         <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>

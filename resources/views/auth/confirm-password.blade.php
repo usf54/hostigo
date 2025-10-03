@@ -12,13 +12,13 @@
         <!-- Password -->
         <div class="mb-4">
             <x-input-label for="password" :value="__('Password')" />
-            <x-text-input 
-                id="password" 
-                class="block mt-1 w-full border-gray-300 focus:border-[#E8524A] focus:ring focus:ring-[#E8524A]/50 rounded-md shadow-sm" 
-                type="password" 
-                name="password" 
-                required 
-                autocomplete="current-password" 
+            <x-text-input
+                id="password"
+                class="block mt-1 w-full border-gray-300 focus:border-[#E8524A] focus:ring focus:ring-[#E8524A]/50 rounded-md shadow-sm"
+                type="password"
+                name="password"
+                required
+                autocomplete="current-password"
             />
             <x-input-error :messages="$errors->get('password')" class="mt-2 text-red-600" />
         </div>
