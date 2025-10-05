@@ -80,12 +80,12 @@
                                 @if (Auth::user()->role==="host")
                                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                            <a class="dropdown-item" href="{{ route('host.profile.index') }}">
                                                 {{ __('Profile') }}
                                             </a>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                                            <a class="dropdown-item" href="{{ route('host.profile.edit') }}">
                                                 {{ __('Settings') }}
                                             </a>
                                         </li>

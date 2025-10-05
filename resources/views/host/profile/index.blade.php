@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <form action="{{ route('profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
+        <form action="{{ route('host.profile.updatePhoto') }}" method="POST" enctype="multipart/form-data" class="mt-3" id="photoForm">
             @csrf
             <input type="file" name="image" class="form-control mb-2" accept="image/*" required hidden id='pictureInput' onchange="document.getElementById('photoForm').submit();">
         </form>
@@ -54,7 +54,7 @@
       <h2 class="fw-bold">{{ ucfirst($user->name) }}</h2>
       <p class="mb-1"><strong>Email:</strong> {{$user->email}}</p>
       <p><strong>Phone:</strong> {{$user->phone}}</p>
-      <button class="btn btn-primary"><a href="{{ route('profile.edit') }}" class="nav-link">Edit Profile</a></button>
+      <button class="btn btn-primary"><a href="{{ route('host.profile.edit') }}" class="nav-link">Edit Profile</a></button>
     </div>
   </div>
 

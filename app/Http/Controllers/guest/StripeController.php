@@ -45,7 +45,6 @@ class StripeController extends Controller
                 'mode' => 'payment',
                 'success_url' => route('payment.success') . '?session_id={CHECKOUT_SESSION_ID}',
                 'cancel_url' => route('payment.cancel'),
-                 // ✅ This attaches metadata to the PaymentIntent
                 'payment_intent_data' => [
                     'metadata' => [
                         'booking_id' => $booking->id,
@@ -124,7 +123,7 @@ class StripeController extends Controller
 
     private function calculateAmount(Booking $booking)
     {
-        // Calculate total amount in cents (already calculated in booking)
+        // Calculate total amount in cents
         return (int) ($booking->total_price * 100);
     }
 }

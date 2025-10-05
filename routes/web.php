@@ -1,22 +1,37 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\HostController;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\PropertyController;
+
+// Filter Controller
+use App\Http\Controllers\FilterController;
+use App\Http\Controllers\PublicController;
+
+// Admin Controllers
 use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PaymentController;
+use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
+
+// Host Controllers
+use App\Http\Controllers\Host\BookingController as HostBookingController;
+use App\Http\Controllers\Host\PropertyController as HostPropertyController;
+use App\Http\Controllers\Host\HostController;
+use App\Http\Controllers\Host\ProfileHostController;
+
+
+// Guest Controllers
 use App\Http\Controllers\Guest\GuestController;
-use App\Http\Controllers\PublicController;
-use App\Http\Controllers\PropertyController as PublicPropertyController;
+use App\Http\Controllers\Guest\ProfileGuestController;
+use App\Http\Controllers\Guest\BookingController as GuestBookingController;
 use App\Http\Controllers\Guest\StripeController;
 
+
+// ==================================  EMAIL VERIFICATION ROUTES ================================== //
 // Email verification notice
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -36,106 +51,117 @@ Route::post('/email/verification-notification', function (Request $request) {
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
 
-Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
+// ==================================  Public ROUTES for unauth  ================================== //
+// Home page
+Route::get('/', [PublicController::class, 'home'])->name('welcome');
+
+// About page
 Route::get('/about', function () {
-    return view('guest.payment.checkout');
+    return view('pages.about');
 });
+
+// Contact page
 Route::get('/contact', function () {
     return view('pages.contact');
 });
+
+
+// ==================================  Public Guest ROUTES  ================================== //
 Route::middleware(['auth', 'verified'])->group(function()  {
-    Route::get('/explore', [PublicController::class, 'index']);
-    Route::get('/properties-filter', [PublicPropertyController::class, 'index'])->name('public.properties');
-    Route::get('/explore/details/{id}', [PublicController::class, 'show'])->name('public.property.details');
+    Route::get('/explore', [PublicController::class, 'explore']);
+    Route::get('/explore/details/{id}', [PublicController::class, 'showProperty'])->name('public.property.details');
+    Route::get('/properties-filter', [PublicController::class, 'filter'])->name('public.properties');
     Route::get('/hosts/{host}', [HostController::class, 'showHostProfile'])->name('host.profile.show');
 });
 
 
-Route::middleware(['auth', 'is_host', 'verified'])->group(function () {
-    // HOST ROUTES
-    Route::get('/my-properties', [HostController::class, 'index'])->name('property.index');
-    Route::get('/property/create', [HostController::class, 'create'])->name('property.create');
-    Route::post('/property', [HostController::class, 'store'])->name('property.store');
-    Route::get('/property/{id}', [HostController::class, 'show'])->name('property.show');
-    Route::get('/property/{id}/edit', [HostController::class, 'edit'])->name('property.edit');
-    Route::put('/property/{id}', [HostController::class, 'update'])->name('property.update');
-    Route::delete('/property/{id}', [HostController::class, 'destroy'])->name('property.destroy');
-    
-    // Host booking management
-    Route::get('/host/bookings', [HostController::class, 'incomingBookings'])->name('host.bookings.index');
-    Route::get('/host/booking/{id}', [HostController::class, 'viewBooking'])->name('host.bookings.show');
-    Route::patch('/host/bookings/{booking}/approve', [HostController::class, 'approve'])->name('host.bookings.approve');
-    Route::patch('/host/bookings/{booking}/decline', [HostController::class, 'decline'])->name('host.bookings.decline');
-    
-    Route::get('/profile/show', [ProfileController::class, 'index'])->name('profile.index');
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('/host/profile/photo', [ProfileController::class, 'updatePhoto'])->name('profile.updatePhoto');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
-
-// Admin routes
+// ==================================  ADMIN ROUTES  ================================== //
 Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
-
-    // Dashboard
+    // Admin Bookings Management
+    Route::get('/bookings', [BookingController::class,'index'])->name('bookings.index');
+    Route::get('/bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
+    Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('bookings.update');
+    Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
+    
+    // Admin Dashboard
     Route::get('/dashboard',function () {
         return inertia('Dashboard');
     })->name('dashboard');
+    
+    // Payments
+    Route::get('/payments', [PaymentController::class,'index'])->name('payments.index');
 
-    // Users Management
-    Route::get('/users', [UserController::class,'index'])->name('users.index');
-    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
-    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
-    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
-    // Properties Management
+    // Admin Properties Management
     Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');
     Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
     Route::get('/properties/{id}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
     Route::put('/properties/{id}', [PropertyController::class, 'update'])->name('properties.update');
     Route::delete('/properties/{id}', [PropertyController::class, 'destroy'])->name('properties.destroy');
 
-    
-    // Bookings Management
-    Route::get('/bookings', [BookingController::class,'index'])->name('bookings.index');
-    Route::get('/bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
-    Route::get('/bookings/{id}/edit', [BookingController::class, 'edit'])->name('bookings.edit');
-    Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('bookings.update');
-    Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
-
-    
-    // Payments
-    Route::get('/payments', [PaymentController::class,'index'])->name('payments.index');
-    
-    // Reports
+    // Admin Reports
     Route::get('/reports', [ReportController::class,'index'])->name('reports.index');
     
     // Settings
     Route::get('/settings', [SettingController::class,'index'])->name('settings.index');
     
+    // Users Management
+    Route::get('/users', [UserController::class,'index'])->name('users.index');
+    Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+    Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');    
 });
 
-// GUEST ROUTES
-Route::middleware(['auth', 'is_guest', 'verified'])->group(function () {
-    // Profile routes
-    Route::get('/guest/profile', [ProfileController::class, 'index'])->name('guest.profile.index');
-    Route::get('/guest/profile/edit', [ProfileController::class, 'edit'])->name('guest.profile.edit');
-    Route::patch('/guest/profile', [ProfileController::class, 'update'])->name('guest.profile.update');
-    Route::delete('/guest/profile', [ProfileController::class, 'destroy'])->name('guest.profile.destroy');
-    Route::post('/guest/profile/photo', [GuestController::class, 'updatePhoto'])->name('guest.profile.updatePhoto');
+
+// ==================================  HOST ROUTES  ================================== //
+Route::middleware(['auth', 'is_host', 'verified'])->group(function () {
     
-    // Bookings made by guest
-    Route::post('/properties/{property}', [GuestController::class, 'store'])->name('bookings.store');
+    // Host BookingController
+    Route::get('/host/bookings', [HostBookingController::class, 'incomingBookings'])->name('host.bookings.index');
+    Route::get('/host/booking/{id}', [HostBookingController::class, 'viewBooking'])->name('host.bookings.show');
+    Route::patch('/host/bookings/{booking}/approve', [HostBookingController::class, 'approve'])->name('host.bookings.approve');
+    Route::patch('/host/bookings/{booking}/decline', [HostBookingController::class, 'decline'])->name('host.bookings.decline');
+    
+    // HOST ROUTES
+    Route::get('/my-properties', [HostPropertyController::class, 'index'])->name('property.index');
+    Route::get('/property/create', [HostPropertyController::class, 'create'])->name('property.create');
+    Route::post('/property', [HostPropertyController::class, 'store'])->name('property.store');
+    Route::get('/property/{id}', [HostPropertyController::class, 'show'])->name('property.show');
+    Route::get('/property/{id}/edit', [HostPropertyController::class, 'edit'])->name('property.edit');
+    Route::put('/property/{id}', [HostPropertyController::class, 'update'])->name('property.update');
+    Route::delete('/property/{id}', [HostPropertyController::class, 'destroy'])->name('property.destroy');
+    
+    
+    // Host Profile routes
+    Route::get('/host/profile', [ProfileHostController::class, 'index'])->name('host.profile.index');
+    Route::get('/host/profile/edit', [ProfileHostController::class, 'edit'])->name('host.profile.edit');
+    Route::post('/host/profile/photo', [ProfileHostController::class, 'updatePhoto'])->name('host.profile.updatePhoto');
+    Route::patch('/host/profile', [ProfileHostController::class, 'update'])->name('host.profile.update');
+    Route::delete('/host/profile', [ProfileHostController::class, 'destroy'])->name('host.profile.destroy');
+});
+
+
+// ==================================  GUEST ROUTES  ================================== //
+Route::middleware(['auth', 'is_guest', 'verified'])->group(function () {
+    // Guest BookingController
+    Route::post('/properties/{property}', [GuestBookingController::class, 'store'])->name('bookings.store');
+    Route::patch('/bookings/{booking}/cancel', [GuestBookingController::class, 'cancel'])->name('guest.bookings.cancel');
+    
+    // Guest GuestController
     Route::get('/guest/bookings', [GuestController::class, 'myBookings'])->name('guest.bookings.index');
     Route::get('/guest/bookings/{booking}', [GuestController::class, 'viewBooking'])->name('guest.bookings.show');
-    Route::patch('/bookings/{booking}/cancel', [GuestController::class, 'cancel'])->name('guest.bookings.cancel');
 
-    
-     // Payment routes - UPDATE THESE
+    // Guest Payment routes 
     Route::get('/booking/{booking}/checkout', [StripeController::class, 'checkout'])->name('checkout');
     Route::get('/payment/success', [StripeController::class, 'paymentSuccess'])->name('payment.success');
     Route::get('/payment/cancel', [StripeController::class, 'paymentCancel'])->name('payment.cancel');
+    
+       // Guest Profile routes
+    Route::get('/guest/profile', [ProfileGuestController::class, 'index'])->name('guest.profile.index');
+    Route::get('/guest/profile/edit', [ProfileGuestController::class, 'edit'])->name('guest.profile.edit');
+    Route::post('/guest/profile/photo', [ProfileGuestController::class, 'updatePhoto'])->name('guest.profile.updatePhoto');
+    Route::patch('/guest/profile', [ProfileGuestController::class, 'update'])->name('guest.profile.update');
+    Route::delete('/guest/profile', [ProfileGuestController::class, 'destroy'])->name('guest.profile.destroy');
 });
+require __DIR__.'/auth.php';

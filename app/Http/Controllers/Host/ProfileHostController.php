@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Host;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Models\Property;
 
-class ProfileController extends Controller
+class ProfileHostController extends Controller
 {
     public function index()
     {
@@ -22,34 +23,16 @@ class ProfileController extends Controller
             ->latest()
             ->get();
 
-        if ($user->role === 'host') {
-            return view('profile.index', compact('user','properties'));
-        } elseif ($user->role === 'guest') {
-            $bookings = \App\Models\Booking::with('property.images')
-                        ->where('user_id', Auth::id())
-                        ->latest()
-                        ->get();
-
-            return view('guest.profile', compact('user', 'bookings'));
-        }
-
-        abort(403); // If the role is not recognized
+        return view('host.profile.index', compact('user','properties'));
     }
 
     public function edit(Request $request): View
     {
         $user = $request->user();
-
-        if ($user->role === 'host') {
-            return view('profile.edit', compact('user'));
-        } elseif ($user->role === 'guest') {
-            return view('profile.edit', compact('user'));
-        }
-
-        abort(403);
+        return view('host.profile.edit', compact('user'));
     }
 
-
+    // Update profile picture
     public function updatePhoto(Request $request)
     {
         $request->validate([
@@ -68,7 +51,7 @@ class ProfileController extends Controller
         $user->image = $path;
         $user->save();
 
-        return redirect()->route('profile.index')->with('success', 'Profile picture updated successfully.');
+        return redirect()->route('host.profile.index')->with('success', 'Profile picture updated successfully.');
     }
 
     /**
@@ -84,7 +67,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('host.profile.edit')->with('status', 'profile-updated');
     }
 
     /**

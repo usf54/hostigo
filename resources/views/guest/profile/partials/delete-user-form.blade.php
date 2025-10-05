@@ -16,7 +16,7 @@
     <!-- Modal -->
     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="{{ route('profile.destroy') }}">
+            <form method="POST" action="{{ route('guest.profile.destroy') }}">
                 @csrf
                 @method('delete')
                 <div class="modal-content">

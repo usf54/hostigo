@@ -12,21 +12,21 @@
         {{-- Update Profile Information --}}
         <div class="col-12 col-md-8">
             <div class="card shadow-sm rounded-3 p-4">
-                @include('profile.partials.update-profile-information-form')
+                @include('guest.profile.partials.update-profile-information-form')
             </div>
         </div>
 
         {{-- Update Password --}}
         <div class="col-12 col-md-8">
             <div class="card shadow-sm rounded-3 p-4">
-                @include('profile.partials.update-password-form')
+                @include('guest.profile.partials.update-password-form')
             </div>
         </div>
 
         {{-- Delete User --}}
         <div class="col-12 col-md-8">
             <div class="card shadow-sm rounded-3 p-4 border-danger">
-                @include('profile.partials.delete-user-form')
+                @include('guest.profile.partials.delete-user-form')
             </div>
         </div>
 
