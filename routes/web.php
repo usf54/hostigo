@@ -15,7 +15,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Guest\GuestController;
 use App\Http\Controllers\PublicController;
 use App\Http\Controllers\PropertyController as PublicPropertyController;
-
+use App\Http\Controllers\Guest\StripeController;
 
 // Email verification notice
 Route::get('/email/verify', function () {
@@ -38,7 +38,7 @@ Route::post('/email/verification-notification', function (Request $request) {
 
 Route::get('/', [PublicController::class, 'welcome'])->name('welcome');
 Route::get('/about', function () {
-    return view('pages.about');
+    return view('guest.payment.checkout');
 });
 Route::get('/contact', function () {
     return view('pages.contact');
@@ -130,4 +130,10 @@ Route::middleware(['auth', 'is_guest', 'verified'])->group(function () {
     Route::get('/guest/bookings', [GuestController::class, 'myBookings'])->name('guest.bookings.index');
     Route::get('/guest/bookings/{booking}', [GuestController::class, 'viewBooking'])->name('guest.bookings.show');
     Route::patch('/bookings/{booking}/cancel', [GuestController::class, 'cancel'])->name('guest.bookings.cancel');
+
+    
+     // Payment routes - UPDATE THESE
+    Route::get('/booking/{booking}/checkout', [StripeController::class, 'checkout'])->name('checkout');
+    Route::get('/payment/success', [StripeController::class, 'paymentSuccess'])->name('payment.success');
+    Route::get('/payment/cancel', [StripeController::class, 'paymentCancel'])->name('payment.cancel');
 });

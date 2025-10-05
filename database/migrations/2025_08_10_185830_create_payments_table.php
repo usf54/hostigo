@@ -6,25 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('booking_id')->constrained('bookings')->onDelete('cascade');
             $table->decimal('amount', 10, 2);
-            $table->enum('payment_method', ['credit_card', 'paypal', 'stripe']);
-            $table->enum('status', ['pending', 'completed', 'failed'])->default('pending');
+            $table->enum('payment_method', ['credit_card', 'paypal', 'stripe'])->default('stripe');
+            $table->enum('status', ['pending', 'completed', 'failed', 'requires_payment_method'])->default('pending');
             $table->string('transaction_id', 255)->nullable();
+            $table->string('stripe_payment_intent_id')->nullable()->unique(); // Add this
+            $table->string('stripe_client_secret')->nullable(); // Add this
+            $table->string('currency')->default('usd'); // Add this
+            $table->json('metadata')->nullable(); // Add this
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('payments');

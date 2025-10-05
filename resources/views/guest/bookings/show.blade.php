@@ -24,7 +24,7 @@
     <div class="card shadow-sm rounded-4">
         <!-- Property Image -->
         @if($booking->property && $booking->property->images->isNotEmpty())
-            <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}"
+            <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }} "
                  class="card-img-top rounded-top-4"
                  alt="{{ $booking->property->title }}"
                  style="height: 300px; object-fit: cover;">
@@ -75,20 +75,51 @@
                     <p class="mb-1"><strong>Total Price</strong></p>
                     <p class="fw-bold">${{ number_format($booking->total_price, 2) }}</p>
                 </div>
+                
+                <!-- Payment Status -->
+                <div class="col-md-6 mb-2">
+                    <p class="mb-1"><strong>Payment Status</strong></p>
+                    @if($booking->isPaid())
+                        <span class="badge bg-success">Paid</span>
+                    @elseif($booking->hasPendingPayment())
+                        <span class="badge bg-warning text-dark">Payment Pending</span>
+                    @else
+                        <span class="badge bg-secondary">Unpaid</span>
+                    @endif
+                </div>
             </div>
+
+            <!-- Payment Section -->
+            @if($booking->status === 'pending' && !$booking->isPaid())
+                <div class="mt-4 p-4 border rounded bg-light">
+                    <h4 class="mb-3">Complete Payment</h4>
+                    <p class="mb-3">Your booking is pending payment. Click the button below to complete your payment and confirm your booking.</p>
+                    <a href="{{ route('checkout', $booking) }}" class="btn btn-success">
+                        <i class="fas fa-credit-card"></i> Pay Now - ${{ number_format($booking->total_price, 2) }}
+                    </a>
+                    <p class="text-muted mt-2 mb-0">
+                        <small>You will be redirected to our secure payment page.</small>
+                    </p>
+                </div>
+            @elseif($booking->isPaid())
+                <div class="alert alert-success mt-4">
+                    <i class="fas fa-check-circle"></i> 
+                    Payment Completed Successfully - Your booking is confirmed!
+                </div>
+            @endif
 
             <!-- Action Buttons -->
             <div class="d-flex flex-column flex-md-row gap-2 mt-4">
                 <a href="{{ route('guest.bookings.index') }}"
                 class="btn btn-primary flex-fill">Back to Bookings</a>
 
-                @if($booking->status === 'pending')
-                        <form action="{{ route('guest.bookings.cancel', $booking) }}" method="POST" class="flex-fill">
-                            @csrf
-                            @method('PATCH')
-                            <button type="submit" class="btn btn-danger w-100">Cancel Booking</button>
-                        </form>
-                    @endif
+                @if($booking->status === 'pending' && !$booking->isPaid())
+                    <form action="{{ route('guest.bookings.cancel', $booking) }}" method="POST" class="flex-fill">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit" class="btn btn-danger w-100">Cancel Booking</button>
+                    </form>
+                @endif
 
             </div>
         </div>

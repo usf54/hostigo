@@ -34,4 +34,16 @@ class Booking extends Model
     {
         return $this->hasOne(Review::class);
     }
+     
+    //to check if booking is paid
+    public function isPaid()
+    {
+        return $this->payment && $this->payment->isPaid();
+    }
+
+    //to check if booking has pending payment
+    public function hasPendingPayment()
+    {
+        return $this->payment && $this->payment->isPending();
+    }
 }

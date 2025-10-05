@@ -68,6 +68,15 @@ class GuestController extends Controller
                 'total_price' => $totalPrice,
                 'status' => 'pending',
             ]);
+
+            // Create pending payment record - ADD THIS
+            \App\Models\Payment::create([
+                'booking_id' => $booking->id,
+                'amount' => $totalPrice,
+                'payment_method' => 'stripe',
+                'status' => 'pending',
+            ]);
+
         } catch (\Exception $e) {
             \Log::error('Booking creation failed: ' . $e->getMessage());
 
@@ -77,7 +86,8 @@ class GuestController extends Controller
         Mail::to($booking->guest->email)->send(new BookingConfirmationMail($booking));
         Mail::to($booking->property->host->email)->send(new NewBookingNotificationMail($booking));
 
-        return redirect()->route('guest.bookings.index')->with('success', 'Booking created successfully!');
+        // Redirect to booking show page instead of index - UPDATE THIS LINE
+        return redirect()->route('guest.bookings.show', $booking)->with('success', 'Booking created successfully! Please complete the payment to confirm your booking.');
     }
 
 
@@ -109,9 +119,9 @@ class GuestController extends Controller
             abort(403, 'Unauthorized action.');
         }
 
-        // Allow cancellation only if status is pending
-        if ($booking->status !== 'pending') {
-            return back()->with('error', 'Only pending bookings can be cancelled.');
+        // Allow cancellation only if status is pending AND not paid - UPDATE THIS CONDITION
+        if ($booking->status !== 'pending' || $booking->isPaid()) {
+            return back()->with('error', 'Only pending unpaid bookings can be cancelled.');
         }
 
         try {
@@ -168,7 +178,7 @@ class GuestController extends Controller
 
     public function viewBooking($id)
     {
-        $booking = Booking::with(['property.images', 'guest'])->findOrFail($id);
+        $booking = Booking::with(['property.images', 'guest', 'payment'])->findOrFail($id); // ADD 'payment' here
         return view('guest.bookings.show', compact('booking'));
     }
 }
