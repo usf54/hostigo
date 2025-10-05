@@ -80,7 +80,9 @@ require __DIR__.'/auth.php';
 Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
 
     // Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard',function () {
+        return inertia('Dashboard');
+    })->name('dashboard');
 
     // Users Management
     Route::get('/users', [UserController::class,'index'])->name('users.index');
