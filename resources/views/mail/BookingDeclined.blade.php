@@ -10,7 +10,7 @@
     <div style="max-width:600px; width:100%; background:#fff; border-radius:12px; overflow:hidden; box-shadow:0 4px 14px rgba(0,0,0,0.08);">
 
       <!-- Header -->
-      <div style="background:#ef4444; text-align:center; padding:30px; color:#fff;">
+      <div style="border: 1px solid #cbc3c338; text-align:center; padding:30px; color:#000000;">
         <h1 style="margin:0;">Booking Declined ❌</h1>
         <p style="color:#ffe4eb; margin:10px 0 0; font-size:16px;">
           Unfortunately, your booking request was not approved
