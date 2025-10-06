@@ -1,10 +1,10 @@
 import {
   BellIcon,
-  CreditCardIcon,
   LogOutIcon,
   MoreVerticalIcon,
   UserCircleIcon,
 } from "lucide-react"
+import { useForm } from '@inertiajs/react'
 
 import {
   Avatar,
@@ -31,6 +31,10 @@ export function NavUser({
   user
 }) {
   const { isMobile } = useSidebar()
+ const { post } = useForm()
+  const handleLogout = () => {
+    post('/logout')
+  }
 
   return (
     <SidebarMenu>
@@ -40,9 +44,9 @@ export function NavUser({
             <SidebarMenuButton
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
-              <Avatar className="h-8 w-8 rounded-lg grayscale">
+              <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">AD</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -79,18 +83,14 @@ export function NavUser({
                 Account
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCardIcon />
-                Billing
-              </DropdownMenuItem>
-              <DropdownMenuItem>
                 <BellIcon />
                 Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleLogout}>
               <LogOutIcon />
-              Log out
+                Log out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
