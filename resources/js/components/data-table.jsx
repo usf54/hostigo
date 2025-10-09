@@ -271,16 +271,14 @@ const columns = [
         <DropdownMenuTrigger asChild>
           <Button
             variant="ghost"
-            className="flex size-8 text-muted-foreground data-[state=open]:bg-muted"
+            className="flex text-muted-foreground p-1"
             size="icon">
-            <MoreVerticalIcon />
+            <MoreVerticalIcon className="w-5 h-5" />
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-32">
           <DropdownMenuItem>Edit</DropdownMenuItem>
-          <DropdownMenuItem>Make a copy</DropdownMenuItem>
-          <DropdownMenuItem>Favorite</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Delete</DropdownMenuItem>
         </DropdownMenuContent>
@@ -319,6 +317,17 @@ export function DataTable({
   data: initialData
 }) {
   const [data, setData] = React.useState(() => initialData)
+
+  // Dynamically generate columns based on data keys
+  const columns = React.useMemo(() => {
+    if (!data?.length) return []
+
+    return Object.keys(data[0]).map((key) => ({
+      accessorKey: key,
+      header: key.charAt(0).toUpperCase() + key.slice(1), // capitalize
+      cell: ({ row }) => <span>{row.original[key]}</span>,
+    }))
+  }, [data])
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState({})

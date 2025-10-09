@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         if ($user->isAdmin()) {
             return redirect()->route('dashboard');
         } elseif ($user->isHost()) {
-            return redirect()->route('profile.index');
+            return redirect()->route('host.profile.index');
         } elseif ($user->isGuest()) {
             return redirect()->route('guest.profile.index');
         }

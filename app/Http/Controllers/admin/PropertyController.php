@@ -7,13 +7,16 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Amenity;
+use Inertia\Inertia;
 
 class PropertyController extends Controller
 {
     public function index()
     {
         $properties = Property::with(['images', 'amenities', 'host'])->get();
-        return view('admin.properties.index', compact('properties'));
+        return Inertia::render('Admin/Properties/Index', [
+            'properties' => $properties
+        ]);
     }
 
     public function show($id)

@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin\PropertyController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AmenityController;
+use App\Http\Controllers\Admin\ReviewController;
 
 // Host Controllers
 use App\Http\Controllers\Host\BookingController as HostBookingController;
@@ -30,6 +32,8 @@ use App\Http\Controllers\Guest\ProfileGuestController;
 use App\Http\Controllers\Guest\BookingController as GuestBookingController;
 use App\Http\Controllers\Guest\StripeController;
 
+// Inertia
+use Inertia\Inertia;
 
 // ==================================  EMAIL VERIFICATION ROUTES ================================== //
 // Email verification notice
@@ -77,6 +81,14 @@ Route::middleware(['auth', 'verified'])->group(function()  {
 
 // ==================================  ADMIN ROUTES  ================================== //
 Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
+    // Admin Amenities Management
+    Route::get('/amenities', [AmenityController::class, 'index'])->name('amenities.index');
+    Route::get('/amenities/{id}', [AmenityController::class, 'show'])->name('amenities.show');
+    Route::get('/amenities/{id}/edit', [AmenityController::class, 'edit'])->name('amenities.edit');
+    Route::put('/amenities/{id}', [AmenityController::class, 'update'])->name('amenities.update');
+    Route::delete('/amenities/{id}', [AmenityController::class, 'destroy'])->name('amenities.destroy');
+    
+    
     // Admin Bookings Management
     Route::get('/bookings', [BookingController::class,'index'])->name('bookings.index');
     Route::get('/bookings/{id}', [BookingController::class, 'show'])->name('bookings.show');
@@ -90,7 +102,10 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     })->name('dashboard');
     
     // Payments
-    Route::get('/payments', [PaymentController::class,'index'])->name('payments.index');
+    Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/{id}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
+    Route::put('/payments/{id}', [PaymentController::class, 'update'])->name('payments.update');
+    Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('payments.destroy');
 
     // Admin Properties Management
     Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');
@@ -105,8 +120,15 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     // Settings
     Route::get('/settings', [SettingController::class,'index'])->name('settings.index');
     
+    // Reviews Management
+    Route::get('/reviews', [ReviewController::class, 'index'])->name('reviews.index');
+    Route::get('/reviews/{id}', [ReviewController::class, 'show'])->name('reviews.show');
+    Route::get('/reviews/{id}/edit', [ReviewController::class, 'edit'])->name('reviews.edit');
+    Route::put('/reviews/{id}', [ReviewController::class, 'update'])->name('reviews.update');
+    Route::delete('/reviews/{id}', [ReviewController::class, 'destroy'])->name('reviews.destroy');    
+
     // Users Management
-    Route::get('/users', [UserController::class,'index'])->name('users.index');
+    Route::get('/users', [UserController::class, 'index'])->name('users.index');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');

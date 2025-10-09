@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Booking;
+use Inertia\Inertia;
 
 class BookingController extends Controller
 {
     public function index()
     {
         $bookings = Booking::with(['guest', 'property'])->get();
-        return view('admin.bookings.index', compact('bookings'));
+        return Inertia::render('Admin/Bookings/Index', [
+            'bookings' => $bookings
+        ]);
     }
 
     public function create()
