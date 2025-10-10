@@ -99,16 +99,14 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
     
     // Admin Dashboard
-    Route::get('/dashboard',function () {
-        return inertia('Dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     
     // Payments
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
     Route::get('/payments/{id}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
     Route::put('/payments/{id}', [PaymentController::class, 'update'])->name('payments.update');
     Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('payments.destroy');
-
+    
     // Admin Properties Management
     Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');
     Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
