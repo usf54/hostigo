@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Payment;
 use Inertia\Inertia;
 use Carbon\Carbon;
+use App\Models\User;
+
 
 
 class DashboardController extends Controller
@@ -18,10 +20,24 @@ class DashboardController extends Controller
             Carbon::now()->endOfWeek()
         ])->count();
         
+        $usersThisMonth = User::whereBetween('created_at', [
+            Carbon::now()->startOfMonth(),
+            Carbon::now()->endOfMonth()
+        ])->get()->groupBy('role');
+
+        $totalAdminsThisMonth = $usersThisMonth->get('admin') ? $usersThisMonth->get('admin')->count() : 0;
+        $totalHostsThisMonth = $usersThisMonth->get('host') ? $usersThisMonth->get('host')->count() : 0;
+        $totalGuestsThisMonth = $usersThisMonth->get('guest') ? $usersThisMonth->get('guest')->count() : 0;
+        $totalCustomersThisMonth = $usersThisMonth->flatten()->count(); // total users this month
+
+
         return Inertia::render('Dashboard', [
                 'totalRevenue' => number_format($totalRevenue, 2, '.', ''),
                 'totalPaymentThisWeek' => $totalPaymentThisWeek,
+                'totalAdminsThisMonth' => $totalAdminsThisMonth,
+                'totalCustomersThisMonth' => $totalCustomersThisMonth,
+                'totalHostsThisMonth' => $totalHostsThisMonth,
+                'totalGuestsThisMonth' => $totalGuestsThisMonth,
         ]);
-        
     }
 }
