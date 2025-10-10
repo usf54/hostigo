@@ -83,6 +83,8 @@ Route::middleware(['auth', 'verified'])->group(function()  {
 Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     // Admin Amenities Management
     Route::get('/amenities', [AmenityController::class, 'index'])->name('amenities.index');
+    Route::get('/amenities/create', [AmenityController::class, 'create'])->name('amenities.create');
+    Route::post('/amenities', [AmenityController::class, 'store'])->name('amenities.store');
     Route::get('/amenities/{id}', [AmenityController::class, 'show'])->name('amenities.show');
     Route::get('/amenities/{id}/edit', [AmenityController::class, 'edit'])->name('amenities.edit');
     Route::put('/amenities/{id}', [AmenityController::class, 'update'])->name('amenities.update');
@@ -129,6 +131,8 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
 
     // Users Management
     Route::get('/users', [UserController::class, 'index'])->name('users.index');
+    Route::get('/users/create', [UserController::class, 'create'])->name('users.create');
+    Route::post('/users', [UserController::class, 'store'])->name('users.store');
     Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
     Route::get('/users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
     Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');

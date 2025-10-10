@@ -24,10 +24,21 @@ class AmenityController extends Controller
 
     public function store(Request $request)
     {
-        // validation & save logic
-        // Amenity::create($request->all());
-        return redirect()->route('admin.amenities.index')->with('success', 'Amenity created successfully!');
+        
+        $request->validate([
+            'name' => 'required|string|max:100|unique:amenities,name',
+        ]);
+
+        Amenity::create([
+            'name' => $request->name,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        return redirect()->route('amenities.index')
+                        ->with('success', 'Amenity created successfully!');
     }
+
 
     public function edit($id)
     {
