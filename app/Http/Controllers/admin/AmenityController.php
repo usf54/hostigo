@@ -42,21 +42,29 @@ class AmenityController extends Controller
 
     public function edit($id)
     {
-        // $amenity = Amenity::findOrFail($id);
+        $amenity = Amenity::findOrFail($id);
         return Inertia::render('Admin/Amenities/Edit', [
-            // 'amenity' => $amenity
+            'amenity' => $amenity
         ]);
     }
-
-    public function update(Request $request, $id)
+    
+    public function update(Request $request,$id)
     {
-        // update logic here
-        return redirect()->route('admin.amenities.index')->with('success', 'Updated!');
-    }
+        $request->validate([
+            'name' => 'required|string|max:100',
+        ]);
 
+        $amenity = Amenity::findOrFail($id);
+        
+        $amenity->update(['name' => $request->name]);
+
+        return redirect()->route('amenities.index')->with('success', 'Amenity updated successfully!');
+    }
+    
     public function destroy($id)
     {
-        // delete logic
-        return redirect()->route('admin.amenities.index')->with('success', 'Deleted!');
+        $amenity = Amenity::findOrFail($id);
+        $amenity->delete();
+        return redirect()->route('amenities.index')->with('success', 'Deleted!');
     }
 }

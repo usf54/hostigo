@@ -43,8 +43,8 @@ export default function Amenities() {
                             <DynamicDataTable
                                 data={amenities}
                                 columns={columns}
-                                editRoute="/admin/amenities"
-                                deleteRoute="/admin/amenities"
+                                editRoute="/amenities"
+                                deleteRoute="/amenities"
                             />
                         </div>
                     </div>

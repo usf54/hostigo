@@ -99,7 +99,7 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('bookings.destroy');
     
     // Admin Dashboard
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     // Payments
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');

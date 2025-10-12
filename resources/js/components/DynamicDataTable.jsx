@@ -47,12 +47,12 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
     };
 
     const handleEdit = (id) => {
-        Inertia.visit(`${editRoute}/${id}/edit`);
+        router.get(`${editRoute}/${id}/edit`);
     };
 
     const handleDelete = (id) => {
         if (confirm("Are you sure you want to delete this item?")) {
-            Inertia.delete(`${deleteRoute}/${id}`);
+            router.delete(`${deleteRoute}/${id}`);
         }
     };
 

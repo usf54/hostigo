@@ -1,9 +1,10 @@
 <x-guest-layout>
+    <img src="{{ asset('assets/images/favicon.png') }}" width="100" height="100">
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
-
+    
     <div class="w-full max-w-2xl rounded-xl shadow-sm border border-black-100 p-8">
-     
+        
         <form method="POST" action="{{ route('login') }}">
             @csrf
 

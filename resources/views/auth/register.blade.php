@@ -1,6 +1,7 @@
 <x-guest-layout>
+    <img src="{{ asset('assets/images/favicon.png') }}" width="100" height="100">
     <div class="w-full max-w-4xl rounded-xl shadow-sm border border-black-100 p-8">
-        
+    
         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data">
             @csrf
 
