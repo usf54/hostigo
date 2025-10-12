@@ -9,21 +9,40 @@ import DynamicDataTable from "@/components/DynamicDataTable";
 export default function Bookings() {
     const { bookings } = usePage().props;
 
-    // Flatten relational data for display in the table
-    const flattenedBookings = bookings.map((b) => ({
-        id: b.id,
-        guest_name: b.guest?.name || "N/A",
-        guest_email: b.guest?.email || "N/A",
-        property_title: b.property?.title || "N/A",
-        check_in: b.check_in,
-        check_out: b.check_out,
-        total_price: b.total_price,
-        status: b.status,
-    }));
+    const flattenedBookings = bookings.map((b) => {
+        let statusBadge = "bg-gray-200 text-gray-800";
+        if (b.status === "confirmed") statusBadge = "bg-green-200 text-green-800";
+        else if (b.status === "pending") statusBadge = "bg-yellow-200 text-yellow-800";
+        else if (b.status === "cancelled") statusBadge = "bg-red-200 text-red-800";
 
-    // Dynamically generate table columns from keys
+        return {
+            id: b.id,
+            guest_name: b.guest?.name || "N/A",
+            guest_email: b.guest?.email || "N/A",
+            property_title: b.property?.title || "N/A",
+            check_in: b.check_in,
+            check_out: b.check_out,
+            total_price: `${b.total_price} MAD`,
+            status: (
+                <span className={`px-2 py-1 rounded-full text-sm ${statusBadge}`}>
+                    {b.status}
+                </span>
+            ),
+        };
+    });
+
     const columns = flattenedBookings.length ? Object.keys(flattenedBookings[0]) : [];
 
+    const columnLabels = {
+        id: "ID",
+        guest_name: "Guest Name",
+        guest_email: "Guest Email",
+        property_title: "Property",
+        check_in: "Check-in",
+        check_out: "Check-out",
+        total_price: "Total Price",
+        status: "Status",
+    };
 
     return (
         <SidebarProvider>
@@ -40,8 +59,9 @@ export default function Bookings() {
                         <DynamicDataTable
                             data={flattenedBookings}
                             columns={columns}
-                            editRoute="/admin/bookings"
-                            deleteRoute="/admin/bookings"
+                            editRoute="/bookings"
+                            deleteRoute="/bookings"
+                            columnLabels={columnLabels}
                         />
                     </div>
                 </div>

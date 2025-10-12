@@ -17,11 +17,6 @@ class BookingController extends Controller
         ]);
     }
 
-    public function create()
-    {
-        return view('admin.bookings.create');
-    }
-
     public function show($id)
     {
         $booking = Booking::with(['guest', 'property'])->findOrFail($id);
@@ -31,25 +26,26 @@ class BookingController extends Controller
     public function edit($id)
     {
         $booking = Booking::with(['guest', 'property'])->findOrFail($id);
-        return view('admin.bookings.edit', compact('booking'));
+
+        return Inertia::render('Admin/Bookings/Edit', [
+            'booking' => $booking,
+        ]);
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'check_in'  => 'required|date',
-            'check_out' => 'required|date|after_or_equal:check_in',
-            'status'    => 'required|in:pending,confirmed,cancelled',
+            'status' => 'required|in:pending,confirmed,cancelled',
         ]);
 
         $booking = Booking::findOrFail($id);
         $booking->update([
-            'check_in'  => $request->check_in,
-            'check_out' => $request->check_out,
-            'status'    => $request->status,
+            'status' => $request->status,
         ]);
 
-        return redirect()->route('bookings.index')->with('success', 'Booking updated successfully!');
+        return redirect()
+            ->route('bookings.index')
+            ->with('success', 'Booking status updated successfully!');
     }
 
     public function destroy(string $id)
