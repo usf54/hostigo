@@ -15,10 +15,10 @@ return new class extends Migration
             $table->enum('payment_method', ['credit_card', 'paypal', 'stripe'])->default('stripe');
             $table->enum('status', ['pending', 'completed', 'failed', 'requires_payment_method'])->default('pending');
             $table->string('transaction_id', 255)->nullable();
-            $table->string('stripe_payment_intent_id')->nullable()->unique(); // Add this
-            $table->string('stripe_client_secret')->nullable(); // Add this
-            $table->string('currency')->default('usd'); // Add this
-            $table->json('metadata')->nullable(); // Add this
+            $table->string('stripe_payment_intent_id')->nullable()->unique();
+            $table->string('stripe_client_secret')->nullable();
+            $table->string('currency')->default('usd');
+            $table->json('metadata')->nullable();
             $table->timestamps();
         });
     }

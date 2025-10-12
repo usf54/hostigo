@@ -92,9 +92,8 @@ export default function Payments() {
                         <DynamicDataTable
                             data={displayData}
                             columns={columns}
-                            editRoute="/admin/payments"
-                            deleteRoute="/admin/payments"
                             columnLabels={columnLabels}
+                            disableActions={true}
                         />
                     </div>
                 </div>

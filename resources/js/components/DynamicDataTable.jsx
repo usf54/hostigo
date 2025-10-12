@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { MoreHorizontal } from "lucide-react";
 import { router } from "@inertiajs/react";
 
-export default function DynamicDataTable({ data, columns, editRoute, deleteRoute }) {
+export default function DynamicDataTable({ data, columns, editRoute, deleteRoute,  disableActions = false }) {
     const [search, setSearch] = useState("");
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
     const [currentPage, setCurrentPage] = useState(1);
@@ -89,7 +89,7 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
                                 ) : null}
                             </th>
                         ))}
-                        <th className="px-4 py-2">Actions</th>
+                        {!disableActions && <th className="px-4 py-2">Actions</th>}
                     </tr>
                 </thead>
                 <tbody>
@@ -102,31 +102,33 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
                             ))}
 
                             {/* ⋯ Menu Button */}
-                            <td className="px-4 py-2 text-right relative">
-                                <button
+                            {!disableActions && (
+                                <td className="px-4 py-2 text-right relative">
+                                    <button
                                     onClick={() => toggleMenu(row.id)}
                                     className="p-2 hover:bg-gray-100 rounded-full"
-                                >
+                                    >
                                     <MoreHorizontal className="w-5 h-5" />
-                                </button>
+                                    </button>
 
-                                {openMenuId === row.id && (
+                                    {openMenuId === row.id && (
                                     <div className="absolute right-2 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
                                         <button
-                                            onClick={() => handleEdit(row.id)}
-                                            className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                        onClick={() => handleEdit(row.id)}
+                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
                                         >
-                                            Edit
+                                        Edit
                                         </button>
                                         <button
-                                            onClick={() => handleDelete(row.id)}
-                                            className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-50"
+                                        onClick={() => handleDelete(row.id)}
+                                        className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-50"
                                         >
-                                            Delete
+                                        Delete
                                         </button>
                                     </div>
-                                )}
-                            </td>
+                                    )}
+                                </td>
+                            )}
                         </tr>
                     ))}
                 </tbody>
