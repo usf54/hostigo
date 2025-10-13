@@ -3,7 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import DynamicDataTable from "@/components/DynamicDataTable";
 
 export default function Properties() {
@@ -55,6 +55,14 @@ export default function Properties() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="p-6">
+                    <div className="flex justify-between items-center mb-4">
+                        <button
+                            onClick={() => router.get("/properties/create")}
+                            className="px-4 py-2 bg-blue-600 text-white"
+                        >
+                            Add Property
+                        </button>
+                    </div>
                     <h1 className="text-2xl font-semibold mb-4">Properties</h1>
                     <p className="text-slate-600 mb-6">
                         Here you can manage all properties.
@@ -64,8 +72,8 @@ export default function Properties() {
                         <DynamicDataTable
                             data={flattenedProperties}
                             columns={columns}
-                            editRoute="/admin/properties"
-                            deleteRoute="/admin/properties"
+                            editRoute="/properties"
+                            deleteRoute="/properties"
                             columnLabels={columnLabels}
                         />
                     </div>

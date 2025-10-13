@@ -103,12 +103,11 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     
     // Payments
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
-    Route::get('/payments/{id}/edit', [PaymentController::class, 'edit'])->name('payments.edit');
-    Route::put('/payments/{id}', [PaymentController::class, 'update'])->name('payments.update');
-    Route::delete('/payments/{id}', [PaymentController::class, 'destroy'])->name('payments.destroy');
     
     // Admin Properties Management
     Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');
+    Route::get('/properties/create', [PropertyController::class, 'create'])->name('properties.create');
+    Route::post('/properties', [PropertyController::class, 'store'])->name('properties.store');
     Route::get('/properties/{id}', [PropertyController::class, 'show'])->name('properties.show');
     Route::get('/properties/{id}/edit', [PropertyController::class, 'edit'])->name('properties.edit');
     Route::put('/properties/{id}', [PropertyController::class, 'update'])->name('properties.update');

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Property;
 use App\Models\PropertyImage;
 use App\Models\Amenity;
+use App\Models\User;
 use Inertia\Inertia;
 
 class PropertyController extends Controller
@@ -19,17 +20,60 @@ class PropertyController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function create()
     {
-        $property = Property::with(['images', 'amenities', 'host'])->findOrFail($id);
-        return view('admin.properties.show', compact('property'));
+        $amenities = Amenity::all();
+        $hosts = User::where('role', 'host')->get(); // only hosts
+        return Inertia::render('Admin/Properties/Create', [
+            'amenities' => $amenities,
+            'hosts' => $hosts,
+        ]);
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'title' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price_per_night' => 'required|numeric|min:0',
+            'address' => 'nullable|string|max:255',
+            'city' => 'required|string|max:100',
+            'country' => 'nullable|string|max:100',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
+            'max_guests' => 'nullable|integer|min:1',
+            'amenities' => 'array',
+            'amenities.*' => 'exists:amenities,id',
+            'images.*' => 'image|max:2048',
+        ]);
+
+        $property = Property::create($validated);
+
+        if ($request->has('amenities')) {
+            $property->amenities()->sync($request->amenities);
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $path = $file->store('property_images', 'public');
+                $property->images()->create(['image_url' => $path]);
+            }
+        }
+
+        return redirect()->route('properties.index')->with('success', 'Property created successfully!');
     }
 
     public function edit($id)
     {
         $property = Property::with(['images', 'amenities', 'host'])->findOrFail($id);
         $amenities = Amenity::all();
-        return view('admin.properties.edit', compact('property', 'amenities'));
+        $hosts = User::where('role', 'host')->get();
+        return Inertia::render('Admin/Properties/Edit', [
+            'property' => $property,
+            'amenities' => $amenities,
+            'hosts' => $hosts,
+        ]);
     }
 
     public function update(Request $request, $id)
@@ -37,12 +81,15 @@ class PropertyController extends Controller
         $property = Property::with('images', 'amenities')->findOrFail($id);
 
         $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price_per_night' => 'required|numeric|min:0',
             'address' => 'nullable|string|max:255',
             'city' => 'required|string|max:100',
             'country' => 'nullable|string|max:100',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
             'max_guests' => 'nullable|integer|min:1',
             'amenities' => 'array',
             'amenities.*' => 'exists:amenities,id',
@@ -51,48 +98,38 @@ class PropertyController extends Controller
 
         $property->update($validated);
 
-        // Sync amenities
-        $property->amenities()->sync($request->input('amenities', []));
+        $property->amenities()->sync($request->amenities ?? []);
 
-        // Remove images marked for deletion
-        $removeImages = $request->input('remove_images', []);
-        if ($removeImages) {
-            foreach ($property->images()->whereIn('id', $removeImages)->get() as $img) {
-                Storage::disk('public')->delete($img->image_url ?? $img->path);
-                $img->delete();
-            }
+        // Remove images
+        $removeImages = $request->remove_images ?? [];
+        foreach ($property->images()->whereIn('id', $removeImages)->get() as $img) {
+            Storage::disk('public')->delete($img->image_url);
+            $img->delete();
         }
 
-        // Upload new images
+        // Add new images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
                 $path = $file->store('property_images', 'public');
-                $property->images()->create([
-                    'image_url' => $path,
-                ]);
+                $property->images()->create(['image_url' => $path]);
             }
         }
 
-        return redirect()->route('properties.show', $property->id)
-            ->with('success', 'Property updated successfully.');
+        return redirect()->route('properties.index')->with('success', 'Property updated successfully!');
     }
 
     public function destroy($id)
     {
         $property = Property::with('images', 'amenities')->findOrFail($id);
 
-        // Delete images from storage
         foreach ($property->images as $img) {
-            Storage::disk('public')->delete($img->image_url ?? $img->path);
+            Storage::disk('public')->delete($img->image_url);
             $img->delete();
         }
 
-        // Detach amenities
         $property->amenities()->detach();
-
-        // Delete property
         $property->delete();
 
-        return redirect()->route('properties.index')->with('success', 'Property deleted successfully.');
+        return redirect()->route('properties.index')->with('success', 'Property deleted successfully!');
     }
 }
