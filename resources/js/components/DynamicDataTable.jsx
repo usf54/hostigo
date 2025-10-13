@@ -2,11 +2,17 @@ import React, { useState, useMemo } from "react";
 import { MoreHorizontal } from "lucide-react";
 import { router } from "@inertiajs/react";
 
-export default function DynamicDataTable({ data, columns, editRoute, deleteRoute,  disableActions = false }) {
+export default function DynamicDataTable({
+    data,
+    columns,
+    editRoute,
+    deleteRoute,
+    disableActions = false,
+}) {
     const [search, setSearch] = useState("");
     const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
     const [currentPage, setCurrentPage] = useState(1);
-    const [openMenuId, setOpenMenuId] = useState(null); 
+    const [openMenuId, setOpenMenuId] = useState(null);
     const itemsPerPage = 8;
 
     // 🔍 Filter
@@ -60,6 +66,20 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
         setOpenMenuId((prev) => (prev === id ? null : id));
     };
 
+    // 🎨 Helper: Get role badge color
+    const getRoleBadge = (role) => {
+        switch (role) {
+            case "admin":
+                return "bg-red-100 text-red-700";
+            case "host":
+                return "bg-blue-100 text-blue-700";
+            case "guest":
+                return "bg-green-100 text-green-700";
+            default:
+                return "bg-gray-100 text-gray-700";
+        }
+    };
+
     return (
         <div className="bg-white shadow-md rounded-lg p-4">
             {/* 🔍 Search */}
@@ -84,9 +104,11 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
                                 onClick={() => handleSort(col)}
                             >
                                 {col.charAt(0).toUpperCase() + col.slice(1)}
-                                {sortConfig.key === col ? (
-                                    sortConfig.direction === "asc" ? " ▲" : " ▼"
-                                ) : null}
+                                {sortConfig.key === col
+                                    ? sortConfig.direction === "asc"
+                                        ? " ▲"
+                                        : " ▼"
+                                    : null}
                             </th>
                         ))}
                         {!disableActions && <th className="px-4 py-2">Actions</th>}
@@ -97,7 +119,19 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
                         <tr key={row.id} className="border-t hover:bg-gray-50 transition">
                             {columns.map((col) => (
                                 <td key={col} className="px-4 py-2">
-                                    {row[col]}
+                                    {col === "role" ? (
+                                        <span
+                                            className={`px-2 py-1 rounded-full text-xs font-medium ${getRoleBadge(
+                                                row.role
+                                            )}`}
+                                        >
+                                            {row.role}
+                                        </span>
+                                    ) : col === "created_at" ? (
+                                        new Date(row.created_at).toLocaleDateString()
+                                    ) : (
+                                        row[col]
+                                    )}
                                 </td>
                             ))}
 
@@ -105,27 +139,27 @@ export default function DynamicDataTable({ data, columns, editRoute, deleteRoute
                             {!disableActions && (
                                 <td className="px-4 py-2 text-right relative">
                                     <button
-                                    onClick={() => toggleMenu(row.id)}
-                                    className="p-2 hover:bg-gray-100 rounded-full"
+                                        onClick={() => toggleMenu(row.id)}
+                                        className="p-2 hover:bg-gray-100 rounded-full"
                                     >
-                                    <MoreHorizontal className="w-5 h-5" />
+                                        <MoreHorizontal className="w-5 h-5" />
                                     </button>
 
                                     {openMenuId === row.id && (
-                                    <div className="absolute right-2 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
-                                        <button
-                                        onClick={() => handleEdit(row.id)}
-                                        className="block w-full px-4 py-2 text-left hover:bg-gray-100"
-                                        >
-                                        Edit
-                                        </button>
-                                        <button
-                                        onClick={() => handleDelete(row.id)}
-                                        className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-50"
-                                        >
-                                        Delete
-                                        </button>
-                                    </div>
+                                        <div className="absolute right-2 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+                                            <button
+                                                onClick={() => handleEdit(row.id)}
+                                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                            >
+                                                Edit
+                                            </button>
+                                            <button
+                                                onClick={() => handleDelete(row.id)}
+                                                className="block w-full px-4 py-2 text-left text-red-600 hover:bg-red-50"
+                                            >
+                                                Delete
+                                            </button>
+                                        </div>
                                     )}
                                 </td>
                             )}

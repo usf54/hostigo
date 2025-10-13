@@ -5,9 +5,10 @@ import { SectionCards } from "@/components/section-cards"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
 
-import data from "./dashboard/data.json"
+import DynamicDataTable from "@/components/DynamicDataTable"
 
-export default function Page({ totalRevenue, totalPaymentThisWeek, totalAdminsThisMonth, totalCustomersThisMonth, totalHostsThisMonth, totalGuestsThisMonth}) {
+export default function Page({ latestUsers, totalRevenue, totalPaymentThisWeek, totalAdminsThisMonth, totalCustomersThisMonth, totalHostsThisMonth, totalGuestsThisMonth}) {
+  
   return (
     <SidebarProvider>
       <AppSidebar variant="inset" />
@@ -23,10 +24,15 @@ export default function Page({ totalRevenue, totalPaymentThisWeek, totalAdminsTh
                 totalCustomersThisMonth={totalCustomersThisMonth}
                 totalHostsThisMonth={totalHostsThisMonth}
                 totalGuestsThisMonth={totalGuestsThisMonth}/>
-              <div className="px-4 lg:px-6">
-                <ChartAreaInteractive />
+              <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+                <h1 className="text-2xl font-semibold mb-4  ml-5">Latest Users</h1>
+                <DynamicDataTable
+                  data={latestUsers}
+                  columns={["id", "name", "email", "role", "created_at"]}
+                  editRoute="/users"
+                  deleteRoute="/users"
+                  />
               </div>
-              <DataTable data={data} />
             </div>
           </div>
         </div>

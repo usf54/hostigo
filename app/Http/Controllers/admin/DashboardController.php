@@ -14,6 +14,7 @@ use App\Models\User;
 class DashboardController extends Controller
 {
     public function index() {
+        $latestUsers = User::latest()->take(10)->get();
         $totalRevenue = Payment::where('status', 'completed')->sum('amount');
         $totalPaymentThisWeek = Payment::whereBetween('created_at',[
             Carbon::now()->startOfWeek(),
@@ -32,6 +33,7 @@ class DashboardController extends Controller
 
 
         return Inertia::render('Dashboard', [
+                'latestUsers' => $latestUsers,
                 'totalRevenue' => number_format($totalRevenue, 2, '.', ''),
                 'totalPaymentThisWeek' => $totalPaymentThisWeek,
                 'totalAdminsThisMonth' => $totalAdminsThisMonth,
