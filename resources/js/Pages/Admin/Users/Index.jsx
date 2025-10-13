@@ -3,7 +3,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
-import { usePage } from "@inertiajs/react";
+import { usePage, router } from "@inertiajs/react";
 import DynamicDataTable from "@/components/DynamicDataTable";
 
 export default function Users() {
@@ -50,6 +50,14 @@ export default function Users() {
             <SidebarInset>
                 <SiteHeader />
                 <div className="p-6">
+                    <div className="flex justify-between items-center mb-4">
+                        <button
+                            onClick={() => router.get("/users/create")}
+                            className="px-4 py-2 bg-blue-600 text-white"
+                        >
+                            Add User
+                        </button>
+                    </div>
                     <h1 className="text-2xl font-semibold mb-4">Users</h1>
                     <p className="text-slate-600 mb-6">
                         Here you can manage all users.
@@ -59,8 +67,8 @@ export default function Users() {
                         <DynamicDataTable
                             data={flattenedUsers}
                             columns={columns}
-                            editRoute="/admin/users"
-                            deleteRoute="/admin/users"
+                            editRoute="/users"
+                            deleteRoute="/users"
                             columnLabels={columnLabels}
                         />
                     </div>
