@@ -75,13 +75,6 @@ export function AppSidebar({
         icon: UsersIcon,
       },
     ],
-    navSecondary: [
-      {
-        title: "Settings",
-        url: "/settings",
-        icon: SettingsIcon,
-      },
-    ],
   }
 
   return (
@@ -100,7 +93,6 @@ export function AppSidebar({
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />      
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
