@@ -6,7 +6,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class GuestCancelledBookingMail extends Mailable
+class GuestCancelledBookingMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 

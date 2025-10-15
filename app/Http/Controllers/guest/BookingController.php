@@ -82,8 +82,8 @@ class BookingController extends Controller
             return back()->with('error', 'An error occurred while processing your booking. Please try again.');
         }
         
-        Mail::to($booking->guest->email)->send(new BookingConfirmationMail($booking));
-        Mail::to($booking->property->host->email)->send(new NewBookingNotificationMail($booking));
+        Mail::to($booking->guest->email)->queue(new BookingConfirmationMail($booking));
+        Mail::to($booking->property->host->email)->queue(new NewBookingNotificationMail($booking));
 
         // Redirect to booking show page instead of index - UPDATE THIS LINE
         return redirect()->route('guest.bookings.show', $booking)->with('success', 'Booking created successfully! Please complete the payment to confirm your booking.');
@@ -106,7 +106,7 @@ class BookingController extends Controller
             $booking->update(['status' => 'cancelled']);
             $booking->load('guest', 'property.host');
             // Notify host
-            Mail::to($booking->property->host->email)->send(new GuestCancelledBookingMail($booking));
+            Mail::to($booking->property->host->email)->queue(new GuestCancelledBookingMail($booking));
         } catch (\Exception $e) {
             \Log::error('Booking cancellation failed: ' . $e->getMessage());
             return back()->with('error', 'Could not cancel booking. Please try again.');
