@@ -61,10 +61,10 @@ class BookingController extends Controller
         $booking->load('guest', 'property.host');
 
         // Notify guest
-        Mail::to($booking->guest->email)->send(new BookingApprovedMail($booking));
+        Mail::to($booking->guest->email)->queue(new BookingApprovedMail($booking));
 
         // Notify host
-        Mail::to($booking->property->host->email)->send(new HostBookingActionMail($booking, 'approved'));
+        Mail::to($booking->property->host->email)->queue(new HostBookingActionMail($booking, 'approved'));
 
         return back()->with('success', 'Booking approved successfully.');
     }
@@ -81,10 +81,10 @@ class BookingController extends Controller
         $booking->load('guest', 'property.host');
 
         // Notify guest
-        Mail::to($booking->guest->email)->send(new BookingDeclinedMail($booking));
+        Mail::to($booking->guest->email)->queue(new BookingDeclinedMail($booking));
 
         // Notify host
-        Mail::to($booking->property->host->email)->send(new HostBookingActionMail($booking, 'declined'));
+        Mail::to($booking->property->host->email)->queue(new HostBookingActionMail($booking, 'declined'));
         
         return back()->with('success', 'Booking declined.');
     }
