@@ -52,12 +52,15 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        Mail::to($user->email)->send(new WelcomeMail($user));
+        Mail::to($user->email)->queue(new WelcomeMail($user));
 
         event(new Registered($user));
 
         Auth::login($user);
-
-        return redirect(route('profile.index', absolute: false));
+        if ($request->role == 'host') {
+            return redirect(route('host.profile.index', absolute: false));
+        } elseif($request->role == 'guest') {
+            return redirect(route('guest.profile.index', absolute: false));
+        }
     }
 }

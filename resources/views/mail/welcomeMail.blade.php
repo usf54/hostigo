@@ -1,35 +1,34 @@
 <x-guest-layout>
-        <div class="bg-white w-full max-w-lg rounded-xl shadow-md border border-gray-100 overflow-hidden">
-            {{-- Hero Image --}}
-            <div class="flex justify-center py-6">
-                <img src="{{ asset('assets/images/logo.png') }}" alt="Hostigo Logo" class="w-36 h-36">
-            </div>
+    <div class="card mx-auto my-5" style="max-width: 28rem;">
+        {{-- Hero Image --}}
+        <div class="d-flex justify-content-center py-4">
+            <img src="{{ asset('assets/images/logo.png') }}" alt="Hostigo Logo" class="img-fluid" style="width: 9rem; height: 9rem;">
+        </div>
 
-            {{-- Body --}}
-            <div class="px-8 pb-10 text-gray-700">
-                <h2 class="text-2xl font-bold font-['Raleway'] mb-4">
-                    Hello!
-                </h2>
-                <p class="leading-relaxed mb-4" style="font-color: red;">
-                    Welcome to <span class="text-red-600 font-semibold">Hostigo</span>! We’re thrilled to have you join our travel community. 
-                    Whether you're looking for your dream getaway or ready to host travelers from all over the world, 
-                    we’ve got the perfect experience waiting for you.
-                </p>
-                <p class="text-base leading-relaxed mb-6">
-                    Start exploring properties, manage your bookings, and plan unforgettable stays with ease.
-                </p>
+        {{-- Body --}}
+        <div class="card-body text-dark">
+            <h2 class="card-title fw-bold mb-3" style="font-family: 'Raleway', sans-serif;">
+                Hello!
+            </h2>
+            <p class="mb-3">
+                Welcome to <span class="text-danger fw-semibold" style="color: red;">Hostigo</span>! We’re thrilled to have you join our travel community. 
+                Whether you're looking for your dream getaway or ready to host travelers from all over the world, 
+                we’ve got the perfect experience waiting for you.
+            </p>
+            <p class="mb-4">
+                Start exploring properties, manage your bookings, and plan unforgettable stays with ease.
+            </p>
 
-                <div class="text-center">
-                    <a href="{{ url('/') }}" 
-                       class="bg-red-600 hover:bg-red-700 text-white font-semibold rounded-full px-8 py-3 inline-block transition-colors">
-                        Explore Hostigo
-                    </a>
-                </div>
+            <div class="text-center">
+                <a href="{{ url('/') }}" class="btn btn-danger btn-lg rounded-pill px-4">
+                    Explore Hostigo
+                </a>
             </div>
+        </div>
 
-            {{-- Footer --}}
-            <div class="bg-gray-100 text-center py-4 text-sm text-gray-500">
-                <p class="mb-1">© {{ date('Y') }} Hostigo. All rights reserved.</p>
-            </div>
+        {{-- Footer --}}
+        <div class="card-footer text-center text-muted py-3 small">
+            <p class="mb-0">© {{ date('Y') }} Hostigo. All rights reserved.</p>
+        </div>
     </div>
 </x-guest-layout>
