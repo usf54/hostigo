@@ -2,5 +2,5 @@ projectKey=HostiGo
 serverUrl=http://localhost:9000
 serverVersion=25.9.0.112764
 dashboardUrl=http://localhost:9000/dashboard?id=HostiGo
-ceTaskId=d4c9e200-b2c6-4722-ac15-45d9a3cf7b51
-ceTaskUrl=http://localhost:9000/api/ce/task?id=d4c9e200-b2c6-4722-ac15-45d9a3cf7b51
+ceTaskId=de3d5bbb-72f2-4859-99d1-4bc81a5c2b64
+ceTaskUrl=http://localhost:9000/api/ce/task?id=de3d5bbb-72f2-4859-99d1-4bc81a5c2b64

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use App\Mail\WelcomeMail;
+use App\Events\NewUserRegistered;
 
 class RegisteredUserController extends Controller
 {
@@ -55,6 +56,9 @@ class RegisteredUserController extends Controller
         Mail::to($user->email)->queue(new WelcomeMail($user));
 
         event(new Registered($user));
+        
+        // Dispatch the new event to notify admins
+        event(new NewUserRegistered($user));
 
         Auth::login($user);
         if ($request->role == 'host') {

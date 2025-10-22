@@ -18,11 +18,6 @@ class ProfileGuestController extends Controller
     {
         $user = Auth::user();
 
-        $properties = Property::with(['images', 'amenities'])
-            ->where('user_id', Auth::id())
-            ->latest()
-            ->get();
-
         $bookings = \App\Models\Booking::with('property.images')
                     ->where('user_id', Auth::id())
                     ->latest()

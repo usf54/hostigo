@@ -9,7 +9,7 @@ class PublicController extends Controller
 {
     // Home page
     public function home() {
-        $properties = Property::with(['images', 'amenities','host'])->get();
+        $properties = Property::with(['images', 'amenities', 'host'])->get();
         
         $casablancaProperties = Property::with(['images', 'amenities','host'])->where('city','casablanca')->get();
         $rabatProperties = Property::with(['images', 'amenities','host'])->where('city','rabat')->get();

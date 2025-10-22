@@ -31,17 +31,32 @@ class BookingController extends Controller
             ])->withInput();
         }
 
-        // Check if dates are already booked for this property
+        /**
+             * Check if the property is already booked for the requested dates.
+             *
+             * Conditions:
+             * 1. Only consider bookings that are NOT cancelled.
+             * 2. Overlaps if:
+             *    - Existing check-in falls within requested dates
+             *    - OR existing check-out falls within requested dates
+             *    - OR existing booking fully encloses the requested date range
+             *
+             * Returns:
+             * bool $isAlreadyBooked  True if dates conflict, false if available
+         */
         $isAlreadyBooked = Booking::where('property_id', $property->id)
             ->where('status', '!=', 'cancelled') // Only consider active bookings
-            ->where(function ($query) use ($validated) {
-                $query->whereBetween('check_in', [$validated['check_in'], $validated['check_out']])
-                    ->orWhereBetween('check_out', [$validated['check_in'], $validated['check_out']])
-                    ->orWhere(function ($query) use ($validated) {
-                        $query->where('check_in', '<=', $validated['check_in'])
-                                ->where('check_out', '>=', $validated['check_out']);
-                    });
-            })
+            ->where(
+                function ($query) use ($validated) 
+                {
+                    $query->whereBetween('check_in', [$validated['check_in'], $validated['check_out']])
+                        ->orWhereBetween('check_out', [$validated['check_in'], $validated['check_out']])
+                        ->orWhere(function ($query) use ($validated) {
+                            $query->where('check_in', '<=', $validated['check_in'])
+                                    ->where('check_out', '>=', $validated['check_out']);
+                        });
+                }
+            )
             ->exists();
 
         if ($isAlreadyBooked) {
