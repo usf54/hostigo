@@ -24,10 +24,13 @@ class UserFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
+            'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
+            'phone' => $this->faker->phoneNumber(),
+            'role' => $this->faker->randomElement(['host', 'guest', 'admin']),
+            'image' => $this->faker->imageUrl(100, 100, 'people', true, 'avatar'),
             'remember_token' => Str::random(10),
         ];
     }
@@ -39,6 +42,46 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a host.
+     */
+    public function host(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'host',
+        ]);
+    }
+
+    /**
+     * Indicate that the user is a guest.
+     */
+    public function guest(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'guest',
+        ]);
+    }
+
+    /**
+     * Indicate that the user is an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => 'admin',
+        ]);
+    }
+
+    /**
+     * Indicate that the user has a specific role.
+     */
+    public function withRole(string $role): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => $role,
         ]);
     }
 }
