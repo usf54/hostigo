@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\Property;
@@ -11,6 +11,8 @@ use App\Models\Review;
 
 class Booking extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id', 'property_id', 'check_in', 'check_out', 'total_price', 'status'
     ];
