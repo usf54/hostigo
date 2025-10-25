@@ -43,6 +43,7 @@ export default function Amenities() {
                             <DynamicDataTable
                                 data={amenities}
                                 columns={columns}
+                                showRoute="/amenities"
                                 editRoute="/amenities"
                                 deleteRoute="/amenities"
                             />

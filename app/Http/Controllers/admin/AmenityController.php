@@ -40,6 +40,14 @@ class AmenityController extends Controller
     }
 
 
+    public function show($id)
+    {
+        $amenity = Amenity::findOrFail($id);
+        return Inertia::render('Admin/Amenities/Show', [
+            'amenity' => $amenity
+        ]);
+    }
+
     public function edit($id)
     {
         $amenity = Amenity::findOrFail($id);

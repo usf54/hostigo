@@ -5,6 +5,7 @@ import { router } from "@inertiajs/react";
 export default function DynamicDataTable({
     data,
     columns,
+    showRoute,
     editRoute,
     deleteRoute,
     disableActions = false,
@@ -50,6 +51,10 @@ export default function DynamicDataTable({
             key,
             direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
         }));
+    };
+
+    const handleShow = (id) => {
+        router.get(`${showRoute}/${id}`);
     };
 
     const handleEdit = (id) => {
@@ -147,6 +152,12 @@ export default function DynamicDataTable({
 
                                     {openMenuId === row.id && (
                                         <div className="absolute right-2 mt-2 w-32 bg-white border rounded-lg shadow-lg z-10">
+                                            <button
+                                                onClick={() => handleShow(row.id)}
+                                                className="block w-full px-4 py-2 text-left hover:bg-gray-100"
+                                            >
+                                                Show
+                                            </button>
                                             <button
                                                 onClick={() => handleEdit(row.id)}
                                                 className="block w-full px-4 py-2 text-left hover:bg-gray-100"
