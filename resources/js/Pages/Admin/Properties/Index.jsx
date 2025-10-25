@@ -72,6 +72,7 @@ export default function Properties() {
                         <DynamicDataTable
                             data={flattenedProperties}
                             columns={columns}
+                            showRoute="/properties"
                             editRoute="/properties"
                             deleteRoute="/properties"
                             columnLabels={columnLabels}

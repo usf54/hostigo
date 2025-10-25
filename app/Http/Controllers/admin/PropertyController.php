@@ -63,6 +63,18 @@ class PropertyController extends Controller
         return redirect()->route('properties.index')->with('success', 'Property created successfully!');
     }
 
+    public function show($id)
+    {
+        $property = Property::with(['images', 'amenities', 'host'])->findOrFail($id);
+        $amenities = Amenity::all();
+        $hosts = User::where('role', 'host')->get();
+        return Inertia::render('Admin/Properties/Show', [
+            'property' => $property,
+            'amenities' => $amenities,
+            'hosts' => $hosts,
+        ]);
+    }
+    
     public function edit($id)
     {
         $property = Property::with(['images', 'amenities', 'host'])->findOrFail($id);
