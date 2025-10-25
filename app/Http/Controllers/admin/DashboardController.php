@@ -32,6 +32,7 @@ class DashboardController extends Controller
         // Get the authenticated user with explicit role property
         $authUser = $request->user();
         
+        // dd($authUser);
         return Inertia::render('Dashboard', [
                 'latestUsers' => $latestUsers,
                 'totalRevenue' => number_format($totalRevenue, 2, '.', ''),
