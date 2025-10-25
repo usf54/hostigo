@@ -44,13 +44,14 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'User created successfully.');
     }
 
-
     public function show($id)
     {
         $user = User::findOrFail($id);
-        return view('admin.users.show', compact('user'));
+        return Inertia::render('Admin/Users/Show', [
+            'user' => $user
+        ]);
     }
-
+    
     public function edit($id)
     {
         $user = User::findOrFail($id);

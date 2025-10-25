@@ -67,6 +67,7 @@ export default function Users() {
                         <DynamicDataTable
                             data={flattenedUsers}
                             columns={columns}
+                            showRoute="/users"
                             editRoute="/users"
                             deleteRoute="/users"
                             columnLabels={columnLabels}
