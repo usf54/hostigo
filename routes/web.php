@@ -101,8 +101,10 @@ Route::middleware(['auth', 'is_admin', 'verified'])->group(function () {
     // Admin Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
-    // Payments
+    // Admin Payments Management
     Route::get('/payments', [PaymentController::class, 'index'])->name('payments.index');
+    Route::get('/payments/{id}', [PaymentController::class, 'show'])->name('payments.show');
+    Route::get('/payments/action-denied', [PaymentController::class, 'actionDenied'])->name('payments.actionDenied');
     
     // Admin Properties Management
     Route::get('/properties', [PropertyController::class,'index'])->name('properties.index');

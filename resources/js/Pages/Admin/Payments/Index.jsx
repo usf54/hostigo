@@ -92,8 +92,8 @@ export default function Payments() {
                         <DynamicDataTable
                             data={displayData}
                             columns={columns}
+                            showRoute="/payments"
                             columnLabels={columnLabels}
-                            disableActions={true}
                         />
                     </div>
                 </div>
