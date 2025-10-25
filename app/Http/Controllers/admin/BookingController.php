@@ -20,7 +20,10 @@ class BookingController extends Controller
     public function show($id)
     {
         $booking = Booking::with(['guest', 'property'])->findOrFail($id);
-        return view('admin.bookings.show', compact('booking'));
+
+        return Inertia::render('Admin/Bookings/Show', [
+            'booking' => $booking,
+        ]);
     }
 
     public function edit($id)

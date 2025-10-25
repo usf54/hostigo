@@ -59,6 +59,7 @@ export default function Bookings() {
                         <DynamicDataTable
                             data={flattenedBookings}
                             columns={columns}
+                            showRoute="/bookings"
                             editRoute="/bookings"
                             deleteRoute="/bookings"
                             columnLabels={columnLabels}
