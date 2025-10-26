@@ -102,7 +102,7 @@ export default function Show() {
                                 <p><strong>Check-in:</strong> {payment.booking?.check_in}</p>
                                 <p><strong>Check-out:</strong> {payment.booking?.check_out}</p>
                                 <p>
-                                    <strong>Total:</strong> {payment.booking?.total_price} MAD
+                                    <strong>Total:</strong> {payment.booking?.total_price} USD
                                 </p>
                             </div>
                         </div>
