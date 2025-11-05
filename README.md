@@ -7,12 +7,11 @@ It provides a system for administrators, hosts, and guests with secure payments,
 
 ## 🚀 Features
 
-- 🔐 **Authentication System** — Built with Laravel Breeze and role management using **Spatie** (Admin, Host, Client).  
+- 🔐 **Authentication System** — Built with Laravel Breeze and role management (Admin, Host, Client).  
 - 🏡 **Property Management** — Hosts can create, update, and delete their properties with detailed information.  
 - 💳 **Reservation System** — Secure booking flow with **Stripe** payments, approval and cancellation management.  
 - 📩 **Email Notifications** — Automatic emails for verifying user account, after a booking is made, and status updates.  
 - 🔎 **Search & Filter** — Users can browse properties using dynamic filters and search options.  
-- ⭐ **Reviews System** — Clients can leave feedback on booked properties.  
 - 🧭 **Admin Dashboard** — Manage users, properties, and reservations and everything with interactive charts made by shadcn.  
 - 💻 **Responsive Design** — Clean, user-friendly interface built with **Blade**, **Bootstrap**, **tailwind**, **HTML**, **CSS**, and **JavaScript**.  
 
@@ -23,7 +22,7 @@ It provides a system for administrators, hosts, and guests with secure payments,
 | Layer | Technologies |
 |--------|--------------|
 | **Backend** | Laravel (MVC architecture), MySQL |
-| **Authentication** | Laravel Breeze, Spatie Permissions |
+| **Authentication** | Laravel Breeze |
 | **Frontend** | Blade, HTML, CSS, Bootstrap, JavaScript, Dashboard in React |
 | **Payments** | Stripe |
 | **Other Tools** | Git, GitHub |
