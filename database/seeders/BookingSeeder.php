@@ -75,7 +75,7 @@ class BookingSeeder extends Seeder
             ]);
         });
 
-        // Create upcoming bookings - FIXED: Use array for random status
+        // Create upcoming bookings
         Booking::factory()->count(10)->create([
             'user_id' => function() use ($guests) {
                 return $guests->random()->id;
@@ -91,13 +91,7 @@ class BookingSeeder extends Seeder
             $property = Property::find($booking->property_id);
             $totalPrice = $nights * $property->price_per_night;
 
-            // Use inRandomOrder to get random status
-            $status = DB::table('bookings')
-                ->selectRaw("'pending' as status")
-                ->unionAll(DB::table('bookings')->selectRaw("'confirmed' as status"))
-                ->inRandomOrder()
-                ->first()
-                ->status;
+            $status = ['pending', 'confirmed'][array_rand(['pending', 'confirmed'])];
 
             $booking->update([
                 'check_in' => $checkIn,
