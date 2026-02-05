@@ -33,6 +33,8 @@ class UserController extends Controller
             'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
         ]);
 
+        $validated['image'] = 'profile/default.jfif';
+
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('users', 'public');
         }

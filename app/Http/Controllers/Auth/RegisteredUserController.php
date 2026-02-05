@@ -33,13 +33,15 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'image' => ['required', 'image','max:2048'],
+            'image' => ['nullable', 'image','max:2048'],
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['required', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'role' => ['required', 'in:guest,host'],
         ]);
+
+        $path = 'profile/default.jfif';
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('profile','public');

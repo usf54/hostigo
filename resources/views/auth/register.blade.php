@@ -8,7 +8,7 @@
             <!-- Profile Image (alone on the first line) -->
             <div class="mb-6">
                 <x-input-label for="image" :value="__('Profile Image')" />
-                <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" :value="old('image')" required style="border-color: #FF385C;" />
+                <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" :value="old('image')" style="border-color: #FF385C;" />
                 <x-input-error :messages="$errors->get('image')" class="mt-2" />
             </div>
 
