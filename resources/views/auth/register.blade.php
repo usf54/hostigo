@@ -6,9 +6,28 @@
             @csrf
 
             <!-- Profile Image (alone on the first line) -->
-            <div class="mb-6">
+            <div class="mb-6 flex flex-col items-center">
                 <x-input-label for="image" :value="__('Profile Image')" />
-                <x-text-input id="image" class="block mt-1 w-full" type="file" name="image" :value="old('image')" style="border-color: #FF385C;" />
+
+                <!-- Preview -->
+                <img id="preview" 
+                    src="{{ asset('storage/profile/default.jfif') }}" 
+                    class="w-24 h-24 rounded-full object-cover border-2 border-pink-500 mt-2 cursor-pointer">
+
+                <!-- Hidden input -->
+                <input id="image" 
+                    type="file" 
+                    name="image" 
+                    class="hidden" 
+                    accept="image/*">
+
+                <!-- Button -->
+                <button type="button" 
+                        onclick="document.getElementById('image').click()" 
+                        class="mt-3 px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-md">
+                    Choose Image
+                </button>
+
                 <x-input-error :messages="$errors->get('image')" class="mt-2" />
             </div>
 

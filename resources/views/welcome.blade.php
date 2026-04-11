@@ -56,7 +56,17 @@
                                 <div class="col-md-4 col-sm-6">
                                     <a href="{{ route('public.property.details', $property->id) }}" class="text-decoration-none text-dark d-block h-100">
                                         <div class="card property-card border-0 shadow-sm h-100">
-                                            <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
+                                            @php
+                                                $image = $property->images->first();
+                                            @endphp
+
+                                            <div class="card-img-top">
+                                                @if($image)
+                                                    <img src="{{ asset('storage/'.$image->image_url) }}" alt="{{ $property->title }}">
+                                                @else
+                                                    <div class="empty-img"></div>
+                                                @endif
+                                            </div>
                                             <div class="card-body">
                                                 <h5 class="card-title">{{ $property->title }}</h5>
                                                 <p class="card-text text-muted mb-1">{{ $property->city }}, {{ $property->country }}</p>
