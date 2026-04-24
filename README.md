@@ -46,7 +46,9 @@ It provides a system for administrators, hosts, and guests with secure payments,
 6. **Start the development servers**
     npm run dev
     php artisan serve
-
+7. **Run the queue worker**
+    php artisan queue:work
+    
 ##🧠 Usage
 
 Admins can manage users, reservations, and system data from the dashboard.
