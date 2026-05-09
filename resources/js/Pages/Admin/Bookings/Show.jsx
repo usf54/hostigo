@@ -104,7 +104,7 @@ export default function Show() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-slate-600">
                                 <p><strong>Check-in:</strong> {booking.check_in}</p>
                                 <p><strong>Check-out:</strong> {booking.check_out}</p>
-                                <p><strong>Total Price:</strong> {booking.total_price} MAD</p>
+                                <p><strong>Total Price:</strong> {booking.total_price} $</p>
                                 
                             </div>
                         </div>

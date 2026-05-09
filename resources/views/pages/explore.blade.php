@@ -54,7 +54,7 @@
       <div class="col-md-4">
         <a href="{{ route('public.property.details', $property->id) }}" class="text-decoration-none text-dark d-block h-100">
           <div class="card property-card border-0 shadow-sm">
-            <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
+            <img src="{{ $property->images->first() ? asset('storage/'.$property->images->first()->image_url) : asset('assets/placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
             <div class="card-body">
               <h5 class="card-title">{{ $property->title }}</h5>
               <p class="card-text text-muted mb-1">{{ $property->city }}, {{ $property->country }}</p>

@@ -22,7 +22,7 @@ export default function Bookings() {
             property_title: b.property?.title || "N/A",
             check_in: b.check_in,
             check_out: b.check_out,
-            total_price: `${b.total_price} MAD`,
+            total_price: `${b.total_price} $`,
             status: (
                 <span className={`px-2 py-1 rounded-full text-sm ${statusBadge}`}>
                     {b.status}

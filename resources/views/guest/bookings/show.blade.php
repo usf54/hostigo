@@ -88,25 +88,47 @@
                     @endif
                 </div>
             </div>
-
             <!-- Payment Section -->
-            @if($booking->status === 'pending' && !$booking->isPaid())
-                <div class="mt-4 p-4 border rounded bg-light">
-                    <h4 class="mb-3">Complete Payment</h4>
-                    <p class="mb-3">Your booking is pending payment. Click the button below to complete your payment and confirm your booking.</p>
-                    <a href="{{ route('checkout', $booking) }}" class="btn btn-success">
-                        <i class="fas fa-credit-card"></i> Pay Now - ${{ number_format($booking->total_price, 2) }}
-                    </a>
-                    <p class="text-muted mt-2 mb-0">
-                        <small>You will be redirected to our secure payment page.</small>
-                    </p>
-                </div>
-            @elseif($booking->isPaid())
-                <div class="alert alert-success mt-4">
-                    <i class="fas fa-check-circle"></i> 
-                    Payment Completed Successfully - Your booking is confirmed!
-                </div>
-            @endif
+            @switch($booking->status)
+                @case('pending')
+                    <div class="mt-4 p-4 border rounded bg-light">
+                        <h4 class="mb-3">Booking Pending</h4>
+                        <p class="mb-0">
+                            Your booking request has been sent to the host.
+                            Please wait for approval before completing payment.
+                        </p>
+                    </div>
+                    @break
+                @case('cancelled')
+                    <div class="alert alert-danger mt-4">
+                        <i class="fas fa-times-circle"></i>
+                        This booking has been cancelled.
+                    </div>
+                    @break
+                @case('confirmed')
+                    @if(!$booking->isPaid())
+                        <div class="mt-4 p-4 border rounded bg-light">
+                            <h4 class="mb-3">Complete Payment</h4>
+                            <p class="mb-3">
+                                Your booking has been approved.
+                                Complete your payment to confirm your reservation.
+                            </p>
+                            <a href="{{ route('checkout', $booking) }}" class="btn btn-success">
+                                <i class="fas fa-credit-card"></i>
+                                Pay Now - ${{ number_format($booking->total_price, 2) }}
+                            </a>
+                            <p class="text-muted mt-2 mb-0">
+                                <small>You will be redirected to our secure payment page.</small>
+                            </p>
+                        </div>
+                    @else
+                        <div class="alert alert-success mt-4">
+                            <i class="fas fa-check-circle"></i>
+                            Payment completed successfully — your booking is confirmed!
+                        </div>
+                    @endif
+                    @break
+            @endswitch
 
             <!-- Action Buttons -->
             <div class="d-flex flex-column flex-md-row gap-2 mt-4">
