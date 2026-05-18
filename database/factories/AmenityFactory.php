@@ -17,43 +17,8 @@ class AmenityFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->unique()->word(),
+            //
         ];
     }
 
-    /**
-     * Create amenities with common property amenities.
-     */
-    public function common(): static
-    {
-        $commonAmenities = [
-            'WiFi',
-            'Swimming Pool',
-            'Parking',
-            'Air Conditioning',
-            'Heating',
-            'Kitchen',
-            'Washer',
-            'Dryer',
-            'TV',
-            'Gym',
-            'Hot Tub',
-            'BBQ Grill',
-            'Fireplace',
-            'Balcony',
-            'Garden',
-            'Patio',
-            'Security System',
-            'Elevator',
-            'Wheelchair Accessible',
-            'Pet Friendly',
-        ];
-
-        return $this->state(function (array $attributes) use ($commonAmenities) {
-            static $index = 0;
-            return [
-                'name' => $commonAmenities[$index++ % count($commonAmenities)],
-            ];
-        });
-    }
 }

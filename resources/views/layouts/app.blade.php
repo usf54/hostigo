@@ -49,7 +49,6 @@
                 </ul>
 
                 <!-- Auth Buttons -->
-                @if (Route::has('login'))
                     <div class="d-flex gap-2 mt-2 mt-lg-0">
                         @auth
                             @if (Auth::user()->role==="host")
@@ -135,7 +134,6 @@
                             @endif
                         @endauth
                     </div>
-                @endif
             </div>
         </div>
     </nav>
