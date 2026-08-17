@@ -95,11 +95,18 @@
           <i class="bi bi-house-fill"></i> Property Info
         </h6>
         <div class="d-flex flex-wrap align-items-center gap-3">
-          <img
-            src="{{ $booking->property->images->first()->url ?? 'https://via.placeholder.com/350x200' }}" 
-            alt="{{ $booking->property->title }}"
-            class="img-fluid rounded-3"
-            style="max-width: 350px;">
+            @php
+                $image = $booking->property->images->first();
+            @endphp
+
+            <div style="height: 220px; overflow: hidden;">
+                <img
+                    src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
+                    class="w-100 h-100"
+                    style="object-fit: cover;"
+                    alt="{{ $booking->property->title }}"
+                >
+            </div>
           <div>
             <p class="fw-bold mb-1">{{ $booking->property->title }}</p>
             <p class="text-muted mb-2">

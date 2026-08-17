@@ -25,25 +25,70 @@
     <div class="row g-4">
         @forelse($host->properties as $property)
             <div class="col-12 col-md-6 col-lg-4">
-                <div class="card h-100 shadow-sm">
-                    @php
-                        $image = $property->images->first();
-                    @endphp
+    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden">
 
-                    <img
-                        src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
-                        alt="{{ $property->title }}"
-                        class="card-img-top"
-                    >                    
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">{{ $property->title }}</h5>
-                        <p class="text-muted mb-1">{{ $property->city ?? 'Unknown location' }}</p>
-                        <p class="mb-1"><strong>Price:</strong> ${{ number_format($property->price_per_night, 2) }} per night</p>
-                        <p class="mb-2"><strong>Guests:</strong> {{ $property->max_guests ?? '-' }}</p>
-                        <a href="{{ route('public.property.details', $property->id) }}" class="btn btn-primary mt-auto">View Property</a>
-                    </div>
+        @php
+            $image = $property->images->first();
+        @endphp
+
+        {{-- Property Image --}}
+        <div class="ratio ratio-4x3">
+            @if($image)
+                <img
+                    src="{{ \App\Helpers\ImageHelper::url($image->image_url) }}"
+                    alt="{{ $property->title }}"
+                    class="w-100 h-100"
+                    style="object-fit: cover;"
+                >
+            @else
+                <div class="bg-light d-flex align-items-center justify-content-center">
+                    <span class="text-muted">No image available</span>
                 </div>
+            @endif
+        </div>
+
+        {{-- Property Info --}}
+        <div class="card-body d-flex flex-column p-4">
+
+            <h5 class="fw-bold mb-2">
+                {{ $property->title }}
+            </h5>
+
+            <p class="text-muted mb-3">
+                <i class="bi bi-geo-alt me-1"></i>
+                {{ $property->city ?? 'Unknown location' }}
+                @if($property->country)
+                    , {{ $property->country }}
+                @endif
+            </p>
+
+            <div class="mb-3">
+                <span class="fs-5 fw-bold" style="color: #FF385C;">
+                    ${{ number_format($property->price_per_night, 2) }}
+                </span>
+                <span class="text-muted">
+                    / night
+                </span>
             </div>
+
+            <div class="d-flex align-items-center text-muted mb-4">
+                <i class="bi bi-people me-2"></i>
+                <span>
+                    Up to {{ $property->max_guests ?? '-' }} guests
+                </span>
+            </div>
+
+            <a
+                href="{{ route('public.property.details', $property->id) }}"
+                class="btn w-100 mt-auto text-white"
+                style="background-color: #FF385C;"
+            >
+                View Property
+            </a>
+
+        </div>
+    </div>
+</div>
         @empty
             <p class="text-muted">This host has no properties yet.</p>
         @endforelse

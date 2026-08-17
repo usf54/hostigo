@@ -59,39 +59,71 @@
   </div>
 
   <div class="row g-4">
-      @forelse($properties as $property)
+    @forelse($properties as $property)
         <div class="col-md-6 col-lg-4">
-          <div class="card shadow-sm rounded-4">
-            @php
-                $image = $property->images->first();
-            @endphp
+            <div class="card shadow-sm rounded-4 h-100 overflow-hidden">
 
-            <img
-                src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
-                class="card-img-top"
-                alt="{{ $property->title }}"
-            >
-            <div class="card-body">
-              <h5 class="fw-bold">{{ $property->title }}</h5>
-              <p class="text-muted">{{ $property->city }}, {{ $property->country }}</p>
-              <p>${{ $property->price_per_night }} / night</p>
-              
-              <a href="{{ route('property.show', $property->id) }}" class="btn btn-primary">View</a>
-              <a href="{{ route('property.edit', $property->id) }}" class="btn btn-outline-warning">Edit</a>
-              <form action="{{ route('property.destroy', $property->id) }}" method="POST" class="d-inline">
-                @csrf @method('DELETE')
-                <button type="submit" class="btn btn-outline-danger">Delete</button>
-              </form>
+                @php
+                    $image = $property->images->first();
+                @endphp
+
+                <div style="height: 220px; overflow: hidden;">
+                    <img
+                        src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
+                        class="w-100 h-100"
+                        style="object-fit: cover;"
+                        alt="{{ $property->title }}"
+                    >
+                </div>
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="fw-bold">{{ $property->title }}</h5>
+
+                    <p class="text-muted mb-2">
+                        {{ $property->city }}, {{ $property->country }}
+                    </p>
+
+                    <p class="mb-3">
+                        ${{ $property->price_per_night }} / night
+                    </p>
+
+                    <div class="mt-auto">
+                        <a href="{{ route('property.show', $property->id) }}"
+                           class="btn btn-primary">
+                            View
+                        </a>
+
+                        <a href="{{ route('property.edit', $property->id) }}"
+                           class="btn btn-outline-warning">
+                            Edit
+                        </a>
+
+                        <form action="{{ route('property.destroy', $property->id) }}"
+                              method="POST"
+                              class="d-inline">
+                            @csrf
+                            @method('DELETE')
+
+                            <button type="submit"
+                                    class="btn btn-outline-danger">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
             </div>
-          </div>
         </div>
-      @empty
+    @empty
         <div class="col-12 text-center text-muted">
-          <p>You haven’t listed any properties yet.</p>
-          <a href="{{ route('property.create') }}" class="btn btn-primary">Add Your First Property</a>
+            <p>You haven’t listed any properties yet.</p>
+
+            <a href="{{ route('property.create') }}"
+               class="btn btn-primary">
+                Add Your First Property
+            </a>
         </div>
-      @endforelse
-    </div>
+    @endforelse
 </div>
 <script>
   function fileLoad() {

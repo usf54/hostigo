@@ -59,28 +59,76 @@
   <div class="row g-4 mt-4">
     <h1>My Reservations</h1>
       @forelse($bookings as $booking)
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-sm rounded-4">
-            @if($booking->property && $booking->property->images->isNotEmpty())
-                @php
-                    $image = $booking->property->images->first();
-                @endphp
+          <div class="col-12 col-md-6 col-lg-4">
+              <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
 
-                <img
-                    src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
-                    class="card-img-top"
-                    alt="{{ $booking->property->title }}"
-                >            
-            @endif
-            <div class="card-body">
-              <h5 class="fw-bold">{{ $booking->property->title ?? 'Property Title' }}</h5>
-              <p class="text-muted">{{ $booking->check_in }} - {{ $booking->check_out }}</p>
-              <p>Status: <strong>{{ ucfirst($booking->status) }}</strong></p>
+                  {{-- Property Image --}}
+                  @if($booking->property && $booking->property->images->isNotEmpty())
+                      @php
+                          $image = $booking->property->images->first();
+                      @endphp
 
-              <a href="{{ route('guest.bookings.show', $booking->id) }}" class="btn btn-primary">View Details</a>
-            </div>
+                      <img
+                          src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
+                          class="card-img-top"
+                          alt="{{ $booking->property->title }}"
+                          style="height: 230px; object-fit: cover;"
+                      >
+                  @else
+                      <div
+                          class="bg-light d-flex align-items-center justify-content-center"
+                          style="height: 230px;"
+                      >
+                          <span class="text-muted">No image available</span>
+                      </div>
+                  @endif
+
+                  {{-- Booking Information --}}
+                  <div class="card-body d-flex flex-column p-4">
+
+                      <h5 class="fw-bold mb-2">
+                          {{ $booking->property->title ?? 'Property Title' }}
+                      </h5>
+
+                      <p class="text-muted mb-3">
+                          <i class="bi bi-geo-alt"></i>
+                          {{ $booking->property->city ?? 'Unknown location' }}
+                      </p>
+
+                      <div class="mb-3">
+                          <div class="d-flex justify-content-between mb-2">
+                              <span class="text-muted">Check-in</span>
+                              <strong>{{ $booking->check_in }}</strong>
+                          </div>
+
+                          <div class="d-flex justify-content-between">
+                              <span class="text-muted">Check-out</span>
+                              <strong>{{ $booking->check_out }}</strong>
+                          </div>
+                      </div>
+
+                      <div class="mb-3">
+                          @if($booking->status === 'confirmed')
+                              <span class="badge bg-success">Confirmed</span>
+                          @elseif($booking->status === 'pending')
+                              <span class="badge bg-warning text-dark">Pending</span>
+                          @elseif($booking->status === 'cancelled')
+                              <span class="badge bg-danger">Cancelled</span>
+                          @endif
+                      </div>
+
+                      <div class="mt-auto pt-3 border-top">
+                          <a
+                              href="{{ route('guest.bookings.show', $booking->id) }}"
+                              class="btn btn-primary w-100"
+                          >
+                              View Booking
+                          </a>
+                      </div>
+
+                  </div>
+              </div>
           </div>
-        </div>
       @empty
         <div class="col-12 text-center text-muted">
           <p>You haven’t made any reservations yet.</p>

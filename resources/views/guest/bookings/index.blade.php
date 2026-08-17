@@ -51,43 +51,98 @@
 
     <!-- Bookings Grid -->
     <div class="row g-4">
-        @forelse($bookings as $booking)
-            <div class="col-md-6 col-lg-4">
-                <div class="card shadow-sm">
-                    @if($booking->property && $booking->property->images->isNotEmpty())
-                        <img
-                            src="{{ \App\Helpers\ImageHelper::url($booking->property->images->first()->image_url) }}"
-                            class="card-img-top"
-                            alt="{{ $booking->property->title }}"
-                        >
-                    @else
-                        <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="nothing">
-                    @endif
-                    <div class="card-body">
-                        <h5 class="card-title">{{ $booking->property->title ?? 'Property Title' }}</h5>
-                        <p class="mb-2"><strong>Booking ID:</strong> {{ $booking->id }}</p>
-                        <p class="mb-1"><strong>City:</strong> {{ $booking->property->city ?? '-' }}</p>
-                        <p class="mb-1"><strong>Check-in:</strong> {{ \Carbon\Carbon::parse($booking->check_in)->format('Y-m-d') }}</p>
-                        <p class="mb-1"><strong>Check-in:</strong> {{ \Carbon\Carbon::parse($booking->check_out)->format('Y-m-d') }}</p>
-                        <p class="mb-1"><strong>Total Price:</strong> {{$booking->total_price}} $</p>
+    @forelse($bookings as $booking)
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 rounded-4 overflow-hidden">
 
-                        @if($booking->status === 'confirmed')
-                            <span class="badge bg-success mb-3">Confirmed</span>
-                        @elseif($booking->status === 'pending')
-                            <span class="badge bg-warning text-dark mb-3">Pending</span>
-                        @elseif($booking->status === 'cancelled')
-                            <span class="badge bg-danger mb-3">Cancelled</span>
-                        @endif
-
-                        <a href="{{ route('guest.bookings.show', $booking->id) }}" class="btn btn-primary float-end">View</a>
+                {{-- Property Image --}}
+                @if($booking->property && $booking->property->images->isNotEmpty())
+                    <img
+                        src="{{ \App\Helpers\ImageHelper::url($booking->property->images->first()->image_url) }}"
+                        class="card-img-top"
+                        alt="{{ $booking->property->title }}"
+                        style="height: 240px; object-fit: cover;"
+                    >
+                @else
+                    <div
+                        class="bg-light d-flex align-items-center justify-content-center"
+                        style="height: 240px;"
+                    >
+                        <span class="text-muted">No image available</span>
                     </div>
+                @endif
+
+                {{-- Card Body --}}
+                <div class="card-body d-flex flex-column p-4">
+
+                    <h5 class="card-title fw-bold mb-3">
+                        {{ $booking->property->title ?? 'Property Title' }}
+                    </h5>
+
+                    <p class="text-muted mb-3">
+                        {{ $booking->property->city ?? '-' }}
+                    </p>
+
+                    <div class="mb-3">
+                        <p class="mb-2">
+                            <strong>Booking ID:</strong>
+                            #{{ $booking->id }}
+                        </p>
+
+                        <p class="mb-2">
+                            <strong>Check-in:</strong>
+                            {{ \Carbon\Carbon::parse($booking->check_in)->format('Y-m-d') }}
+                        </p>
+
+                        <p class="mb-2">
+                            <strong>Check-out:</strong>
+                            {{ \Carbon\Carbon::parse($booking->check_out)->format('Y-m-d') }}
+                        </p>
+
+                        <p class="mb-0">
+                            <strong>Total:</strong>
+                            <span class="fw-bold">
+                                ${{ number_format($booking->total_price, 2) }}
+                            </span>
+                        </p>
+                    </div>
+
+                    {{-- Status --}}
+                    <div class="mb-3">
+                        @if($booking->status === 'confirmed')
+                            <span class="badge bg-success px-3 py-2">
+                                Confirmed
+                            </span>
+                        @elseif($booking->status === 'pending')
+                            <span class="badge bg-warning text-dark px-3 py-2">
+                                Pending
+                            </span>
+                        @elseif($booking->status === 'cancelled')
+                            <span class="badge bg-danger px-3 py-2">
+                                Cancelled
+                            </span>
+                        @endif
+                    </div>
+
+                    {{-- Button --}}
+                    <div class="mt-auto pt-2">
+                        <a
+                            href="{{ route('guest.bookings.show', $booking->id) }}"
+                            class="btn btn-primary w-100"
+                        >
+                            View Booking
+                        </a>
+                    </div>
+
                 </div>
             </div>
-        @empty
-            <div class="col-12 text-center py-5 text-muted">
-                No bookings found.
-            </div>
-        @endforelse
-    </div>
+        </div>
+
+    @empty
+        <div class="col-12 text-center py-5 text-muted">
+            No bookings found.
+        </div>
+    @endforelse
+</div>
 </div>
 @endsection
