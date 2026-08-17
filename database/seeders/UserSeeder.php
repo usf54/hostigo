@@ -2,45 +2,107 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
 
 class UserSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        User::create([
-            'name' => 'Property Host',
-            'email' => 'host@example.com',
-            'password' => Hash::make('password'),
-            'phone' => '+1234567891',
-            'role' => 'host',
-            'image' => 'https://via.placeholder.com/100x100/28a745/ffffff?text=Host',
-            'email_verified_at' => now(),
-        ]);
+        $users = [
+            // Admin
+            [
+                'name' => 'Admin User',
+                'email' => 'admin@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000000',
+                'password' => Hash::make('password'),
+                'role' => 'admin',
+            ],
 
-        User::create([
-            'name' => 'Regular Guest',
-            'email' => 'guest@example.com',
-            'password' => Hash::make('password'),
-            'phone' => '+1234567892',
-            'role' => 'guest',
-            'image' => 'https://via.placeholder.com/100x100/6c757d/ffffff?text=Guest',
-            'email_verified_at' => now(),
-        ]);
+            // Hosts
+            [
+                'name' => 'Sophie Martin',
+                'email' => 'sophie.host@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000001',
+                'password' => Hash::make('password'),
+                'role' => 'host',
+            ],
+            [
+                'name' => 'Adam Johnson',
+                'email' => 'adam.host@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000002',
+                'password' => Hash::make('password'),
+                'role' => 'host',
+            ],
+            [
+                'name' => 'Emma Williams',
+                'email' => 'emma.host@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000003',
+                'password' => Hash::make('password'),
+                'role' => 'host',
+            ],
+            [
+                'name' => 'Lucas Brown',
+                'email' => 'lucas.host@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000004',
+                'password' => Hash::make('password'),
+                'role' => 'host',
+            ],
+            [
+                'name' => 'Olivia Taylor',
+                'email' => 'olivia.host@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000005',
+                'password' => Hash::make('password'),
+                'role' => 'host',
+            ],
 
-        // Create multiple hosts for properties
-        User::factory()->count(8)->host()->create();
+            // Guests
+            [
+                'name' => 'Youssef Alaoui',
+                'email' => 'youssef@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000006',
+                'password' => Hash::make('password'),
+                'role' => 'guest',
+            ],
+            [
+                'name' => 'Sarah Bennett',
+                'email' => 'sarah@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000007',
+                'password' => Hash::make('password'),
+                'role' => 'guest',
+            ],
+            [
+                'name' => 'Omar El Amrani',
+                'email' => 'omar@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000008',
+                'password' => Hash::make('password'),
+                'role' => 'guest',
+            ],
+            [
+                'name' => 'Nora Wilson',
+                'email' => 'nora@example.com',
+                'email_verified_at' => now(),
+                'phone' => '+212600000009',
+                'password' => Hash::make('password'),
+                'role' => 'guest',
+            ],
+        ];
 
-        // Create regular guests
-        User::factory()->count(15)->guest()->create();
-
-        // Create one more admin
-        User::factory()->count(1)->admin()->create();
+        foreach ($users as $user) {
+            User::updateOrCreate(
+                ['email' => $user['email']],
+                $user
+            );
+        }
     }
 }

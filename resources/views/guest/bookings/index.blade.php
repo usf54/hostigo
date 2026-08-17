@@ -55,7 +55,11 @@
             <div class="col-md-6 col-lg-4">
                 <div class="card shadow-sm">
                     @if($booking->property && $booking->property->images->isNotEmpty())
-                        <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top" alt="{{ $booking->property->title }}">
+                        <img
+                            src="{{ \App\Helpers\ImageHelper::url($booking->property->images->first()->image_url) }}"
+                            class="card-img-top"
+                            alt="{{ $booking->property->title }}"
+                        >
                     @else
                         <img src="https://via.placeholder.com/400x250" class="card-img-top" alt="nothing">
                     @endif

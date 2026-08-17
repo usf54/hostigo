@@ -62,7 +62,10 @@
 
                                             <div class="card-img-top">
                                                 @if($image)
-                                                    <img src="{{ asset('storage/'.$image->image_url) }}" alt="{{ $property->title }}">
+                                                    <img
+                                                        src="{{ \App\Helpers\ImageHelper::url($image->image_url) }}"
+                                                        alt="{{ $property->title }}"
+                                                    >
                                                 @else
                                                     <div class="empty-img"></div>
                                                 @endif

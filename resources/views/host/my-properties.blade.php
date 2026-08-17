@@ -19,7 +19,11 @@
         <div class="col-md-6 col-lg-4">
           <div class="card shadow-sm rounded-4">
             @if ($property->images->isNotEmpty())
-              <img src="{{ asset('storage/'.$property->images->first()->image_url)}}" class="card-img-top" alt="property">
+              <img
+                  src="{{ \App\Helpers\ImageHelper::url($property->images->first()->image_url) }}"
+                  class="card-img-top"
+                  alt="{{ $property->title }}"
+              > 
             @endif
             <div class="card-body">
               <h5 class="fw-bold">{{ $property->title }}</h5>

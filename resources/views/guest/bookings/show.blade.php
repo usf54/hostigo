@@ -24,10 +24,11 @@
     <div class="card shadow-sm rounded-4">
         <!-- Property Image -->
         @if($booking->property && $booking->property->images->isNotEmpty())
-            <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }} "
-                 class="card-img-top rounded-top-4"
-                 alt="{{ $booking->property->title }}"
-                 style="height: 300px; object-fit: cover;">
+            <img
+                src="{{ \App\Helpers\ImageHelper::url($booking->property->images->first()->image_url) }}"
+                class="card-img-top"
+                alt="{{ $booking->property->title }}"
+            >
         @endif
 
         <div class="card-body">

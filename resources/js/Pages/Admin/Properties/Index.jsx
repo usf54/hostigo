@@ -5,6 +5,7 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { usePage, router } from "@inertiajs/react";
 import DynamicDataTable from "@/components/DynamicDataTable";
+import { imageUrl } from "@/lib/imageUrl";
 
 export default function Properties() {
     const { properties } = usePage().props;
@@ -24,7 +25,7 @@ export default function Properties() {
                 {p.images?.map((img) => (
                     <img
                         key={img.id}
-                        src={img.image_url.startsWith("http") ? img.image_url : `/storage/${img.image_url}`}
+                        src={imageUrl(img.image_url)}
                         alt={p.title}
                         className="w-12 h-12 object-cover rounded-md border"
                     />

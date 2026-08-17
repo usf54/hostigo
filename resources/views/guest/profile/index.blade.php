@@ -62,7 +62,15 @@
         <div class="col-md-6 col-lg-4">
           <div class="card shadow-sm rounded-4">
             @if($booking->property && $booking->property->images->isNotEmpty())
-              <img src="{{ asset('storage/'.$booking->property->images->first()->image_url) }}" class="card-img-top" alt="property">
+                @php
+                    $image = $booking->property->images->first();
+                @endphp
+
+                <img
+                    src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
+                    class="card-img-top"
+                    alt="{{ $booking->property->title }}"
+                >            
             @endif
             <div class="card-body">
               <h5 class="fw-bold">{{ $booking->property->title ?? 'Property Title' }}</h5>

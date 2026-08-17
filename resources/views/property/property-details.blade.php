@@ -44,13 +44,33 @@
     <!-- Image Gallery -->
     <div class="row g-3 mb-4">
         <div class="col-md-6">
-            <img src="{{ $property->images->first() ? asset('storage/'.$property->images->first()->image_url) : asset('assets/placeholder.jpg') }}" class="img-fluid rounded" alt="{{ $property->title }}">
+            @php
+                $mainImage = $property->images->first();
+            @endphp
+    
+            @if($mainImage)
+                <img
+                    src="{{ \App\Helpers\ImageHelper::url($mainImage->image_url) }}"
+                    class="img-fluid rounded"
+                    alt="{{ $property->title }}"
+                >
+            @else
+                <img
+                    src="{{ asset('assets/images/placeholder.jpg') }}"
+                    class="img-fluid rounded"
+                    alt="{{ $property->title }}"
+                >
+            @endif
         </div>
         <div class="col-md-6">
             <div class="row g-3">
                 @foreach($property->images->skip(1)->take(4) as $image)
                     <div class="col-6">
-                        <img src="{{ asset('storage/'.$image->image_url) }}" class="img-fluid rounded" alt="{{ $property->title }}">
+                        <img
+                            src="{{ \App\Helpers\ImageHelper::url($image->image_url) }}"
+                            class="img-fluid rounded"
+                            alt="{{ $property->title }}"
+                        >
                     </div>
                 @endforeach
             </div>

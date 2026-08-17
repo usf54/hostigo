@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
 import { usePage, router } from "@inertiajs/react";
+import { imageUrl } from "@/lib/imageUrl";
 
 export default function ShowProperty() {
     const { property } = usePage().props;
@@ -60,11 +61,7 @@ export default function ShowProperty() {
                                     {images.map((img) => (
                                         <img
                                             key={img.id}
-                                            src={
-                                                img.image_url.startsWith("http")
-                                                    ? img.image_url
-                                                    : `/storage/${img.image_url}`
-                                            }
+                                            src={imageUrl(img.image_url)}
                                             alt={title}
                                             className="w-full h-48 object-cover rounded-md border"
                                         />

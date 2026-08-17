@@ -5,6 +5,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { SiteHeader } from "@/components/site-header";
+import { imageUrl } from "@/lib/imageUrl";
 
 export default function EditProperty() {
     const { property, amenities, flash } = usePage().props;
@@ -204,7 +205,7 @@ export default function EditProperty() {
                                     !removeImages.includes(img.id) && (
                                         <div key={img.id} className="relative">
                                             <img
-                                                src={img.image_url.startsWith("http") ? img.image_url : `/storage/${img.image_url}`}
+                                                src={imageUrl(img.image_url)}
                                                 alt={property.title}
                                                 className="w-16 h-16 object-cover rounded border"
                                             />

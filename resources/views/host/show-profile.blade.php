@@ -26,8 +26,15 @@
         @forelse($host->properties as $property)
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 shadow-sm">
-                    <img src="{{ asset('storage/'.$property->images->first()->image_url ?? 'placeholder.jpg') }}" class="card-img-top" alt="{{ $property->title }}">
-                    
+                    @php
+                        $image = $property->images->first();
+                    @endphp
+
+                    <img
+                        src="{{ \App\Helpers\ImageHelper::url($image?->image_url) }}"
+                        alt="{{ $property->title }}"
+                        class="card-img-top"
+                    >                    
                     <div class="card-body d-flex flex-column">
                         <h5 class="card-title">{{ $property->title }}</h5>
                         <p class="text-muted mb-1">{{ $property->city ?? 'Unknown location' }}</p>

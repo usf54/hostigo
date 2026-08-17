@@ -118,8 +118,12 @@
             <div class="d-flex flex-wrap gap-2 mb-2" id="existing-images">
               @foreach($property->images as $image)
                 <div class="position-relative" style="width:120px; height:80px;">
-                  <img src="{{ asset('storage/'.$image->image_url) }}" 
-                      class="img-thumbnail w-100 h-100" style="object-fit:cover;" alt="property">
+                  <img
+                        src="{{ \App\Helpers\ImageHelper::url($image->image_url) }}"
+                        class="img-thumbnail w-100 h-100"
+                        style="object-fit: cover;"
+                        alt="{{ $property->title }}"
+                    >
                   <button type="button" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-1 remove-image-btn" 
                           data-id="{{ $image->id }}">
                     &times;

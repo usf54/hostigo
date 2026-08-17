@@ -22,9 +22,13 @@
         {{-- Carousel inner --}}
         <div class="carousel-inner">
           @foreach($property->images as $index => $image)
-            <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
-              <img src="{{ asset('storage/'.$image->image_url) }}" class="d-block w-100" alt="{{ $property->title }}">
-            </div>
+              <div class="carousel-item {{ $index === 0 ? 'active' : '' }}">
+                  <img
+                      src="{{ \App\Helpers\ImageHelper::url($image->image_url) }}"
+                      class="d-block w-100"
+                      alt="{{ $property->title }}"
+                  >
+              </div>
           @endforeach
         </div>
 
